@@ -42,6 +42,11 @@ const chapterController = {
                 metaKeywords: `${data.mangaTitle}, ${data.title}, baca ${data.mangaTitle} gratis, chapter ${currentChapterNumber}`,
                 canonicalUrl: `https://komikkuya.my.id/chapter/${cleanUrl}`,
                 currentPath: `/chapter/${cleanUrl}`,
+                breadcrumbs: [
+                    { name: 'Home', url: 'https://komikkuya.my.id/' },
+                    { name: data.mangaTitle, url: `https://komikkuya.my.id${mangaDetailUrl || '/popular'}` },
+                    { name: data.title, url: `https://komikkuya.my.id/chapter/${cleanUrl}` }
+                ],
                 chapter: data,
                 navigation: {
                     prev: data.navigation?.prev?.url ? {

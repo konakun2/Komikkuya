@@ -41,6 +41,11 @@ const mangaController = {
                 canonicalUrl: `https://komikkuya.my.id/manga/${slug}`,
                 currentPath: `/manga/${slug}`,
                 jsonLd: jsonLd,
+                breadcrumbs: [
+                    { name: 'Home', url: 'https://komikkuya.my.id/' },
+                    { name: 'Manga', url: 'https://komikkuya.my.id/popular' },
+                    { name: data.title, url: `https://komikkuya.my.id/manga/${slug}` }
+                ],
                 manga: data
             });
         } catch (error) {

@@ -71,37 +71,58 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Komikkuya">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            900: '#1a1625',
-                            800: '#2d2439',
-                            700: '#3f324d',
-                            600: '#514061',
-                        }
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+    <!-- Breadcrumb Schema -->
+    <% if (typeof breadcrumbs !=='undefined' && breadcrumbs.length> 0) { %>
+        <script type="application/ld+json">
+    <%- JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": breadcrumbs.map((item, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "name": item.name,
+            "item": item.url
+        }))
+    }) %>
+    </script>
+        <% } %>
+
+            <script src="https://cdn.tailwindcss.com"></script>
+            <script>
+                tailwind.config = {
+                    darkMode: 'class',
+                    theme: {
+                        extend: {
+                            colors: {
+                                primary: {
+                                    900: '#1a1625',
+                                    800: '#2d2439',
+                                    700: '#3f324d',
+                                    600: '#514061',
+                                }
+                            },
+                            animation: {
+                                'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                                'float': 'float 6s ease-in-out infinite',
+                            },
+                            keyframes: {
+                                float: {
+                                    '0%, 100%': { transform: 'translateY(0)' },
+                                    '50%': { transform: 'translateY(-10px)' },
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }
-    </script>
-    <style type="text/tailwindcss">
-        @layer base {
+            </script>
+            <style type="text/tailwindcss">
+                @layer base {
             body {
                 @apply bg-primary-900 text-gray-100;
                 background-image: radial-gradient(circle at 50% 50%, rgba(88, 24, 69, 0.1) 0%, rgba(26, 22, 37, 1) 100%);

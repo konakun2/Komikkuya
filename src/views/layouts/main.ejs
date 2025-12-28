@@ -76,7 +76,7 @@
         "url": "https://komikkuya.my.id",
         "logo": "https://komikkuya.my.id/assets/og-image.png",
         "description": "Situs baca komik gratis online terlengkap. Manga, manhwa, dan manhua update setiap hari tanpa iklan!",
-        "foundingDate": "2024",
+        "foundingDate": "2025",
         "sameAs": [
             "https://github.com/ItzApipAjalah",
             "https://whatsapp.com/channel/0029Vb7586h2UPBFAPxb5S1P"
@@ -361,14 +361,15 @@
                         <li><a href="/privacy" class="text-gray-400 hover:text-purple-400 transition-colors">Privacy
                                 Policy</a></li>
                         <li><a href="/dmca" class="text-gray-400 hover:text-purple-400 transition-colors">DMCA</a></li>
-                        <li><a href="/contact" class="text-gray-400 hover:text-purple-400 transition-colors">Contact
+
+                        <li><a href="/about" class="text-gray-400 hover:text-purple-400 transition-colors">About
                                 Us</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="border-t border-purple-500/10 mt-8 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2024 Komikkuya. All rights reserved.</p>
+                <p class="text-gray-400">&copy; 2025 Komikkuya. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -506,6 +507,283 @@
                         `;
                     }
                 }, 300);
+            });
+        });
+    </script>
+
+    <!-- Custom Right-Click Context Menu -->
+    <div id="custom-context-menu" class="fixed z-[999] hidden">
+        <div
+            class="bg-primary-800/95 backdrop-blur-xl rounded-xl shadow-2xl border border-purple-500/30 py-2 min-w-[220px] overflow-hidden">
+            <!-- Header -->
+            <div class="px-4 py-3 border-b border-purple-500/20 flex items-center gap-3">
+                <div
+                    class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                    <img src="/assets/icon.png" alt="K" class="w-full h-full rounded-lg object-contain">
+                </div>
+                <span class="font-bold text-white">Komikkuya</span>
+            </div>
+
+            <!-- Navigation -->
+            <div class="py-1 border-b border-purple-500/10">
+                <a href="/" class="context-menu-item">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span>Home</span>
+                    <span class="context-menu-shortcut">H</span>
+                </a>
+                <a href="/popular" class="context-menu-item">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                    <span>Popular</span>
+                    <span class="context-menu-shortcut">P</span>
+                </a>
+                <a href="/latest" class="context-menu-item">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Latest</span>
+                    <span class="context-menu-shortcut">L</span>
+                </a>
+                <a href="/genre" class="context-menu-item">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" />
+                    </svg>
+                    <span>Genre</span>
+                    <span class="context-menu-shortcut">G</span>
+                </a>
+            </div>
+
+            <!-- Utilities -->
+            <div class="py-1 border-b border-purple-500/10">
+                <button id="ctx-scroll-top" class="context-menu-item w-full text-left">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                    <span>Scroll to Top</span>
+                    <span class="context-menu-shortcut">↑</span>
+                </button>
+                <button id="ctx-refresh" class="context-menu-item w-full text-left">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    <span>Refresh</span>
+                    <span class="context-menu-shortcut">F5</span>
+                </button>
+                <button id="ctx-copy-link" class="context-menu-item w-full text-left">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                    <span>Copy Link</span>
+                    <span class="context-menu-shortcut">Ctrl+C</span>
+                </button>
+                <button id="ctx-share" class="context-menu-item w-full text-left">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
+                    <span>Share</span>
+                </button>
+            </div>
+
+            <!-- Social Links -->
+            <div class="py-1 border-b border-purple-500/10">
+                <a href="https://whatsapp.com/channel/0029Vb7586h2UPBFAPxb5S1P" target="_blank"
+                    class="context-menu-item">
+                    <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                    </svg>
+                    <span>WhatsApp</span>
+                </a>
+                <a href="https://github.com/ItzApipAjalah" target="_blank" class="context-menu-item">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd"
+                            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+
+            <!-- About -->
+            <div class="py-1">
+                <a href="/about" class="context-menu-item">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>About</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .context-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            color: #d1d5db;
+            font-size: 14px;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            background: transparent;
+        }
+
+        .context-menu-item:hover {
+            background: rgba(147, 51, 234, 0.2);
+            color: white;
+        }
+
+        .context-menu-item svg {
+            flex-shrink: 0;
+        }
+
+        .context-menu-item span:first-of-type {
+            flex: 1;
+        }
+
+        .context-menu-shortcut {
+            font-size: 11px;
+            color: #6b7280;
+            background: rgba(55, 48, 71, 0.5);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+
+    <script>
+        // Custom Right-Click Context Menu
+        document.addEventListener('DOMContentLoaded', function () {
+            const contextMenu = document.getElementById('custom-context-menu');
+
+            // Show custom context menu
+            document.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+
+                // Position the menu
+                const x = e.clientX;
+                const y = e.clientY;
+
+                // Get menu dimensions
+                contextMenu.classList.remove('hidden');
+                const menuWidth = contextMenu.offsetWidth;
+                const menuHeight = contextMenu.offsetHeight;
+
+                // Adjust position if menu goes off screen
+                let posX = x;
+                let posY = y;
+
+                if (x + menuWidth > window.innerWidth) {
+                    posX = window.innerWidth - menuWidth - 10;
+                }
+                if (y + menuHeight > window.innerHeight) {
+                    posY = window.innerHeight - menuHeight - 10;
+                }
+
+                contextMenu.style.left = posX + 'px';
+                contextMenu.style.top = posY + 'px';
+            });
+
+            // Hide context menu on click anywhere
+            document.addEventListener('click', function () {
+                contextMenu.classList.add('hidden');
+            });
+
+            // Hide on scroll
+            document.addEventListener('scroll', function () {
+                contextMenu.classList.add('hidden');
+            });
+
+            // Hide on escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    contextMenu.classList.add('hidden');
+                }
+            });
+
+            // Scroll to top
+            document.getElementById('ctx-scroll-top').addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                contextMenu.classList.add('hidden');
+            });
+
+            // Refresh page
+            document.getElementById('ctx-refresh').addEventListener('click', function () {
+                location.reload();
+            });
+
+            // Copy link
+            document.getElementById('ctx-copy-link').addEventListener('click', async function () {
+                try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    // Show a toast notification
+                    showToast('Link copied to clipboard!');
+                } catch (err) {
+                    console.error('Failed to copy: ', err);
+                }
+                contextMenu.classList.add('hidden');
+            });
+
+            // Share
+            document.getElementById('ctx-share').addEventListener('click', async function () {
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: document.title,
+                            url: window.location.href
+                        });
+                    } catch (err) {
+                        console.log('Share cancelled');
+                    }
+                } else {
+                    // Fallback to copy link
+                    await navigator.clipboard.writeText(window.location.href);
+                    showToast('Link copied to clipboard!');
+                }
+                contextMenu.classList.add('hidden');
+            });
+
+            // Toast notification
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg z-[9999] animate-pulse';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 2000);
+            }
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function (e) {
+                // Only trigger if no input is focused
+                if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+                    return;
+                }
+
+                if (e.key === 'h' || e.key === 'H') {
+                    window.location.href = '/';
+                } else if (e.key === 'p' || e.key === 'P') {
+                    window.location.href = '/popular';
+                } else if (e.key === 'l' || e.key === 'L') {
+                    window.location.href = '/latest';
+                } else if (e.key === 'g' || e.key === 'G') {
+                    window.location.href = '/genre';
+                }
             });
         });
     </script>

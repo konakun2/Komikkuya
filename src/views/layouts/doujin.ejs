@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>
+        <%= title %>
+    </title>
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -84,6 +87,7 @@
   }
     </style>
 </head>
+
 <body class="min-h-screen">
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 z-50 glass-effect">
@@ -92,13 +96,15 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/" class="flex items-center space-x-2 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:shadow-purple-500/40 transition-all duration-300">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:shadow-purple-500/40 transition-all duration-300">
                             <img src="/assets/icon.png" alt="Komikkuya" class="w-full h-full object-contain rounded-xl">
                         </div>
-                        <span class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Komikkuya</span>
+                        <span
+                            class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Komikkuya</span>
                     </a>
                 </div>
-                
+
                 <!-- Navigation -->
                 <nav class="hidden md:flex items-center space-x-1">
                     <a href="/" class="nav-link">Home</a>
@@ -109,36 +115,47 @@
                     <a href="/nhentai" class="nav-link">Nhentai</a>
                     <a href="/history" class="nav-link">History</a>
                 </nav>
-                
+
                 <!-- Search & Mobile Menu -->
                 <div class="flex items-center space-x-4">
                     <!-- Search Button -->
-                    <button id="search-button" class="p-2 rounded-full text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">
+                    <button id="search-button"
+                        class="p-2 rounded-full text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </button>
-                    
+
                     <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-button" class="md:hidden p-2 rounded-full text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">
+                    <button id="mobile-menu-button"
+                        class="md:hidden p-2 rounded-full text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
-        
+
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden glass-effect">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Home</a>
-                <a href="/popular" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Popular</a>
-                <a href="/genre" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Genres</a>
-                <a href="/latest" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Latest</a>
-                <a href="/doujin" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Doujin</a>
-                <a href="/nhentai" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Nhentai</a>
-                <a href="/history" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">History</a>
+                <a href="/"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Home</a>
+                <a href="/popular"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Popular</a>
+                <a href="/genre"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Genres</a>
+                <a href="/latest"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Latest</a>
+                <a href="/doujin"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Doujin</a>
+                <a href="/nhentai"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Nhentai</a>
+                <a href="/history"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">History</a>
             </div>
         </div>
     </header>
@@ -147,23 +164,25 @@
     <div id="search-modal" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div class="w-full max-w-3xl bg-primary-800/90 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-purple-500/20 transform transition-all duration-300 scale-95 opacity-0" id="search-modal-content">
+            <div class="w-full max-w-3xl bg-primary-800/90 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-purple-500/20 transform transition-all duration-300 scale-95 opacity-0"
+                id="search-modal-content">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-white">Search NHENTAI</h2>
-                    <button id="close-search" class="p-2 rounded-full text-gray-400 hover:text-white hover:bg-purple-500/20 transition-colors">
+                    <button id="close-search"
+                        class="p-2 rounded-full text-gray-400 hover:text-white hover:bg-purple-500/20 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
                 <div class="relative mb-6">
-                    <input type="text" 
-                           id="search-input" 
-                           placeholder="Search for manga..." 
-                           class="w-full bg-primary-900/50 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all">
+                    <input type="text" id="search-input" placeholder="Search for manga..."
+                        class="w-full bg-primary-900/50 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all">
                     <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
                 </div>
@@ -188,71 +207,85 @@
                 <!-- Logo & Description -->
                 <div class="col-span-1 md:col-span-2">
                     <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20">
                             <img src="/assets/icon.png" alt="Komikkuya" class="w-full h-full object-contain rounded-xl">
                         </div>
-                        <span class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Komikkuya</span>
+                        <span
+                            class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Komikkuya</span>
                     </div>
-                    <p class="text-gray-400 mb-4">Andalan Kamu dalam membaca Komik yaitu terdiri dari manga manhwa dan manhua dengan tanpa Adanya IKLAN!</p>
+                    <p class="text-gray-400 mb-4">Andalan Kamu dalam membaca Komik yaitu terdiri dari manga manhwa dan
+                        manhua dengan tanpa Adanya IKLAN!</p>
                     <div class="flex space-x-4">
-                        
-                        <a href="https://github.com/ItzApipAjalah" class="w-10 h-10 rounded-full glass-effect flex items-center justify-center text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">
+
+                        <a href="https://github.com/ItzApipAjalah"
+                            class="w-10 h-10 rounded-full glass-effect flex items-center justify-center text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                                    clip-rule="evenodd"></path>
                             </svg>
                         </a>
                     </div>
                 </div>
-                
+
                 <!-- Quick Links -->
                 <div>
                     <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
                     <ul class="space-y-2">
                         <li><a href="/" class="text-gray-400 hover:text-purple-400 transition-colors">Home</a></li>
-                        <li><a href="/popular" class="text-gray-400 hover:text-purple-400 transition-colors">Popular</a></li>
-                        <li><a href="/genre" class="text-gray-400 hover:text-purple-400 transition-colors">Genres</a></li>
-                        <li><a href="/latest" class="text-gray-400 hover:text-purple-400 transition-colors">Latest</a></li>
+                        <li><a href="/popular" class="text-gray-400 hover:text-purple-400 transition-colors">Popular</a>
+                        </li>
+                        <li><a href="/genre" class="text-gray-400 hover:text-purple-400 transition-colors">Genres</a>
+                        </li>
+                        <li><a href="/latest" class="text-gray-400 hover:text-purple-400 transition-colors">Latest</a>
+                        </li>
                     </ul>
                 </div>
-                
+
                 <!-- Legal -->
                 <div>
                     <h3 class="text-lg font-semibold text-white mb-4">Legal</h3>
                     <ul class="space-y-2">
-                        <li><a href="/terms" class="text-gray-400 hover:text-purple-400 transition-colors">Terms of Usage</a></li>
-                        <li><a href="/privacy" class="text-gray-400 hover:text-purple-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="/terms" class="text-gray-400 hover:text-purple-400 transition-colors">Terms of
+                                Usage</a></li>
+                        <li><a href="/privacy" class="text-gray-400 hover:text-purple-400 transition-colors">Privacy
+                                Policy</a></li>
                         <li><a href="/dmca" class="text-gray-400 hover:text-purple-400 transition-colors">DMCA</a></li>
-                        <li><a href="/contact" class="text-gray-400 hover:text-purple-400 transition-colors">Contact Us</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-purple-400 transition-colors">Contact
+                                Us</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-purple-400 transition-colors">About Us</a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            
+
             <div class="border-t border-purple-500/10 mt-8 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2024 Komikkuya. All rights reserved.</p>
+                <p class="text-gray-400">&copy; 2025 Komikkuya. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- Mobile Menu Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            
-            mobileMenuButton.addEventListener('click', function() {
+
+            mobileMenuButton.addEventListener('click', function () {
                 mobileMenu.classList.toggle('hidden');
             });
-            
+
             // Set active navigation based on current URL
             const currentPath = window.location.pathname;
             const navLinks = document.querySelectorAll('.nav-link');
-            
+
             navLinks.forEach(link => {
                 if (link.getAttribute('href') === currentPath) {
                     link.classList.add('active');
                 }
             });
-            
+
             // Also set active state for mobile menu
             const mobileLinks = document.querySelectorAll('#mobile-menu a');
             mobileLinks.forEach(link => {
@@ -265,7 +298,7 @@
 
     <!-- Search Modal Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const searchButton = document.getElementById('search-button');
             const searchModal = document.getElementById('search-modal');
             const searchModalContent = document.getElementById('search-modal-content');
@@ -275,9 +308,9 @@
             let searchTimeout;
             let currentPage = 1;
             let lastQuery = '';
-        
+
             // Open search modal
-            searchButton.addEventListener('click', function() {
+            searchButton.addEventListener('click', function () {
                 searchModal.classList.remove('hidden');
                 setTimeout(() => {
                     searchModalContent.classList.remove('scale-95', 'opacity-0');
@@ -285,35 +318,35 @@
                     searchInput.focus();
                 }, 10);
             });
-        
+
             // Close search modal
-            closeSearch.addEventListener('click', function() {
+            closeSearch.addEventListener('click', function () {
                 searchModalContent.classList.remove('scale-100', 'opacity-100');
                 searchModalContent.classList.add('scale-95', 'opacity-0');
                 setTimeout(() => {
                     searchModal.classList.add('hidden');
                 }, 300);
             });
-        
+
             // Close on escape key
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape' && !searchModal.classList.contains('hidden')) {
                     closeSearch.click();
                 }
             });
-        
+
             // Close on click outside
-            searchModal.addEventListener('click', function(e) {
+            searchModal.addEventListener('click', function (e) {
                 if (e.target === searchModal) {
                     closeSearch.click();
                 }
             });
-        
+
             async function performSearch(query, page = 1) {
                 try {
                     const response = await fetch(`/nhentai/search?q=${encodeURIComponent(query)}&page=${page}`);
                     const data = await response.json();
-        
+
                     if (data.success && data.data && data.data.length > 0) {
                         searchResults.innerHTML = `
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -339,11 +372,11 @@
                                 </button>
                             </div>
                         `;
-        
+
                         // attach events
                         const prevBtn = document.getElementById('prevPage');
                         const nextBtn = document.getElementById('nextPage');
-        
+
                         if (prevBtn) {
                             prevBtn.addEventListener('click', () => {
                                 if (page > 1) {
@@ -386,12 +419,12 @@
                     `;
                 }
             }
-        
+
             // Utility: check if string is numeric (at least 3 digits)
             function isNumericId(str) {
                 return /^\d{3,}$/.test(str);
             }
-        
+
             // helper to show redirect loading then navigate (modal stays open)
             function showRedirectLoadingAndGo(id) {
                 // tampilkan loading UI di area results but keep modal open
@@ -401,30 +434,30 @@
                         <p class="text-white">Redirecting to gallery ${id}...</p>
                     </div>
                 `;
-        
+
                 // disable input to prevent further typing
                 searchInput.disabled = true;
-        
+
                 // beri sedikit delay agar user melihat animasi
                 setTimeout(() => {
                     // lakukan redirect tanpa menutup modal
                     window.location.href = `/nhentai/g/${id}/`;
                 }, 700);
             }
-        
+
             // Search functionality
-            searchInput.addEventListener('input', function() {
+            searchInput.addEventListener('input', function () {
                 clearTimeout(searchTimeout);
                 const raw = this.value.trim();
-        
+
                 // If input is pure numeric id (>=3 digits), show loading then redirect (modal remains open)
                 if (isNumericId(raw)) {
                     showRedirectLoadingAndGo(raw);
                     return;
                 }
-        
+
                 const query = raw;
-        
+
                 if (query.length < 2) {
                     searchResults.innerHTML = `
                         <div class="text-center text-gray-400 py-8">
@@ -433,14 +466,14 @@
                     `;
                     return;
                 }
-        
+
                 searchResults.innerHTML = `
                     <div class="text-center text-gray-400 py-8">
                         <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500 mb-4"></div>
                         <p>Searching...</p>
                     </div>
                 `;
-        
+
                 searchTimeout = setTimeout(() => {
                     currentPage = 1;
                     lastQuery = query;
@@ -448,7 +481,8 @@
                 }, 300);
             });
         });
-        </script>
-        
+    </script>
+
 </body>
+
 </html>

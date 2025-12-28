@@ -35,7 +35,7 @@ const mangaController = {
             return res.render('manga/detail', {
                 title: `${data.title} - Baca Komik Gratis | Komikkuya`,
                 metaDescription: truncatedDesc,
-                metaKeywords: `${data.title}, ${(data.genres || []).join(', ')}, baca ${data.title} gratis, manga ${data.title}, komik ${data.title}, read ${data.title} online, ${data.title} bahasa indonesia, ${data.title} sub indo, ${data.title} chapter lengkap, ${data.title} full chapter, download ${data.title}, sinopsis ${data.title}, komikkuya`,
+                metaKeywords: `${data.title}, ${(data.genres || []).join(', ')}, baca ${data.title}, baca ${data.title} gratis, baca ${data.title} online, read ${data.title}, read ${data.title} free, read ${data.title} online, manga ${data.title}, komik ${data.title}, manhwa ${data.title}, manhua ${data.title}, ${data.title} bahasa indonesia, ${data.title} sub indo, ${data.title} indo, ${data.title} terjemahan indonesia, ${data.title} translate indonesia, ${data.title} chapter lengkap, ${data.title} full chapter, ${data.title} chapter terbaru, ${data.title} update terbaru, ${data.title} all chapter, ${data.title} semua chapter, download ${data.title}, sinopsis ${data.title}, cerita ${data.title}, review ${data.title}, rating ${data.title}, ${data.title} tamat, ${data.title} completed, ${data.title} ongoing, ${data.title} komikkuya, komikkuya ${data.title}, baca manga ${data.title} gratis, baca komik ${data.title} gratis, ${data.title} 2025, ${data.title} 2026, ${data.title} terbaru`,
                 ogImage: data.coverImage,
                 ogType: 'book',
                 canonicalUrl: `https://komikkuya.my.id/manga/${slug}`,

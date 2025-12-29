@@ -7,6 +7,7 @@ const DoujinChapterController = {
     read: async (req, res) => {
         try {
             const { slug } = req.params;
+            const server = req.query.server || '1'; // Default to server 1
 
             if (!slug) {
                 return res.status(400).render("error", {
@@ -15,9 +16,15 @@ const DoujinChapterController = {
                 });
             }
 
-            // Build URL for the API
-            const chapterUrl = `${DOUJIN_SITE}/baca/${slug}/`;
-            const apiUrl = `${API_BASE}/api/doujin/chapter?url=${encodeURIComponent(chapterUrl)}`;
+            let apiUrl;
+            if (server === '2') {
+                // Server 2: /api/doujin/v2/chapter?slug=SLUG
+                apiUrl = `https://international.komikkuya.my.id/api/doujin/v2/chapter?slug=${slug}`;
+            } else {
+                // Server 1: /api/doujin/chapter?url=URL (default)
+                const chapterUrl = `${DOUJIN_SITE}/baca/${slug}/`;
+                apiUrl = `${API_BASE}/api/doujin/chapter?url=${encodeURIComponent(chapterUrl)}`;
+            }
 
             const response = await fetch(apiUrl, {
                 headers: {
@@ -31,19 +38,19 @@ const DoujinChapterController = {
             if (!json.success || !json.data) {
                 return res.status(404).render("error", {
                     title: "Chapter Not Found - Komikkuya",
-                    error: "Unable to load doujin chapter."
+                    error: "Unable to load doujin chapter. Try switching server."
                 });
             }
 
             const data = json.data;
 
-            // Build navigation
+            // Build navigation with server param
             const navigation = {
                 prev: data.prevChapter && data.prevChapter.slug
-                    ? `/doujin/chapter/${data.prevChapter.slug}`
+                    ? `/doujin/chapter/${data.prevChapter.slug}?server=${server}`
                     : null,
                 next: data.nextChapter && data.nextChapter.slug
-                    ? `/doujin/chapter/${data.nextChapter.slug}`
+                    ? `/doujin/chapter/${data.nextChapter.slug}?server=${server}`
                     : null,
                 mangaUrl: data.mangaSlug ? `/doujin/${data.mangaSlug}` : null
             };
@@ -64,7 +71,8 @@ const DoujinChapterController = {
                 chapterSlug: data.slug || slug,
                 totalImages: data.totalImages || images.length,
                 images,
-                navigation
+                navigation,
+                currentServer: server
             });
 
         } catch (error) {

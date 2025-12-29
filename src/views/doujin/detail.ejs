@@ -172,6 +172,16 @@
                 sortButton.style.transform = 'rotate(0deg)';
             }
         });
+
+        // Apply preferred server to all chapter links
+        const preferredServer = localStorage.getItem('doujinServer') || '1';
+        const chapterLinks = document.querySelectorAll('#chaptersList a');
+        chapterLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && !href.includes('?server=')) {
+                link.setAttribute('href', href + '?server=' + preferredServer);
+            }
+        });
     });
 </script>
 

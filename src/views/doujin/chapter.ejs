@@ -21,6 +21,17 @@
                     </div>
                 </div>
                 <div class="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
+                    <!-- Server Switcher -->
+                    <div class="flex items-center gap-1 bg-primary-800 rounded-lg p-1">
+                        <a href="/doujin/chapter/<%= chapterSlug %>?server=1"
+                            class="px-2 py-1 text-xs rounded <%= currentServer === '1' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white' %> transition-colors">
+                            Server 1
+                        </a>
+                        <a href="/doujin/chapter/<%= chapterSlug %>?server=2"
+                            class="px-2 py-1 text-xs rounded <%= currentServer === '2' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white' %> transition-colors">
+                            Server 2
+                        </a>
+                    </div>
                     <div class="flex items-center bg-primary-800 rounded-lg p-1">
                         <% if (navigation.prev) { %>
                             <a href="<%= navigation.prev %>"

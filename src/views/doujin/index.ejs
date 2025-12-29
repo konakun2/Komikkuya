@@ -214,3 +214,113 @@
         background: rgba(147, 51, 234, 0.7);
     }
 </style>
+
+<!-- Floating Settings Button -->
+<button id="openServerModal"
+    class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full shadow-lg shadow-purple-500/30 flex items-center justify-center hover:scale-110 transition-transform">
+    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+</button>
+
+<!-- Server Selection Modal -->
+<div id="serverModal" class="fixed inset-0 z-[9999] hidden">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeServerModal()"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+        <div
+            class="bg-primary-800/95 backdrop-blur-md rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-purple-500/30 pointer-events-auto">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-500/20 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-white mb-2">📺 Pilih Server</h2>
+                <p class="text-gray-400 text-sm">Pilih server untuk membaca chapter</p>
+            </div>
+
+            <div class="space-y-3">
+                <button onclick="setServer('1')"
+                    class="w-full px-4 py-4 bg-primary-700/50 hover:bg-purple-600/50 border border-purple-500/30 rounded-xl text-white transition-all flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                        <span class="text-blue-400 font-bold">1</span>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-medium">Server 1</p>
+                        <p class="text-xs text-gray-400">Default server (Fast)</p>
+                    </div>
+                </button>
+
+                <button onclick="setServer('2')"
+                    class="w-full px-4 py-4 bg-primary-700/50 hover:bg-purple-600/50 border border-purple-500/30 rounded-xl text-white transition-all flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
+                        <span class="text-green-400 font-bold">2</span>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-medium">Server 2</p>
+                        <p class="text-xs text-gray-400">Backup server (Slow)</p>
+                    </div>
+                </button>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-purple-500/20">
+                <p class="text-gray-500 text-xs text-center">
+                    Server yang dipilih: <span id="currentServerDisplay" class="text-purple-400 font-bold">Server
+                        1</span>
+                </p>
+            </div>
+
+            <button onclick="closeServerModal()"
+                class="mt-4 w-full px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors text-sm">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Server modal functions
+    document.getElementById('openServerModal').addEventListener('click', function () {
+        document.getElementById('serverModal').classList.remove('hidden');
+        updateServerDisplay();
+    });
+
+    function closeServerModal() {
+        document.getElementById('serverModal').classList.add('hidden');
+    }
+
+    function setServer(server) {
+        localStorage.setItem('doujinServer', server);
+        updateServerDisplay();
+        closeServerModal();
+    }
+
+    function updateServerDisplay() {
+        const server = localStorage.getItem('doujinServer') || '1';
+        document.getElementById('currentServerDisplay').textContent = 'Server ' + server;
+    }
+
+    // Get preferred server
+    function getPreferredServer() {
+        return localStorage.getItem('doujinServer') || '1';
+    }
+
+    // Auto-show modal on page load (once per session)
+    document.addEventListener('DOMContentLoaded', function () {
+        updateServerDisplay();
+
+        // Show modal automatically if not shown in this session
+        const hasSeenModal = sessionStorage.getItem('doujinServerModalShown');
+        if (!hasSeenModal) {
+            document.getElementById('serverModal').classList.remove('hidden');
+            sessionStorage.setItem('doujinServerModalShown', 'true');
+        }
+    });
+
+    // Also allow manual trigger
+    document.getElementById('openServerModal').addEventListener('click', function () {
+        document.getElementById('serverModal').classList.remove('hidden');
+        updateServerDisplay();
+    });
+</script>

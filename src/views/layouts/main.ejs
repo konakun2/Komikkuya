@@ -234,8 +234,8 @@
                     <a href="/popular" class="nav-link">Popular</a>
                     <a href="/genre" class="nav-link">Genres</a>
                     <a href="/latest" class="nav-link">Latest</a>
-                    <a href="/doujin" class="nav-link">Doujin</a>
-                    <a href="/nhentai" class="nav-link">Nhentai</a>
+                    <a href="/doujin" class="nav-link" onclick="return checkAge(event, '/doujin')">Doujin</a>
+                    <a href="/nhentai" class="nav-link" onclick="return checkAge(event, '/nhentai')">Nhentai</a>
                     <a href="/history" class="nav-link">History</a>
                 </nav>
 
@@ -273,9 +273,9 @@
                     class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Genres</a>
                 <a href="/latest"
                     class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Latest</a>
-                <a href="/doujin"
+                <a href="/doujin" onclick="return checkAge(event, '/doujin')"
                     class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Doujin</a>
-                <a href="/nhentai"
+                <a href="/nhentai" onclick="return checkAge(event, '/nhentai')"
                     class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Nhentai</a>
                 <a href="/history"
                     class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">History</a>
@@ -846,6 +846,78 @@
         window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
+
+    <!-- Age Verification Modal -->
+    <div id="ageVerifyModal" class="fixed inset-0 z-[9999] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeAgeModal()"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+            <div
+                class="bg-primary-800/95 backdrop-blur-md rounded-2xl p-8 max-w-md w-full shadow-2xl border border-purple-500/30 pointer-events-auto">
+                <div class="text-center">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-red-500/20 flex items-center justify-center">
+                        <svg class="w-10 h-10 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-white mb-4">⚠️ Peringatan Konten Dewasa</h2>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Konten ini mengandung materi <span class="text-red-400 font-semibold">18+</span> yang tidak
+                        sesuai untuk anak di bawah umur.
+                    </p>
+                    <p class="text-gray-400 text-sm mb-8">
+                        Apakah kamu sudah berusia <span class="text-purple-400 font-bold">18 tahun atau lebih</span>?
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="closeAgeModal()"
+                            class="flex-1 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-xl transition-all font-medium">
+                            ❌ Belum 18+
+                        </button>
+                        <button onclick="confirmAge()"
+                            class="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl transition-all font-medium">
+                            ✅ Sudah 18+
+                        </button>
+                    </div>
+
+                    <p class="text-gray-500 text-xs mt-6">
+                        Dengan melanjutkan, kamu menyetujui bahwa kamu sudah cukup umur untuk melihat konten dewasa.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pendingAdultUrl = null;
+
+        function checkAge(event, url) {
+            event.preventDefault();
+
+            if (localStorage.getItem('ageVerified') === 'true') {
+                window.location.href = url;
+                return false;
+            }
+
+            pendingAdultUrl = url;
+            document.getElementById('ageVerifyModal').classList.remove('hidden');
+            return false;
+        }
+
+        function confirmAge() {
+            localStorage.setItem('ageVerified', 'true');
+            document.getElementById('ageVerifyModal').classList.add('hidden');
+            if (pendingAdultUrl) {
+                window.location.href = pendingAdultUrl;
+            }
+        }
+
+        function closeAgeModal() {
+            document.getElementById('ageVerifyModal').classList.add('hidden');
+            pendingAdultUrl = null;
+        }
+    </script>
 </body>
 
 </html>

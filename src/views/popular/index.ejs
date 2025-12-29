@@ -43,8 +43,7 @@
                     class="bg-primary-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-purple-500/30 transition-all duration-300 group border border-purple-500/10 hover:border-purple-500/30">
                     <a href="<%= new URL(item.url).pathname %>" class="block relative">
                         <div class="relative overflow-hidden">
-                            <img src="/manga/image/<%= Buffer.from(item.imageUrl).toString('base64') %>"
-                                alt="<%= item.title %>"
+                            <img src="<%= item.imageUrl %>" alt="<%= item.title %>"
                                 class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                                 onerror="this.onerror=null; this.src='<%= item.imageUrl %>';">
                             <div

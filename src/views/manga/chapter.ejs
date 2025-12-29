@@ -1,59 +1,83 @@
 <div class="min-h-screen bg-primary-900">
     <!-- Reader Header -->
-    <header id="readerHeader" class="fixed top-0 left-0 right-0 z-50 bg-primary-900/80 backdrop-blur-lg border-b border-purple-500/20 transition-transform duration-300">
+    <header id="readerHeader"
+        class="fixed top-0 left-0 right-0 z-50 bg-primary-900/80 backdrop-blur-lg border-b border-purple-500/20 transition-transform duration-300">
         <div class="container mx-auto px-4 py-3">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
                 <div class="flex items-center space-x-4">
-                    <a href="https://www.komikkuya.my.id/<%= navigation.mangaDetailUrl || 'javascript:history.back()' %>" class="text-gray-400 hover:text-white transition-colors">
+                    <a href="https://www.komikkuya.my.id/<%= navigation.mangaDetailUrl || 'javascript:history.back()' %>"
+                        class="text-gray-400 hover:text-white transition-colors">
                         <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                     </a>
                     <div>
-                        <h1 class="text-lg sm:text-xl font-bold text-white truncate max-w-[200px] sm:max-w-xs"><%= chapter.mangaTitle %></h1>
-                        <p class="text-xs sm:text-sm text-gray-400 truncate max-w-[200px] sm:max-w-xs"><%= chapter.title %></p>
+                        <h1 class="text-lg sm:text-xl font-bold text-white truncate max-w-[200px] sm:max-w-xs">
+                            <%= chapter.mangaTitle %>
+                        </h1>
+                        <p class="text-xs sm:text-sm text-gray-400 truncate max-w-[200px] sm:max-w-xs">
+                            <%= chapter.title %>
+                        </p>
                     </div>
                 </div>
                 <div class="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
                     <div class="flex items-center bg-primary-800 rounded-lg p-1">
                         <% if (navigation.prev && navigation.prev.url) { %>
-                            <a href="<%= navigation.prev.url %>" class="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-all" title="<%= navigation.prev.title %>">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            <a href="<%= navigation.prev.url %>"
+                                class="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-all"
+                                title="<%= navigation.prev.title %>">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7" />
                                 </svg>
                             </a>
-                        <% } else { %>
-                            <button class="p-1.5 sm:p-2 text-gray-600 cursor-not-allowed rounded-lg" disabled>
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </button>
-                        <% } %>
-                        <span class="px-2 sm:px-3 text-xs sm:text-sm text-gray-400">
-                            Ch.<%= navigation.currentChapter %>
-                            <% if ((navigation.prev && navigation.prev.url) || (navigation.next && navigation.next.url)) { %>
-                                <span class="text-gray-600">/</span>
-                                <% if (navigation.prev && navigation.prev.url) { %>
-                                    <span class="text-purple-400"><%= navigation.prevChapter %></span>
+                            <% } else { %>
+                                <button class="p-1.5 sm:p-2 text-gray-600 cursor-not-allowed rounded-lg" disabled>
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
                                 <% } %>
-                                <% if (navigation.next && navigation.next.url) { %>
-                                    <span class="text-purple-400"><%= navigation.nextChapter %></span>
-                                <% } %>
-                            <% } %>
-                        </span>
-                        <% if (navigation.next && navigation.next.url) { %>
-                            <a href="<%= navigation.next.url %>" class="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-all" title="<%= navigation.next.title %>">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
-                        <% } else { %>
-                            <button class="p-1.5 sm:p-2 text-gray-600 cursor-not-allowed rounded-lg" disabled>
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
-                        <% } %>
+                                    <span class="px-2 sm:px-3 text-xs sm:text-sm text-gray-400">
+                                        Ch.<%= navigation.currentChapter %>
+                                            <% if ((navigation.prev && navigation.prev.url) || (navigation.next &&
+                                                navigation.next.url)) { %>
+                                                <span class="text-gray-600">/</span>
+                                                <% if (navigation.prev && navigation.prev.url) { %>
+                                                    <span class="text-purple-400">
+                                                        <%= navigation.prevChapter %>
+                                                    </span>
+                                                    <% } %>
+                                                        <% if (navigation.next && navigation.next.url) { %>
+                                                            <span class="text-purple-400">
+                                                                <%= navigation.nextChapter %>
+                                                            </span>
+                                                            <% } %>
+                                                                <% } %>
+                                    </span>
+                                    <% if (navigation.next && navigation.next.url) { %>
+                                        <a href="<%= navigation.next.url %>"
+                                            class="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-all"
+                                            title="<%= navigation.next.title %>">
+                                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </a>
+                                        <% } else { %>
+                                            <button class="p-1.5 sm:p-2 text-gray-600 cursor-not-allowed rounded-lg"
+                                                disabled>
+                                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </button>
+                                            <% } %>
                     </div>
                 </div>
             </div>
@@ -68,26 +92,26 @@
     <!-- Reader Content -->
     <main class="container mx-auto px-2 sm:px-4 pt-20 sm:pt-24 pb-16 sm:pb-12">
         <div class="max-w-4xl mx-auto">
-            <% chapter.images.forEach((image, index) => { %>
+            <% chapter.images.forEach((image, index)=> { %>
                 <div class="relative group mb-0" id="page-<%= index + 1 %>">
-                    <img data-src="/manga/image/<%= Buffer.from(image.url).toString('base64') %>" 
-                         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-                         alt="<%= image.alt || `Page ${index + 1}` %>" 
-                         class="w-full rounded-none shadow-none image-enhance"
-                         loading="lazy"
-                         width="<%= image.width || 'auto' %>"
-                         height="<%= image.height || 'auto' %>"
-                         onerror="this.onerror=null; this.src='<%= image.url %>';">
-                    <div class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 bg-black/50 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                    <img data-src="/manga/image/<%= Buffer.from(image.url).toString('base64') %>"
+                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                        alt="<%= image.alt || `Page ${index + 1}` %>"
+                        class="w-full rounded-none shadow-none image-enhance" loading="lazy"
+                        width="<%= image.width || 'auto' %>" height="<%= image.height || 'auto' %>"
+                        onerror="this.onerror=null; this.src='<%= image.url %>';">
+                    <div
+                        class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 bg-black/50 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity">
                         Page <%= index + 1 %>
                     </div>
                 </div>
-            <% }); %>
+                <% }); %>
         </div>
     </main>
 
     <!-- Reader Footer -->
-    <footer id="readerFooter" class="fixed bottom-0 left-0 right-0 z-50 bg-primary-900/80 backdrop-blur-lg border-t border-purple-500/20 transition-transform duration-300">
+    <footer id="readerFooter"
+        class="fixed bottom-0 left-0 right-0 z-50 bg-primary-900/80 backdrop-blur-lg border-t border-purple-500/20 transition-transform duration-300">
         <div class="container mx-auto px-4 py-3">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
                 <div class="text-xs sm:text-sm text-gray-400">
@@ -95,38 +119,46 @@
                 </div>
                 <div class="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
                     <div class="flex items-center space-x-2">
-                        <button id="toggleReadingMode" class="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary-800 text-white text-xs sm:text-sm rounded-lg hover:bg-primary-700 transition-colors">
+                        <button id="toggleReadingMode"
+                            class="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary-800 text-white text-xs sm:text-sm rounded-lg hover:bg-primary-700 transition-colors">
                             Toggle Reading Mode
                         </button>
-                        <button id="toggleHeaderFooter" class="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary-800 text-white text-xs sm:text-sm rounded-lg hover:bg-primary-700 transition-colors flex items-center">
+                        <button id="toggleHeaderFooter"
+                            class="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary-800 text-white text-xs sm:text-sm rounded-lg hover:bg-primary-700 transition-colors flex items-center">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                             <span>Hide UI</span>
                         </button>
                         <div class="hidden sm:flex items-center space-x-2 bg-primary-800 rounded-lg px-3 py-2">
                             <span class="text-xs sm:text-sm text-gray-400">Speed:</span>
-                            <input type="range" id="scrollSpeed" min="1" max="10" value="5" class="w-16 sm:w-24 h-1.5 sm:h-2 bg-primary-700 rounded-lg appearance-none cursor-pointer">
+                            <input type="range" id="scrollSpeed" min="1" max="10" value="5"
+                                class="w-16 sm:w-24 h-1.5 sm:h-2 bg-primary-700 rounded-lg appearance-none cursor-pointer">
                             <span id="speedValue" class="text-xs sm:text-sm text-white">5x</span>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Mobile Speed Control -->
             <div class="sm:hidden mt-2 flex items-center justify-between">
                 <span class="text-xs text-gray-400">Scroll Speed:</span>
                 <div class="flex items-center space-x-2">
-                    <input type="range" id="mobileScrollSpeed" min="1" max="10" value="5" class="w-24 h-1.5 bg-primary-700 rounded-lg appearance-none cursor-pointer">
+                    <input type="range" id="mobileScrollSpeed" min="1" max="10" value="5"
+                        class="w-24 h-1.5 bg-primary-700 rounded-lg appearance-none cursor-pointer">
                     <span id="mobileSpeedValue" class="text-xs text-white">5x</span>
                 </div>
             </div>
         </div>
     </footer>
-    
+
     <!-- Floating Controls -->
-    <div id="floatingControls" class="fixed right-4 bottom-20 z-50 flex flex-col space-y-2 opacity-0 transition-opacity duration-300">
-        <button id="floatingToggleHeaderFooter" class="bg-primary-800 text-white p-2 rounded-full shadow-lg hover:bg-primary-700 transition-colors" title="Show UI">
+    <div id="floatingControls"
+        class="fixed right-4 bottom-20 z-50 flex flex-col space-y-2 opacity-0 transition-opacity duration-300">
+        <button id="floatingToggleHeaderFooter"
+            class="bg-primary-800 text-white p-2 rounded-full shadow-lg hover:bg-primary-700 transition-colors"
+            title="Show UI">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
@@ -155,11 +187,9 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(
-            to bottom,
-            rgba(255, 255, 255, 0.05) 0%,
-            rgba(255, 255, 255, 0) 100%
-        );
+        background: linear-gradient(to bottom,
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(255, 255, 255, 0) 100%);
         pointer-events: none;
     }
 
@@ -201,43 +231,43 @@
     input[type="range"]::-moz-range-thumb:hover {
         background: #A855F7;
     }
-    
+
     /* Mobile optimizations */
     @media (max-width: 640px) {
         input[type="range"] {
             height: 6px;
         }
-        
+
         input[type="range"]::-webkit-slider-thumb {
             width: 14px;
             height: 14px;
         }
-        
+
         input[type="range"]::-moz-range-thumb {
             width: 14px;
             height: 14px;
         }
     }
-    
+
     /* Header/Footer hidden state */
     .header-hidden {
         transform: translateY(-100%);
     }
-    
+
     .footer-hidden {
         transform: translateY(100%);
     }
-    
+
     /* Floating controls visible state */
     .controls-visible {
         opacity: 1;
     }
-    
+
     /* Progress bar styling */
     #readingProgress {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
-    
+
     #progressBar {
         box-shadow: 0 0 5px rgba(147, 51, 234, 0.5);
     }
@@ -257,7 +287,7 @@
     const toggleHeaderFooter = document.getElementById('toggleHeaderFooter');
     const floatingToggleHeaderFooter = document.getElementById('floatingToggleHeaderFooter');
     const progressBar = document.getElementById('progressBar');
-    
+
     let isReadingMode = false;
     let autoScrollInterval = null;
     let currentSpeed = 5;
@@ -278,7 +308,7 @@
         try {
             // Get current history or initialize empty array
             const history = JSON.parse(localStorage.getItem('readingHistory') || '[]');
-            
+
             // Create history item
             const historyItem = {
                 title: '<%= chapter.mangaTitle %>',
@@ -291,13 +321,13 @@
                 chapterId: '<%= chapter.id || "" %>',
                 mangaId: '<%= chapter.mangaId || "" %>'
             };
-            
+
             // Check if this manga is already in history
-            const existingIndex = history.findIndex(item => 
-                item.title === historyItem.title && 
+            const existingIndex = history.findIndex(item =>
+                item.title === historyItem.title &&
                 item.chapterId === historyItem.chapterId
             );
-            
+
             if (existingIndex !== -1) {
                 // Update existing entry
                 history[existingIndex] = historyItem;
@@ -305,33 +335,33 @@
                 // Add new entry
                 history.push(historyItem);
             }
-            
+
             // Keep only the last 50 entries
             if (history.length > 50) {
                 history.splice(0, history.length - 50);
             }
-            
+
             // Save back to localStorage
             localStorage.setItem('readingHistory', JSON.stringify(history));
-            
+
             // Also save detailed reading progress
             saveReadingProgress();
         } catch (error) {
             console.error('Error saving to history:', error);
         }
     }
-    
+
     // Save detailed reading progress
     function saveReadingProgress() {
         try {
             const mangaId = '<%= chapter.mangaId || "" %>';
             const chapterId = '<%= chapter.id || "" %>';
-            
+
             if (!mangaId || !chapterId) return;
-            
+
             // Get existing progress or initialize empty object
             const progress = JSON.parse(localStorage.getItem('readingProgress') || '{}');
-            
+
             // Initialize manga progress if it doesn't exist
             if (!progress[mangaId]) {
                 progress[mangaId] = {
@@ -339,7 +369,7 @@
                     chapters: {}
                 };
             }
-            
+
             // Update chapter progress
             progress[mangaId].chapters[chapterId] = {
                 title: '<%= chapter.title %>',
@@ -347,7 +377,7 @@
                 readPages: currentPage,
                 lastRead: new Date().toISOString()
             };
-            
+
             // Save back to localStorage
             localStorage.setItem('readingProgress', JSON.stringify(progress));
         } catch (error) {
@@ -360,11 +390,11 @@
         const isMobile = window.innerWidth < 640;
         const activeControl = isMobile ? mobileScrollSpeed : scrollSpeed;
         const activeDisplay = isMobile ? mobileSpeedValue : speedValue;
-        
+
         currentSpeed = parseInt(activeControl.value);
         speedValue.textContent = `${currentSpeed}x`;
         mobileSpeedValue.textContent = `${currentSpeed}x`;
-        
+
         // Restart auto-scroll with new speed if active
         if (autoScrollInterval) {
             clearInterval(autoScrollInterval);
@@ -381,20 +411,20 @@
         const now = performance.now();
         const elapsed = now - lastScrollTime;
         lastScrollTime = now;
-        
+
         // Calculate scroll amount based on elapsed time and speed
         const baseSpeed = 30; // Reduced base speed for smoother scrolling
         const scrollAmount = (baseSpeed * currentSpeed / 5) * (elapsed / 16.67); // Normalize to 60fps
-        
+
         scrollPosition += scrollAmount;
-        
+
         // Only scroll if we have a whole pixel to scroll
         if (scrollPosition >= 1) {
             const pixelsToScroll = Math.floor(scrollPosition);
             window.scrollBy(0, pixelsToScroll);
             scrollPosition -= pixelsToScroll;
         }
-        
+
         // Check if we've reached the bottom
         if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
             clearInterval(autoScrollInterval);
@@ -403,7 +433,7 @@
             isReadingMode = false;
             return;
         }
-        
+
         // Continue scrolling
         if (autoScrollInterval) {
             requestAnimationFrame(smoothScroll);
@@ -422,7 +452,7 @@
     // Toggle reading mode and auto-scroll
     toggleReadingMode.addEventListener('click', () => {
         isReadingMode = !isReadingMode;
-        
+
         if (isReadingMode) {
             // Start auto-scroll
             toggleReadingMode.textContent = 'Stop Auto-Scroll';
@@ -433,15 +463,15 @@
                 clearInterval(autoScrollInterval);
                 autoScrollInterval = null;
             }
-            
+
             toggleReadingMode.textContent = 'Start Auto-Scroll';
         }
     });
-    
+
     // Toggle header and footer visibility
     function toggleUI() {
         isHeaderFooterVisible = !isHeaderFooterVisible;
-        
+
         if (isHeaderFooterVisible) {
             readerHeader.classList.remove('header-hidden');
             readerFooter.classList.remove('footer-hidden');
@@ -453,14 +483,14 @@
             floatingControls.classList.add('controls-visible');
             toggleHeaderFooter.innerHTML = '<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg><span>Show UI</span>';
         }
-        
+
         // Reset inactivity timer
         resetInactivityTimer();
     }
-    
+
     toggleHeaderFooter.addEventListener('click', toggleUI);
     floatingToggleHeaderFooter.addEventListener('click', toggleUI);
-    
+
     // Auto-hide header and footer after inactivity
     function resetInactivityTimer() {
         clearTimeout(inactivityTimer);
@@ -474,11 +504,11 @@
             }
         }, 3000); // Hide after 3 seconds of inactivity
     }
-    
+
     // Track user activity
     function trackUserActivity(event) {
         lastUserActivity = Date.now();
-        
+
         // Only show UI on keyboard input, not on mouse movement, touch, or scroll
         if (!isHeaderFooterVisible && event && event.type === 'keydown') {
             readerHeader.classList.remove('header-hidden');
@@ -489,7 +519,7 @@
             resetInactivityTimer();
         }
     }
-    
+
     // Add event listeners for user activity
     document.addEventListener('keydown', trackUserActivity);
 
@@ -521,13 +551,13 @@
     function calculatePagePositions() {
         pagePositions = [];
         const pages = document.querySelectorAll('[id^="page-"]');
-        
+
         pages.forEach((page, index) => {
             const rect = page.getBoundingClientRect();
             const pageTop = rect.top + window.scrollY;
             const pageBottom = pageTop + rect.height;
             const pageMiddle = pageTop + (rect.height / 2);
-            
+
             pagePositions.push({
                 top: pageTop,
                 bottom: pageBottom,
@@ -540,23 +570,23 @@
     // Update reading progress
     function updateReadingProgress() {
         if (pagePositions.length === 0) return;
-        
+
         const viewportTop = window.scrollY;
         const viewportBottom = viewportTop + window.innerHeight;
         const viewportMiddle = viewportTop + (window.innerHeight / 2);
-        
+
         // Find the page that's most visible in the viewport
         let visiblePages = [];
-        
+
         for (let i = 0; i < pagePositions.length; i++) {
             const page = pagePositions[i];
-            
+
             // Calculate how much of the page is visible
             const visibleTop = Math.max(page.top, viewportTop);
             const visibleBottom = Math.min(page.bottom, viewportBottom);
             const visibleHeight = Math.max(0, visibleBottom - visibleTop);
             const visibilityPercentage = (visibleHeight / page.bottom) * 100;
-            
+
             if (visibilityPercentage > 0) {
                 visiblePages.push({
                     index: page.index,
@@ -564,12 +594,12 @@
                 });
             }
         }
-        
+
         // If no pages are visible, find the closest page
         if (visiblePages.length === 0) {
             let closestPage = pagePositions[0];
             let minDistance = Math.abs(viewportMiddle - pagePositions[0].middle);
-            
+
             for (let i = 1; i < pagePositions.length; i++) {
                 const distance = Math.abs(viewportMiddle - pagePositions[i].middle);
                 if (distance < minDistance) {
@@ -577,17 +607,17 @@
                     closestPage = pagePositions[i];
                 }
             }
-            
+
             currentPage = closestPage.index;
         } else {
             // Sort by visibility percentage
             visiblePages.sort((a, b) => b.visibility - a.visibility);
             currentPage = visiblePages[0].index;
         }
-        
+
         // Check if we're at the last page
         const isLastPage = currentPage === totalPages;
-        
+
         // Calculate progress percentage
         let progress;
         if (isLastPage) {
@@ -597,14 +627,14 @@
             // Otherwise, calculate based on current page
             progress = Math.min(100, (currentPage / totalPages) * 100);
         }
-        
+
         // Update progress bar
         progressBar.style.width = `${progress}%`;
-        
+
         // Preload adjacent images based on current page
         preloadAdjacentImages(currentPage);
     }
-    
+
     // Preload adjacent images
     function preloadAdjacentImages(currentPageIndex) {
         // Preload next 2 pages
@@ -614,26 +644,26 @@
                 addToPreloadQueue(nextPageIndex);
             }
         }
-        
+
         // Preload previous page if not already loaded
         const prevPageIndex = currentPageIndex - 1;
         if (prevPageIndex >= 1) {
             addToPreloadQueue(prevPageIndex);
         }
-        
+
         // Start preloading if not already in progress
         if (!isPreloading && preloadQueue.length > 0) {
             processPreloadQueue();
         }
     }
-    
+
     // Add image to preload queue
     function addToPreloadQueue(pageIndex) {
         if (!loadedImages.has(pageIndex) && !preloadQueue.includes(pageIndex)) {
             preloadQueue.push(pageIndex);
         }
     }
-    
+
     // Add encryption/decryption functions
     function decryptImageUrl(encryptedUrl, key) {
         try {
@@ -643,11 +673,11 @@
             const keyBytes = new TextEncoder().encode(key);
             const urlBytes = new TextEncoder().encode(decodedUrl);
             const decryptedBytes = new Uint8Array(urlBytes.length);
-            
+
             for (let i = 0; i < urlBytes.length; i++) {
                 decryptedBytes[i] = urlBytes[i] ^ keyBytes[i % keyBytes.length];
             }
-            
+
             return new TextDecoder().decode(decryptedBytes);
         } catch (e) {
             console.error('Error decrypting URL:', e);
@@ -661,40 +691,40 @@
             isPreloading = false;
             return;
         }
-        
+
         isPreloading = true;
         const pageIndex = preloadQueue.shift();
         const img = document.querySelector(`#page-${pageIndex} img`);
-        
+
         if (img && img.dataset.src) {
             const encryptedUrl = img.dataset.src;
             const encryptionKey = img.dataset.key || 'default-key';
             const imageUrl = img.dataset.encrypted === 'true' ? decryptImageUrl(encryptedUrl, encryptionKey) : encryptedUrl;
-            
+
             // Create a new image object to preload
             const preloadImg = new Image();
-            preloadImg.onload = function() {
+            preloadImg.onload = function () {
                 // Once loaded, update the actual image
                 img.src = imageUrl;
                 img.removeAttribute('data-src');
                 img.removeAttribute('data-encrypted');
                 img.removeAttribute('data-key');
                 loadedImages.add(pageIndex);
-                
+
                 // Continue processing queue
                 setTimeout(() => {
                     processPreloadQueue();
                 }, 50);
             };
-            
-            preloadImg.onerror = function() {
+
+            preloadImg.onerror = function () {
                 console.error('Failed to load image:', pageIndex);
                 loadedImages.delete(pageIndex);
                 setTimeout(() => {
                     processPreloadQueue();
                 }, 50);
             };
-            
+
             preloadImg.src = imageUrl;
         } else {
             setTimeout(() => {
@@ -707,33 +737,33 @@
     document.addEventListener('DOMContentLoaded', () => {
         // Save to history when page loads
         saveToHistory();
-        
+
         // Initialize speed controls
         syncSpeedControls();
-        
+
         // Start inactivity timer
         resetInactivityTimer();
-        
+
         // Calculate page positions for progress tracking
         calculatePagePositions();
-        
+
         // Add scroll event listener for progress tracking
         window.addEventListener('scroll', updateReadingProgress);
-        
+
         // Save progress when user leaves the page
         window.addEventListener('beforeunload', saveToHistory);
-        
+
         // Initial progress update
         updateReadingProgress();
-        
+
         // Preload first few images immediately
         for (let i = 1; i <= Math.min(3, totalPages); i++) {
             addToPreloadQueue(i);
         }
-        
+
         // Start preloading
         processPreloadQueue();
-        
+
         // Set up intersection observer for lazy loading
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -741,14 +771,14 @@
                     const img = entry.target;
                     const pageId = img.closest('[id^="page-"]').id;
                     const pageIndex = parseInt(pageId.replace('page-', ''));
-                    
+
                     if (img.dataset.src && !loadedImages.has(pageIndex)) {
                         addToPreloadQueue(pageIndex);
                         if (!isPreloading) {
                             processPreloadQueue();
                         }
                     }
-                    
+
                     observer.unobserve(img);
                 }
             });
@@ -762,4 +792,4 @@
             imageObserver.observe(img);
         });
     });
-</script> 
+</script>

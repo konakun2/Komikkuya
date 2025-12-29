@@ -2,10 +2,9 @@
     <!-- Hero Background -->
     <div class="absolute inset-0 h-[400px] overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-primary-900 via-primary-900/95 to-primary-900 z-10"></div>
-        <img src="/manga/image/<%= Buffer.from(manga.coverImage).toString('base64') %>" 
-             alt="<%= manga.title %>" 
-             class="w-full h-full object-cover object-center blur-sm scale-110"
-             onerror="this.onerror=null; this.src='<%= manga.coverImage %>';">
+        <img src="<%= manga.coverImage %>" alt="<%= manga.title %>"
+            class="w-full h-full object-cover object-center blur-sm scale-110"
+            onerror="this.onerror=null; this.src='<%= manga.coverImage %>';">
     </div>
 
     <!-- Content -->
@@ -15,45 +14,53 @@
             <!-- Cover Image -->
             <div class="w-full md:w-72 flex-shrink-0 transform hover:scale-105 transition-transform duration-300">
                 <div class="relative rounded-xl overflow-hidden shadow-2xl">
-                    <img src="/manga/image/<%= Buffer.from(manga.coverImage).toString('base64') %>" 
-                         alt="<%= manga.title %>" 
-                         class="w-full aspect-[3/4] object-cover"
-                         onerror="this.onerror=null; this.src='<%= manga.coverImage %>';">
+                    <img src="<%= manga.coverImage %>" alt="<%= manga.title %>" class="w-full aspect-[3/4] object-cover"
+                        onerror="this.onerror=null; this.src='<%= manga.coverImage %>';">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>
             </div>
-            
+
             <!-- Manga Info -->
             <div class="flex-1">
                 <div class="space-y-4">
                     <div>
-                        <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        <h1
+                            class="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                             <%= manga.title %>
                         </h1>
-                        <p class="text-xl text-purple-300/80"><%= manga.alternativeTitle %></p>
+                        <p class="text-xl text-purple-300/80">
+                            <%= manga.alternativeTitle %>
+                        </p>
                     </div>
-                    
+
                     <div class="flex flex-wrap gap-4">
                         <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
                             <p class="text-gray-400 text-sm">Type</p>
-                            <p class="font-semibold"><%= manga.type %></p>
+                            <p class="font-semibold">
+                                <%= manga.type %>
+                            </p>
                         </div>
                         <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
                             <p class="text-gray-400 text-sm">Status</p>
-                            <p class="font-semibold"><%= manga.status %></p>
+                            <p class="font-semibold">
+                                <%= manga.status %>
+                            </p>
                         </div>
                         <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
                             <p class="text-gray-400 text-sm">Author</p>
-                            <p class="font-semibold"><%= manga.author %></p>
+                            <p class="font-semibold">
+                                <%= manga.author %>
+                            </p>
                         </div>
                     </div>
 
                     <div class="flex flex-wrap gap-2">
-                        <% manga.genres.forEach(genre => { %>
-                            <a href="/genre/?genre=<%= genre.toLowerCase().replace(/\s+/g, '-') %>" class="bg-purple-500/20 text-purple-300 px-4 py-1 rounded-full text-sm backdrop-blur-sm hover:bg-purple-500/30 transition-colors">
+                        <% manga.genres.forEach(genre=> { %>
+                            <a href="/genre/?genre=<%= genre.toLowerCase().replace(/\s+/g, '-') %>"
+                                class="bg-purple-500/20 text-purple-300 px-4 py-1 rounded-full text-sm backdrop-blur-sm hover:bg-purple-500/30 transition-colors">
                                 <%= genre %>
                             </a>
-                        <% }); %>
+                            <% }); %>
                     </div>
                 </div>
             </div>
@@ -61,47 +68,56 @@
 
         <!-- WhatsApp Notification Button -->
         <div class="mb-12">
-            <a href="#" 
-               id="whatsappNotifBtn"
-               class="inline-flex items-center gap-3 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 backdrop-blur-sm">
-               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
-                <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/>
-              </svg>
+            <a href="#" id="whatsappNotifBtn"
+                class="inline-flex items-center gap-3 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 backdrop-blur-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-whatsapp" viewBox="0 0 16 16">
+                    <path
+                        d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+                </svg>
                 Aktifkan Notifikasi di WhatsApp Untuk <%= manga.title %>
             </a>
         </div>
 
         <!-- Description -->
         <div class="bg-primary-800/50 backdrop-blur-sm rounded-xl p-6 mb-12">
-            <h2 class="text-2xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <h2
+                class="text-2xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Description
             </h2>
-            <p class="text-gray-300 whitespace-pre-line leading-relaxed"><%= manga.description %></p>
+            <p class="text-gray-300 whitespace-pre-line leading-relaxed">
+                <%= manga.description %>
+            </p>
         </div>
 
         <!-- Chapters List -->
         <div class="bg-primary-800/50 backdrop-blur-sm rounded-xl p-6">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <h2
+                    class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                     Chapters
                 </h2>
                 <div class="flex items-center gap-2">
-                    <button id="sortChapters" class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
+                    <button id="sortChapters"
+                        class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
                         </svg>
                     </button>
                 </div>
             </div>
             <div id="chaptersList" class="grid gap-4">
-                <% manga.chapters.forEach(chapter => { %>
-                    <a href="/chapter<%= new URL(chapter.url).pathname %>" 
-                       class="group flex items-center justify-between p-4 bg-primary-700/50 rounded-xl hover:bg-primary-600/50 transition-all duration-300 backdrop-blur-sm">
+                <% manga.chapters.forEach(chapter=> { %>
+                    <a href="/chapter<%= new URL(chapter.url).pathname %>"
+                        class="group flex items-center justify-between p-4 bg-primary-700/50 rounded-xl hover:bg-primary-600/50 transition-all duration-300 backdrop-blur-sm">
                         <div>
                             <h3 class="font-semibold group-hover:text-purple-400 transition-colors">
                                 <%= chapter.title %>
                             </h3>
-                            <p class="text-sm text-gray-400"><%= chapter.date %></p>
+                            <p class="text-sm text-gray-400">
+                                <%= chapter.date %>
+                            </p>
                         </div>
                         <div class="text-right">
                             <p class="text-sm text-purple-400">
@@ -109,48 +125,48 @@
                             </p>
                         </div>
                     </a>
-                <% }); %>
+                    <% }); %>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const whatsappBtn = document.getElementById('whatsappNotifBtn');
         const mangaTitle = '<%= manga.title %>';
         const currentUrl = window.location.href;
-        
+
         const message = `notifikasi komik ${currentUrl}`;
         const whatsappLink = `https://wa.me/628979759401?text=${encodeURIComponent(message)}`;
-        
+
         whatsappBtn.href = whatsappLink;
 
         const sortButton = document.getElementById('sortChapters');
         const chaptersList = document.getElementById('chaptersList');
         let isAscending = true;
-        
-        sortButton.addEventListener('click', function() {
+
+        sortButton.addEventListener('click', function () {
             const chapters = Array.from(chaptersList.children);
-            
+
             chapters.sort((a, b) => {
                 const titleA = a.querySelector('h3').textContent;
                 const titleB = b.querySelector('h3').textContent;
-                
+
                 // Extract chapter numbers for proper sorting
                 const numA = parseFloat(titleA.match(/\d+(\.\d+)?/)?.[0] || 0);
                 const numB = parseFloat(titleB.match(/\d+(\.\d+)?/)?.[0] || 0);
-                
+
                 return isAscending ? numA - numB : numB - numA;
             });
-            
+
             // Clear and re-append sorted chapters
             chaptersList.innerHTML = '';
             chapters.forEach(chapter => chaptersList.appendChild(chapter));
-            
+
             // Toggle sort direction
             isAscending = !isAscending;
-            
+
             // Update button icon
             const icon = sortButton.querySelector('svg');
             if (isAscending) {

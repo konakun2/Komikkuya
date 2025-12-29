@@ -2,90 +2,108 @@
     <div class="container mx-auto px-4 py-8">
         <!-- Header with title and category tabs -->
         <div class="mb-10">
-            <h1 class="text-4xl font-bold text-white mb-2 tracking-tight">Latest <%= currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1) %></h1>
+            <h1 class="text-4xl font-bold text-white mb-2 tracking-tight">Latest <%=
+                    currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1) %>
+            </h1>
             <p class="text-gray-400 mb-6">Stay update dengan join channel whatsapp kami</p>
-            
+
             <!-- WhatsApp Button -->
-            <a href="https://whatsapp.com/channel/0029Vb7586h2UPBFAPxb5S1P" 
-               class="inline-flex items-center justify-center gap-3 px-4 py-2 mb-4 rounded-lg bg-gradient-to-r from-green-600 to-green-500 text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20 hover:scale-105 border border-green-500/20">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
-                <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/>
-              </svg>
-              Join Channel WA
+            <a href="https://whatsapp.com/channel/0029Vb7586h2UPBFAPxb5S1P"
+                class="inline-flex items-center justify-center gap-3 px-4 py-2 mb-4 rounded-lg bg-gradient-to-r from-green-600 to-green-500 text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20 hover:scale-105 border border-green-500/20">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-whatsapp" viewBox="0 0 16 16">
+                    <path
+                        d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+                </svg>
+                Join Channel WA
             </a>
-            
+
             <!-- Category Tabs -->
-            <div class="flex flex-wrap gap-2 bg-primary-800/50 backdrop-blur-sm rounded-xl p-1.5 border border-purple-500/20">
-              <% categories.forEach(category => { %>
-                <a href="/latest?category=<%= category %>" 
-                   class="px-4 py-2 rounded-lg transition-all duration-300 <%= currentCategory === category ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white font-medium shadow-lg shadow-purple-500/20' : 'text-gray-400 hover:text-white hover:bg-primary-700/50' %>">
-                  <%= category.charAt(0).toUpperCase() + category.slice(1) %>
-                </a>
-              <% }); %>
+            <div
+                class="flex flex-wrap gap-2 bg-primary-800/50 backdrop-blur-sm rounded-xl p-1.5 border border-purple-500/20">
+                <% categories.forEach(category=> { %>
+                    <a href="/latest?category=<%= category %>"
+                        class="px-4 py-2 rounded-lg transition-all duration-300 <%= currentCategory === category ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white font-medium shadow-lg shadow-purple-500/20' : 'text-gray-400 hover:text-white hover:bg-primary-700/50' %>">
+                        <%= category.charAt(0).toUpperCase() + category.slice(1) %>
+                    </a>
+                    <% }); %>
             </div>
-          </div>
-        
+        </div>
+
         <!-- Manga Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            <% mangaList.forEach(manga => { %>
-                <div class="bg-primary-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-purple-500/30 transition-all duration-300 group border border-purple-500/10 hover:border-purple-500/30">
+            <% mangaList.forEach(manga=> { %>
+                <div
+                    class="bg-primary-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-purple-500/30 transition-all duration-300 group border border-purple-500/10 hover:border-purple-500/30">
                     <a href="/manga/<%= manga.url.split('/manga/')[1].replace('/', '') %>" class="block relative">
                         <div class="relative overflow-hidden">
-                            <img src="/manga/image/<%= Buffer.from(manga.imageUrl).toString('base64') %>" 
-                                 alt="<%= manga.title %>" 
-                                 class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-                                 onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            
+                            <img src="<%= manga.imageUrl %>" alt="<%= manga.title %>"
+                                class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                                onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+
                             <!-- Update Status Badge -->
-                            <div class="absolute top-3 left-3 bg-purple-600 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm border border-white/10">
+                            <div
+                                class="absolute top-3 left-3 bg-purple-600 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm border border-white/10">
                                 <%= manga.updateStatus %>
                             </div>
-                            
+
                             <!-- Stats Badge -->
-                            <div class="absolute top-3 right-3 bg-black/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm border border-white/10">
+                            <div
+                                class="absolute top-3 right-3 bg-black/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm border border-white/10">
                                 <%= manga.stats.views %> views
                             </div>
                         </div>
                         <div class="p-4">
-                            <h3 class="text-white font-semibold text-sm line-clamp-2 mb-2 group-hover:text-purple-400 transition-colors"><%= manga.title %></h3>
+                            <h3
+                                class="text-white font-semibold text-sm line-clamp-2 mb-2 group-hover:text-purple-400 transition-colors">
+                                <%= manga.title %>
+                            </h3>
                             <div class="flex justify-between items-center">
-                                <span class="text-gray-400 text-xs bg-primary-700/50 px-2 py-1 rounded-full"><%= manga.type || currentCategory %></span>
+                                <span class="text-gray-400 text-xs bg-primary-700/50 px-2 py-1 rounded-full">
+                                    <%= manga.type || currentCategory %>
+                                </span>
                                 <% if (manga.latestChapter && manga.latestChapter.url) { %>
-                                    <a href="/chapter<%= new URL(manga.latestChapter.url).pathname %>" 
-                                       class="text-xs text-purple-400 hover:text-purple-300 transition-colors">
+                                    <a href="/chapter<%= new URL(manga.latestChapter.url).pathname %>"
+                                        class="text-xs text-purple-400 hover:text-purple-300 transition-colors">
                                         <%= manga.latestChapter.title %>
                                     </a>
-                                <% } %>
+                                    <% } %>
                             </div>
                             <div class="flex items-center gap-2 text-xs text-gray-400 mt-2">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                <span><%= manga.stats.timeAgo %> ago</span>
+                                <span>
+                                    <%= manga.stats.timeAgo %> ago
+                                </span>
                             </div>
                         </div>
                     </a>
                 </div>
-            <% }); %>
+                <% }); %>
         </div>
-        
+
         <!-- Pagination -->
         <div class="flex justify-center mt-12">
-            <div class="flex items-center space-x-2 bg-primary-800/50 backdrop-blur-sm rounded-xl p-1.5 border border-purple-500/20">
-                <a href="/latest?category=<%= pagination.category %>&page=<%= pagination.currentPage > 1 ? pagination.currentPage - 1 : 1 %>" 
-                   class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
+            <div
+                class="flex items-center space-x-2 bg-primary-800/50 backdrop-blur-sm rounded-xl p-1.5 border border-purple-500/20">
+                <a href="/latest?category=<%= pagination.category %>&page=<%= pagination.currentPage > 1 ? pagination.currentPage - 1 : 1 %>"
+                    class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
                 </a>
-                
+
                 <span class="px-4 py-1 text-sm text-gray-300 bg-primary-700/50 rounded-lg">
                     Page <%= pagination.currentPage %>
                 </span>
-                
-                <a href="/latest?category=<%= pagination.category %>&page=<%= pagination.currentPage + 1 %>" 
-                   class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
+
+                <a href="/latest?category=<%= pagination.category %>&page=<%= pagination.currentPage + 1 %>"
+                    class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
@@ -97,9 +115,9 @@
 
 <script>
     // Add staggered animation to grid items
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const gridItems = document.querySelectorAll('.grid > div');
-        
+
         gridItems.forEach((item, index) => {
             item.style.setProperty('--animation-order', index + 1);
             item.style.animation = `fadeIn 0.5s ease-out forwards`;
@@ -112,24 +130,32 @@
 <style>
     /* Add some cool animations */
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-      /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: rgba(45, 36, 57, 0.5);
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: rgba(147, 51, 234, 0.5);
-    border-radius: 4px;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(147, 51, 234, 0.7);
-  }
-</style> 
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: rgba(45, 36, 57, 0.5);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(147, 51, 234, 0.5);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(147, 51, 234, 0.7);
+    }
+</style>

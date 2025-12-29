@@ -59,8 +59,8 @@
                         class="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-900/95 to-transparent z-10">
                     </div>
                     <div class="absolute inset-0 bg-primary-900/50 z-5 loading-placeholder"></div>
-                    <img src="/manga/image/<%= Buffer.from(manga.imageUrl).toString('base64') %>"
-                        alt="<%= manga.title %>" class="w-full h-full object-cover object-center" loading="eager"
+                    <img src="<%= manga.imageUrl %>" alt="<%= manga.title %>"
+                        class="w-full h-full object-cover object-center" loading="eager"
                         onload="this.parentElement.querySelector('.loading-placeholder').style.display='none'"
                         onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
                     <div class="absolute bottom-0 left-0 p-8 z-20 max-w-2xl">
@@ -123,8 +123,7 @@
                         <div class="group">
                             <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>" class="block">
                                 <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-4">
-                                    <img src="/manga/image/<%= Buffer.from(manga.imageUrl || '').toString('base64') %>"
-                                        alt="<%= manga.title %>"
+                                    <img src="<%= manga.imageUrl || '' %>" alt="<%= manga.title %>"
                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                         loading="lazy" onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
                                     <div
@@ -241,8 +240,7 @@
                         <div class="group">
                             <a href="/manga/<%= manga.url.split('/manga/')[1].replace('/', '') %>" class="block">
                                 <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-4">
-                                    <img src="/manga/image/<%= Buffer.from(manga.imageUrl).toString('base64') %>"
-                                        alt="<%= manga.title %>"
+                                    <img src="<%= manga.imageUrl %>" alt="<%= manga.title %>"
                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                         onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
                                     <div
@@ -324,9 +322,9 @@
                             <span class="text-lg font-bold text-purple-400 w-6">
                                 <%= index + 1 %>
                             </span>
-                            <img src="/manga/image/<%= Buffer.from(manga.imageUrl || '').toString('base64') %>"
-                                alt="<%= manga.title %>" class="w-12 h-16 object-cover rounded-lg flex-shrink-0"
-                                loading="lazy" onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
+                            <img src="<%= manga.imageUrl || '' %>" alt="<%= manga.title %>"
+                                class="w-12 h-16 object-cover rounded-lg flex-shrink-0" loading="lazy"
+                                onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
                             <div class="flex-1 min-w-0">
                                 <h4
                                     class="font-medium text-sm text-white line-clamp-2 hover:text-purple-400 transition-colors">
@@ -353,9 +351,9 @@
                             <span class="text-lg font-bold text-purple-400 w-6">
                                 <%= index + 1 %>
                             </span>
-                            <img src="/manga/image/<%= Buffer.from(manga.imageUrl || '').toString('base64') %>"
-                                alt="<%= manga.title %>" class="w-12 h-16 object-cover rounded-lg flex-shrink-0"
-                                loading="lazy" onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
+                            <img src="<%= manga.imageUrl || '' %>" alt="<%= manga.title %>"
+                                class="w-12 h-16 object-cover rounded-lg flex-shrink-0" loading="lazy"
+                                onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
                             <div class="flex-1 min-w-0">
                                 <h4
                                     class="font-medium text-sm text-white line-clamp-2 hover:text-purple-400 transition-colors">
@@ -382,9 +380,9 @@
                             <span class="text-lg font-bold text-purple-400 w-6">
                                 <%= index + 1 %>
                             </span>
-                            <img src="/manga/image/<%= Buffer.from(manga.imageUrl || '').toString('base64') %>"
-                                alt="<%= manga.title %>" class="w-12 h-16 object-cover rounded-lg flex-shrink-0"
-                                loading="lazy" onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
+                            <img src="<%= manga.imageUrl || '' %>" alt="<%= manga.title %>"
+                                class="w-12 h-16 object-cover rounded-lg flex-shrink-0" loading="lazy"
+                                onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
                             <div class="flex-1 min-w-0">
                                 <h4
                                     class="font-medium text-sm text-white line-clamp-2 hover:text-purple-400 transition-colors">
@@ -422,9 +420,9 @@
                     <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>"
                         class="flex items-center gap-3 p-3 hover:bg-primary-700/30 transition-colors border-b border-purple-500/5 last:border-0">
                         <div class="relative">
-                            <img src="/manga/image/<%= Buffer.from(manga.imageUrl || '').toString('base64') %>"
-                                alt="<%= manga.title %>" class="w-12 h-16 object-cover rounded-lg flex-shrink-0"
-                                loading="lazy" onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
+                            <img src="<%= manga.imageUrl || '' %>" alt="<%= manga.title %>"
+                                class="w-12 h-16 object-cover rounded-lg flex-shrink-0" loading="lazy"
+                                onerror="this.onerror=null; this.src='<%= manga.imageUrl %>';">
                             <span
                                 class="absolute -top-1 -right-1 bg-green-500 text-white text-[8px] px-1.5 py-0.5 rounded font-bold">NEW</span>
                         </div>
@@ -607,7 +605,7 @@
                         <div class="group">
                             <a href="/manga/${manga.mangaUrl.split('/manga/')[1].replace('/', '')}" class="block">
                                 <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-4">
-                                    <img src="/manga/image/${btoa(manga.imageUrl)}" 
+                                    <img src="${manga.imageUrl}" 
                                          alt="${manga.title}" 
                                          class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                          onerror="this.onerror=null; this.src='${manga.imageUrl}';">

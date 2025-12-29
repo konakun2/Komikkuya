@@ -248,7 +248,7 @@
                     </div>
                     <div class="text-left">
                         <p class="font-medium">Server 1</p>
-                        <p class="text-xs text-gray-400">Default server (Fast)</p>
+                        <p class="text-xs text-gray-400">Default server (URL based)</p>
                     </div>
                 </button>
 
@@ -259,7 +259,7 @@
                     </div>
                     <div class="text-left">
                         <p class="font-medium">Server 2</p>
-                        <p class="text-xs text-gray-400">Backup server (Slow)</p>
+                        <p class="text-xs text-gray-400">Backup server (Slug based)</p>
                     </div>
                 </button>
             </div>
@@ -306,21 +306,8 @@
         return localStorage.getItem('doujinServer') || '1';
     }
 
-    // Auto-show modal on page load (once per session)
+    // Update all doujin chapter links to use preferred server
     document.addEventListener('DOMContentLoaded', function () {
-        updateServerDisplay();
-
-        // Show modal automatically if not shown in this session
-        const hasSeenModal = sessionStorage.getItem('doujinServerModalShown');
-        if (!hasSeenModal) {
-            document.getElementById('serverModal').classList.remove('hidden');
-            sessionStorage.setItem('doujinServerModalShown', 'true');
-        }
-    });
-
-    // Also allow manual trigger
-    document.getElementById('openServerModal').addEventListener('click', function () {
-        document.getElementById('serverModal').classList.remove('hidden');
         updateServerDisplay();
     });
 </script>

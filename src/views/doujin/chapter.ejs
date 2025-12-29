@@ -1,50 +1,71 @@
 <div class="min-h-screen bg-primary-900">
     <!-- Reader Header -->
-    <header id="readerHeader" class="fixed top-0 left-0 right-0 z-50 bg-primary-900/80 backdrop-blur-lg border-b border-purple-500/20 transition-transform duration-300">
+    <header id="readerHeader"
+        class="fixed top-0 left-0 right-0 z-50 bg-primary-900/80 backdrop-blur-lg border-b border-purple-500/20 transition-transform duration-300">
         <div class="container mx-auto px-4 py-3">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
                 <div class="flex items-center space-x-4">
-                    <a href="javascript:history.back()" class="text-gray-400 hover:text-white transition-colors">
+                    <a href="<%= navigation.mangaUrl || '/doujin' %>"
+                        class="text-gray-400 hover:text-white transition-colors">
                         <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                     </a>
                     <div>
-                        <h1 class="text-lg sm:text-xl font-bold text-white truncate max-w-[200px] sm:max-w-xs">Doujinshi Reader</h1>
-                        <p class="text-xs sm:text-sm text-gray-400 truncate max-w-[200px] sm:max-w-xs">Chapter</p>
+                        <h1 class="text-lg sm:text-xl font-bold text-white truncate max-w-[200px] sm:max-w-xs">
+                            <%= mangaTitle %>
+                        </h1>
+                        <p class="text-xs sm:text-sm text-gray-400 truncate max-w-[200px] sm:max-w-xs">
+                            <%= chapterNumber %>
+                        </p>
                     </div>
                 </div>
                 <div class="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
                     <div class="flex items-center bg-primary-800 rounded-lg p-1">
                         <% if (navigation.prev) { %>
-                            <a href="<%= navigation.prev %>" class="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-all" title="Previous Chapter">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            <a href="<%= navigation.prev %>"
+                                class="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-all"
+                                title="Previous Chapter">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7" />
                                 </svg>
                             </a>
-                        <% } else { %>
-                            <button class="p-1.5 sm:p-2 text-gray-600 cursor-not-allowed rounded-lg" disabled>
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </button>
-                        <% } %>
-                        <span class="px-2 sm:px-3 text-xs sm:text-sm text-gray-400">
-                            Page <span id="currentPageDisplay">1</span> / <span id="totalPageDisplay"><%= images.length %></span>
-                        </span>
-                        <% if (navigation.next) { %>
-                            <a href="<%= navigation.next %>" class="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-all" title="Next Chapter">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
-                        <% } else { %>
-                            <button class="p-1.5 sm:p-2 text-gray-600 cursor-not-allowed rounded-lg" disabled>
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
-                        <% } %>
+                            <% } else { %>
+                                <button class="p-1.5 sm:p-2 text-gray-600 cursor-not-allowed rounded-lg" disabled>
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+                                <% } %>
+                                    <span class="px-2 sm:px-3 text-xs sm:text-sm text-gray-400">
+                                        Page <span id="currentPageDisplay">1</span> / <span id="totalPageDisplay">
+                                            <%= totalImages %>
+                                        </span>
+                                    </span>
+                                    <% if (navigation.next) { %>
+                                        <a href="<%= navigation.next %>"
+                                            class="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-all"
+                                            title="Next Chapter">
+                                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </a>
+                                        <% } else { %>
+                                            <button class="p-1.5 sm:p-2 text-gray-600 cursor-not-allowed rounded-lg"
+                                                disabled>
+                                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </button>
+                                            <% } %>
                     </div>
                 </div>
             </div>
@@ -59,63 +80,72 @@
     <!-- Reader Content -->
     <main class="container mx-auto px-2 sm:px-4 pt-20 sm:pt-24 pb-16 sm:pb-12">
         <div class="max-w-4xl mx-auto">
-            <% images.forEach((imageUrl, index) => { %>
+            <% images.forEach((image, index)=> { %>
                 <div class="relative group mb-0" id="page-<%= index + 1 %>">
-                    <img data-src="<%= imageUrl %>" 
-                         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-                         alt="Page <%= index + 1 %>" 
-                         class="w-full rounded-none shadow-none image-enhance"
-                         loading="lazy"
-                         onerror="this.onerror=null; this.src='<%= imageUrl %>';">
-                    <div class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 bg-black/50 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                    <img data-src="<%= image.url %>"
+                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                        alt="<%= image.alt || 'Page ' + (index + 1) %>"
+                        class="w-full rounded-none shadow-none image-enhance" loading="lazy"
+                        onerror="this.onerror=null; this.src='<%= image.url %>';">
+                    <div
+                        class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 bg-black/50 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity">
                         Page <%= index + 1 %>
                     </div>
                 </div>
-            <% }); %>
+                <% }); %>
         </div>
     </main>
 
     <!-- Reader Footer -->
-    <footer id="readerFooter" class="fixed bottom-0 left-0 right-0 z-50 bg-primary-900/80 backdrop-blur-lg border-t border-purple-500/20 transition-transform duration-300">
+    <footer id="readerFooter"
+        class="fixed bottom-0 left-0 right-0 z-50 bg-primary-900/80 backdrop-blur-lg border-t border-purple-500/20 transition-transform duration-300">
         <div class="container mx-auto px-4 py-3">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
                 <div class="text-xs sm:text-sm text-gray-400">
-                    Komikkuya Doujin Reader
+                    <%= mangaTitle %> - <%= chapterNumber %>
                 </div>
                 <div class="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
                     <div class="flex items-center space-x-2">
-                        <button id="toggleReadingMode" class="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary-800 text-white text-xs sm:text-sm rounded-lg hover:bg-primary-700 transition-colors">
+                        <button id="toggleReadingMode"
+                            class="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary-800 text-white text-xs sm:text-sm rounded-lg hover:bg-primary-700 transition-colors">
                             Start Auto-Scroll
                         </button>
-                        <button id="toggleHeaderFooter" class="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary-800 text-white text-xs sm:text-sm rounded-lg hover:bg-primary-700 transition-colors flex items-center">
+                        <button id="toggleHeaderFooter"
+                            class="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary-800 text-white text-xs sm:text-sm rounded-lg hover:bg-primary-700 transition-colors flex items-center">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                             <span>Hide UI</span>
                         </button>
                         <div class="hidden sm:flex items-center space-x-2 bg-primary-800 rounded-lg px-3 py-2">
                             <span class="text-xs sm:text-sm text-gray-400">Speed:</span>
-                            <input type="range" id="scrollSpeed" min="1" max="10" value="5" class="w-16 sm:w-24 h-1.5 sm:h-2 bg-primary-700 rounded-lg appearance-none cursor-pointer">
+                            <input type="range" id="scrollSpeed" min="1" max="10" value="5"
+                                class="w-16 sm:w-24 h-1.5 sm:h-2 bg-primary-700 rounded-lg appearance-none cursor-pointer">
                             <span id="speedValue" class="text-xs sm:text-sm text-white">5x</span>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Mobile Speed Control -->
             <div class="sm:hidden mt-2 flex items-center justify-between">
                 <span class="text-xs text-gray-400">Scroll Speed:</span>
                 <div class="flex items-center space-x-2">
-                    <input type="range" id="mobileScrollSpeed" min="1" max="10" value="5" class="w-24 h-1.5 bg-primary-700 rounded-lg appearance-none cursor-pointer">
+                    <input type="range" id="mobileScrollSpeed" min="1" max="10" value="5"
+                        class="w-24 h-1.5 bg-primary-700 rounded-lg appearance-none cursor-pointer">
                     <span id="mobileSpeedValue" class="text-xs text-white">5x</span>
                 </div>
             </div>
         </div>
     </footer>
-    
+
     <!-- Floating Controls -->
-    <div id="floatingControls" class="fixed right-4 bottom-20 z-50 flex flex-col space-y-2 opacity-0 transition-opacity duration-300">
-        <button id="floatingToggleHeaderFooter" class="bg-primary-800 text-white p-2 rounded-full shadow-lg hover:bg-primary-700 transition-colors" title="Show UI">
+    <div id="floatingControls"
+        class="fixed right-4 bottom-20 z-50 flex flex-col space-y-2 opacity-0 transition-opacity duration-300">
+        <button id="floatingToggleHeaderFooter"
+            class="bg-primary-800 text-white p-2 rounded-full shadow-lg hover:bg-primary-700 transition-colors"
+            title="Show UI">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
@@ -174,43 +204,43 @@
     input[type="range"]::-moz-range-thumb:hover {
         background: #A855F7;
     }
-    
+
     /* Mobile optimizations */
     @media (max-width: 640px) {
         input[type="range"] {
             height: 6px;
         }
-        
+
         input[type="range"]::-webkit-slider-thumb {
             width: 14px;
             height: 14px;
         }
-        
+
         input[type="range"]::-moz-range-thumb {
             width: 14px;
             height: 14px;
         }
     }
-    
+
     /* Header/Footer hidden state */
     .header-hidden {
         transform: translateY(-100%);
     }
-    
+
     .footer-hidden {
         transform: translateY(100%);
     }
-    
+
     /* Floating controls visible state */
     .controls-visible {
         opacity: 1;
     }
-    
+
     /* Progress bar styling */
     #readingProgress {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
-    
+
     #progressBar {
         box-shadow: 0 0 5px rgba(147, 51, 234, 0.5);
     }
@@ -231,7 +261,7 @@
     const progressBar = document.getElementById('progressBar');
     const currentPageDisplay = document.getElementById('currentPageDisplay');
     const totalPageDisplay = document.getElementById('totalPageDisplay');
-    
+
     let isReadingMode = false;
     let autoScrollInterval = null;
     let currentSpeed = 5;
@@ -244,7 +274,7 @@
     let loadedImages = new Set();
     let preloadQueue = [];
     let isPreloading = false;
-    
+
     // Get total pages from DOM
     const totalPages = parseInt(totalPageDisplay.textContent) || 1;
 
@@ -252,11 +282,11 @@
     function syncSpeedControls() {
         const isMobile = window.innerWidth < 640;
         const activeControl = isMobile ? mobileScrollSpeed : scrollSpeed;
-        
+
         currentSpeed = parseInt(activeControl.value);
         speedValue.textContent = `${currentSpeed}x`;
         mobileSpeedValue.textContent = `${currentSpeed}x`;
-        
+
         if (autoScrollInterval) {
             clearInterval(autoScrollInterval);
             startAutoScroll();
@@ -271,18 +301,18 @@
         const now = performance.now();
         const elapsed = now - lastScrollTime;
         lastScrollTime = now;
-        
+
         const baseSpeed = 30;
         const scrollAmount = (baseSpeed * currentSpeed / 5) * (elapsed / 16.67);
-        
+
         scrollPosition += scrollAmount;
-        
+
         if (scrollPosition >= 1) {
             const pixelsToScroll = Math.floor(scrollPosition);
             window.scrollBy(0, pixelsToScroll);
             scrollPosition -= pixelsToScroll;
         }
-        
+
         if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
             clearInterval(autoScrollInterval);
             autoScrollInterval = null;
@@ -290,7 +320,7 @@
             isReadingMode = false;
             return;
         }
-        
+
         if (autoScrollInterval) {
             requestAnimationFrame(smoothScroll);
         }
@@ -307,7 +337,7 @@
 
     toggleReadingMode.addEventListener('click', () => {
         isReadingMode = !isReadingMode;
-        
+
         if (isReadingMode) {
             toggleReadingMode.textContent = 'Stop Auto-Scroll';
             startAutoScroll();
@@ -319,11 +349,11 @@
             toggleReadingMode.textContent = 'Start Auto-Scroll';
         }
     });
-    
+
     // Toggle header and footer visibility
     function toggleUI() {
         isHeaderFooterVisible = !isHeaderFooterVisible;
-        
+
         if (isHeaderFooterVisible) {
             readerHeader.classList.remove('header-hidden');
             readerFooter.classList.remove('footer-hidden');
@@ -335,13 +365,13 @@
             floatingControls.classList.add('controls-visible');
             toggleHeaderFooter.innerHTML = '<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg><span>Show UI</span>';
         }
-        
+
         resetInactivityTimer();
     }
-    
+
     toggleHeaderFooter.addEventListener('click', toggleUI);
     floatingToggleHeaderFooter.addEventListener('click', toggleUI);
-    
+
     // Auto-hide header and footer after inactivity
     function resetInactivityTimer() {
         clearTimeout(inactivityTimer);
@@ -355,7 +385,7 @@
             }
         }, 3000);
     }
-    
+
     // Track user activity
     function trackUserActivity(event) {
         if (!isHeaderFooterVisible && event && event.type === 'keydown') {
@@ -367,7 +397,7 @@
             resetInactivityTimer();
         }
     }
-    
+
     document.addEventListener('keydown', trackUserActivity);
 
     // Handle window resize
@@ -379,12 +409,12 @@
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
-            const prevLink = document.querySelector('a[href*="chapter"]');
-            if (prevLink && prevLink.title === 'Previous Chapter') {
+            const prevLink = document.querySelector('a[title="Previous Chapter"]');
+            if (prevLink) {
                 window.location.href = prevLink.href;
             }
         } else if (e.key === 'ArrowRight') {
-            const nextLink = Array.from(document.querySelectorAll('a[href*="chapter"]')).find(a => a.title === 'Next Chapter');
+            const nextLink = document.querySelector('a[title="Next Chapter"]');
             if (nextLink) {
                 window.location.href = nextLink.href;
             }
@@ -400,13 +430,13 @@
     function calculatePagePositions() {
         pagePositions = [];
         const pages = document.querySelectorAll('[id^="page-"]');
-        
+
         pages.forEach((page, index) => {
             const rect = page.getBoundingClientRect();
             const pageTop = rect.top + window.scrollY;
             const pageBottom = pageTop + rect.height;
             const pageMiddle = pageTop + (rect.height / 2);
-            
+
             pagePositions.push({
                 top: pageTop,
                 bottom: pageBottom,
@@ -419,21 +449,21 @@
     // Update reading progress
     function updateReadingProgress() {
         if (pagePositions.length === 0) return;
-        
+
         const viewportTop = window.scrollY;
         const viewportBottom = viewportTop + window.innerHeight;
         const viewportMiddle = viewportTop + (window.innerHeight / 2);
-        
+
         let visiblePages = [];
-        
+
         for (let i = 0; i < pagePositions.length; i++) {
             const page = pagePositions[i];
-            
+
             const visibleTop = Math.max(page.top, viewportTop);
             const visibleBottom = Math.min(page.bottom, viewportBottom);
             const visibleHeight = Math.max(0, visibleBottom - visibleTop);
             const visibilityPercentage = (visibleHeight / (page.bottom - page.top)) * 100;
-            
+
             if (visibilityPercentage > 0) {
                 visiblePages.push({
                     index: page.index,
@@ -441,11 +471,11 @@
                 });
             }
         }
-        
+
         if (visiblePages.length === 0) {
             let closestPage = pagePositions[0];
             let minDistance = Math.abs(viewportMiddle - pagePositions[0].middle);
-            
+
             for (let i = 1; i < pagePositions.length; i++) {
                 const distance = Math.abs(viewportMiddle - pagePositions[i].middle);
                 if (distance < minDistance) {
@@ -453,27 +483,27 @@
                     closestPage = pagePositions[i];
                 }
             }
-            
+
             currentPage = closestPage.index;
         } else {
             visiblePages.sort((a, b) => b.visibility - a.visibility);
             currentPage = visiblePages[0].index;
         }
-        
+
         const isLastPage = currentPage === totalPages;
         let progress;
-        
+
         if (isLastPage) {
             progress = 100;
         } else {
             progress = Math.min(100, (currentPage / totalPages) * 100);
         }
-        
+
         progressBar.style.width = `${progress}%`;
         currentPageDisplay.textContent = currentPage;
         preloadAdjacentImages(currentPage);
     }
-    
+
     // Preload adjacent images
     function preloadAdjacentImages(currentPageIndex) {
         for (let i = 1; i <= 2; i++) {
@@ -482,17 +512,17 @@
                 addToPreloadQueue(nextPageIndex);
             }
         }
-        
+
         const prevPageIndex = currentPageIndex - 1;
         if (prevPageIndex >= 1) {
             addToPreloadQueue(prevPageIndex);
         }
-        
+
         if (!isPreloading && preloadQueue.length > 0) {
             processPreloadQueue();
         }
     }
-    
+
     // Add image to preload queue
     function addToPreloadQueue(pageIndex) {
         if (!loadedImages.has(pageIndex) && !preloadQueue.includes(pageIndex)) {
@@ -506,33 +536,33 @@
             isPreloading = false;
             return;
         }
-        
+
         isPreloading = true;
         const pageIndex = preloadQueue.shift();
         const img = document.querySelector(`#page-${pageIndex} img`);
-        
+
         if (img && img.dataset.src) {
             const imageUrl = img.dataset.src;
-            
+
             const preloadImg = new Image();
-            preloadImg.onload = function() {
+            preloadImg.onload = function () {
                 img.src = imageUrl;
                 img.removeAttribute('data-src');
                 loadedImages.add(pageIndex);
-                
+
                 setTimeout(() => {
                     processPreloadQueue();
                 }, 50);
             };
-            
-            preloadImg.onerror = function() {
+
+            preloadImg.onerror = function () {
                 console.error('Failed to load image:', pageIndex);
                 loadedImages.delete(pageIndex);
                 setTimeout(() => {
                     processPreloadQueue();
                 }, 50);
             };
-            
+
             preloadImg.src = imageUrl;
         } else {
             setTimeout(() => {
@@ -546,31 +576,31 @@
         syncSpeedControls();
         resetInactivityTimer();
         calculatePagePositions();
-        
+
         window.addEventListener('scroll', updateReadingProgress);
-        
+
         updateReadingProgress();
-        
+
         for (let i = 1; i <= Math.min(3, totalPages); i++) {
             addToPreloadQueue(i);
         }
-        
+
         processPreloadQueue();
-        
+
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
                     const pageId = img.closest('[id^="page-"]').id;
                     const pageIndex = parseInt(pageId.replace('page-', ''));
-                    
+
                     if (img.dataset.src && !loadedImages.has(pageIndex)) {
                         addToPreloadQueue(pageIndex);
                         if (!isPreloading) {
                             processPreloadQueue();
                         }
                     }
-                    
+
                     observer.unobserve(img);
                 }
             });

@@ -4,86 +4,151 @@
         <!-- Header -->
         <div class="mb-10">
             <h1 class="text-4xl font-bold text-white tracking-tight mb-2">
-                Doujin Update (Page <%= pagination.page %>)
+                Doujin Update
             </h1>
             <p class="text-gray-400 mb-6">
-                Temukan update doujin terbaru setiap hari.
+                Temukan update doujin terbaru setiap hari. (Page <%= pagination.page %> of <%= pagination.totalPages %>)
             </p>
 
             <!-- WhatsApp Button -->
-            <a href="https://whatsapp.com/channel/0029Vb7586h2UPBFAPxb5S1P" 
+            <a href="https://whatsapp.com/channel/0029Vb7586h2UPBFAPxb5S1P"
                 class="inline-flex items-center justify-center gap-3 px-4 py-2 rounded-lg bg-gradient-to-r from-green-600 to-green-500 text-white font-medium transition-all hover:scale-105 hover:shadow-green-500/20 border border-green-500/20">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
-                    <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-whatsapp" viewBox="0 0 16 16">
+                    <path
+                        d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326z" />
                 </svg>
-
                 Join Channel WA
             </a>
         </div>
 
         <!-- Doujin Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            <% items.forEach(doujin => { %>
-                <div class="bg-primary-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-purple-500/10 hover:border-purple-500/40 transition-all duration-300 group">
-                    
-                    <a href="<%= doujin.link %>" class="block relative">
+            <% items.forEach(doujin=> { %>
+                <div
+                    class="bg-primary-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-purple-500/10 hover:border-purple-500/40 transition-all duration-300 group">
+                    <a href="/doujin/<%= doujin.slug %>" class="block relative">
                         <div class="relative overflow-hidden">
-                            <img src="<%= doujin.thumbnail %>" 
-                                 class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-                                 alt="<%= doujin.title %>"
-                                 >
-
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                            <img src="<%= doujin.imageUrl %>"
+                                class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                                alt="<%= doujin.title %>" loading="lazy"
+                                onerror="this.onerror=null; this.src='/images/placeholder.jpg';">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                            </div>
                         </div>
 
                         <!-- Content -->
                         <div class="p-4">
-                            <h3 class="text-white font-semibold text-sm line-clamp-2 group-hover:text-purple-400 transition-colors">
+                            <h3
+                                class="text-white font-semibold text-sm line-clamp-2 group-hover:text-purple-400 transition-colors">
                                 <%= doujin.title %>
                             </h3>
-
                             <p class="text-gray-400 text-xs mt-2 bg-primary-700/50 px-2 py-1 rounded-full w-fit">
-                                <%= doujin.chapter %>
+                                <%= doujin.latestChapter %>
                             </p>
-
-                            <div class="flex items-center justify-between mt-3 text-xs text-gray-300">
-                                <span class="bg-primary-700/40 px-2 py-1 rounded">
-                                    <%= doujin.type %>
-                                </span>
-                                <span class="text-yellow-400 font-semibold">
-                                    ⭐ <%= doujin.rating %>
-                                </span>
-                            </div>
+                            <% if (doujin.genres && doujin.genres.length> 0) { %>
+                                <div class="flex flex-wrap gap-1 mt-3">
+                                    <% doujin.genres.slice(0, 2).forEach(genre=> { %>
+                                        <span class="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">
+                                            <%= genre %>
+                                        </span>
+                                        <% }); %>
+                                </div>
+                                <% } %>
                         </div>
                     </a>
-
                 </div>
-            <% }) %>
+                <% }) %>
         </div>
 
         <!-- Pagination -->
-        <div class="flex justify-center mt-12">
-            <div class="flex items-center space-x-2 bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-xl border border-purple-500/20">
+        <div class="flex flex-col items-center gap-4 mt-12">
+            <div
+                class="flex items-center space-x-2 bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-xl border border-purple-500/20">
 
-                <a href="/doujin?page=<%= pagination.prev %>" 
-                   class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </a>
+                <!-- First Page -->
+                <% if (pagination.page> 1) { %>
+                    <a href="/doujin?page=1"
+                        class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all"
+                        title="First Page">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+                        </svg>
+                    </a>
+                    <% } %>
 
-                <span class="px-4 py-1 text-sm text-gray-300 bg-primary-700/50 rounded-lg">
-                    Page <%= pagination.page %> of <%= pagination.totalPages %>
-                </span>
+                        <!-- Prev -->
+                        <% if (pagination.prev) { %>
+                            <a href="/doujin?page=<%= pagination.prev %>"
+                                class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </a>
+                            <% } else { %>
+                                <button class="p-2 text-gray-600 cursor-not-allowed rounded-lg" disabled>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+                                <% } %>
 
-                <a href="/doujin?page=<%= pagination.next %>"
-                   class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </a>
+                                    <!-- Page Display -->
+                                    <span class="px-4 py-1 text-sm text-gray-300 bg-primary-700/50 rounded-lg">
+                                        Page <span class="text-white font-bold">
+                                            <%= pagination.page %>
+                                        </span> of <span class="text-purple-400">
+                                            <%= pagination.totalPages %>
+                                        </span>
+                                    </span>
 
+                                    <!-- Next -->
+                                    <% if (pagination.next) { %>
+                                        <a href="/doujin?page=<%= pagination.next %>"
+                                            class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </a>
+                                        <% } else { %>
+                                            <button class="p-2 text-gray-600 cursor-not-allowed rounded-lg" disabled>
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </button>
+                                            <% } %>
+
+                                                <!-- Last Page -->
+                                                <% if (pagination.page < pagination.totalPages) { %>
+                                                    <a href="/doujin?page=<%= pagination.totalPages %>"
+                                                        class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all"
+                                                        title="Last Page">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                                                        </svg>
+                                                    </a>
+                                                    <% } %>
+            </div>
+
+            <!-- Page Jump -->
+            <div class="flex items-center gap-2">
+                <span class="text-gray-400 text-sm">Go to page:</span>
+                <input type="number" id="pageJump" min="1" max="<%= pagination.totalPages %>"
+                    value="<%= pagination.page %>"
+                    class="w-16 px-2 py-1 text-center text-white bg-primary-800 border border-purple-500/30 rounded-lg focus:outline-none focus:border-purple-500">
+                <button onclick="jumpToPage()"
+                    class="px-3 py-1 text-sm text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors">
+                    Go
+                </button>
             </div>
         </div>
 
@@ -91,9 +156,26 @@
 </div>
 
 <script>
+    function jumpToPage() {
+        const input = document.getElementById('pageJump');
+        const page = parseInt(input.value);
+        const maxPage = parseInt(input.max);
+
+        if (page >= 1 && page <= maxPage) {
+            window.location.href = '/doujin?page=' + page;
+        }
+    }
+
+    // Allow Enter key to jump
+    document.getElementById('pageJump').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            jumpToPage();
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', () => {
         const cards = document.querySelectorAll('.grid > div');
-        
+
         cards.forEach((card, idx) => {
             card.style.opacity = 0;
             card.style.animation = "fadeIn 0.45s ease-out forwards";
@@ -104,13 +186,31 @@
 
 <style>
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: rgba(45, 36, 57, 0.5); }
-    ::-webkit-scrollbar-thumb { background: rgba(147, 51, 234, 0.5); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(147, 51, 234, 0.7); }
-</style>
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
 
+    ::-webkit-scrollbar-track {
+        background: rgba(45, 36, 57, 0.5);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(147, 51, 234, 0.5);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(147, 51, 234, 0.7);
+    }
+</style>

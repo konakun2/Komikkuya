@@ -2,10 +2,9 @@
     <!-- Hero Background -->
     <div class="absolute inset-0 h-[400px] overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-primary-900 via-primary-900/95 to-primary-900 z-10"></div>
-        <img src="<%= doujin.thumbnail %>" 
-             alt="<%= doujin.title %>" 
-             class="w-full h-full object-cover object-center blur-sm scale-110"
-             onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23333%22 width=%22400%22 height=%22300%22/%3E%3C/svg%3E';">
+        <img src="<%= doujin.cover %>" alt="<%= doujin.title %>"
+            class="w-full h-full object-cover object-center blur-sm scale-110"
+            onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23333%22 width=%22400%22 height=%22300%22/%3E%3C/svg%3E';">
     </div>
 
     <!-- Content -->
@@ -15,157 +14,157 @@
             <!-- Cover Image -->
             <div class="w-full md:w-72 flex-shrink-0 transform hover:scale-105 transition-transform duration-300">
                 <div class="relative rounded-xl overflow-hidden shadow-2xl">
-                    <img src="<%= doujin.thumbnail %>" 
-                         alt="<%= doujin.title %>" 
-                         class="w-full aspect-[3/4] object-cover"
-                         onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22400%22%3E%3Crect fill=%22%23333%22 width=%22300%22 height=%22400%22/%3E%3C/svg%3E';">
+                    <img src="<%= doujin.cover %>" alt="<%= doujin.title %>" class="w-full aspect-[3/4] object-cover"
+                        onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22400%22%3E%3Crect fill=%22%23333%22 width=%22300%22 height=%22400%22/%3E%3C/svg%3E';">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>
             </div>
-            
+
             <!-- Doujin Info -->
             <div class="flex-1">
                 <div class="space-y-4">
                     <div>
-                        <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        <h1
+                            class="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                             <%= doujin.title %>
                         </h1>
-                        <p class="text-xl text-purple-300/80"><%= doujin.alternative_title %></p>
                     </div>
-                    
+
                     <div class="flex flex-wrap gap-4">
                         <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
                             <p class="text-gray-400 text-sm">Type</p>
-                            <p class="font-semibold"><%= doujin.metadata.Type %></p>
+                            <p class="font-semibold text-white">
+                                <%= doujin.type %>
+                            </p>
                         </div>
                         <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
                             <p class="text-gray-400 text-sm">Status</p>
-                            <p class="font-semibold"><%= doujin.metadata.Status %></p>
-                        </div>
-                        <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
-                            <p class="text-gray-400 text-sm">Released</p>
-                            <p class="font-semibold"><%= doujin.metadata.Released %></p>
+                            <p class="font-semibold text-white">
+                                <%= doujin.status %>
+                            </p>
                         </div>
                         <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
                             <p class="text-gray-400 text-sm">Author</p>
-                            <p class="font-semibold"><%= doujin.metadata.Author %></p>
+                            <p class="font-semibold text-white">
+                                <%= doujin.author %>
+                            </p>
                         </div>
                         <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
-                            <p class="text-gray-400 text-sm">Rating</p>
-                            <p class="font-semibold"><%= doujin.rating %></p>
+                            <p class="text-gray-400 text-sm">Last Update</p>
+                            <p class="font-semibold text-white">
+                                <%= doujin.lastUpdate %>
+                            </p>
+                        </div>
+                        <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
+                            <p class="text-gray-400 text-sm">Total Chapters</p>
+                            <p class="font-semibold text-white">
+                                <%= doujin.totalChapters %>
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Tags -->
+                    <!-- Genres -->
                     <div class="flex flex-wrap gap-2">
-                        <% if (doujin.tags && doujin.tags.length > 0) { %>
-                            <% doujin.tags.forEach(tag => { %>
-                                <span class="bg-purple-500/20 text-purple-300 px-4 py-1 rounded-full text-sm backdrop-blur-sm">
-                                    <%= tag %>
+                        <% if (doujin.genres && doujin.genres.length> 0) { %>
+                            <% doujin.genres.forEach(genre=> { %>
+                                <span
+                                    class="bg-purple-500/20 text-purple-300 px-4 py-1 rounded-full text-sm backdrop-blur-sm">
+                                    <%= genre %>
                                 </span>
-                            <% }); %>
-                        <% } %>
+                                <% }); %>
+                                    <% } %>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Metadata Info -->
+        <!-- Description -->
         <div class="bg-primary-800/50 backdrop-blur-sm rounded-xl p-6 mb-12">
-            <h2 class="text-2xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Information
+            <h2
+                class="text-2xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Synopsis
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
-                <div>
-                    <p class="text-gray-400 text-sm">Posted By</p>
-                    <p class="font-semibold"><%= doujin.metadata['Posted By'] %></p>
-                </div>
-                <div>
-                    <p class="text-gray-400 text-sm">Posted On</p>
-                    <p class="font-semibold"><%= doujin.metadata['Posted On'] %></p>
-                </div>
-                <div>
-                    <p class="text-gray-400 text-sm">Updated On</p>
-                    <p class="font-semibold"><%= doujin.metadata['Updated On'] %></p>
-                </div>
-            </div>
+            <p class="text-gray-300 leading-relaxed">
+                <%= doujin.description %>
+            </p>
         </div>
 
         <!-- Chapters List -->
         <div class="bg-primary-800/50 backdrop-blur-sm rounded-xl p-6">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    Chapters
+                <h2
+                    class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Chapters (<%= doujin.totalChapters %>)
                 </h2>
                 <div class="flex items-center gap-2">
-                    <button id="sortChapters" class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all" title="Sort chapters">
+                    <button id="sortChapters"
+                        class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all"
+                        title="Sort chapters">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
                         </svg>
                     </button>
                 </div>
             </div>
-            <div id="chaptersList" class="grid gap-4">
-                <% if (doujin.chapters && doujin.chapters.length > 0) { %>
-                    <% doujin.chapters.forEach(chapter => { %>
-                        <a href="/doujin/chapter/<%= new URL(chapter.link).pathname.replace(/^\/|\/$/g, '') %>"
-                           class="group flex items-center justify-between p-4 bg-primary-700/50 rounded-xl hover:bg-primary-600/50 transition-all duration-300 backdrop-blur-sm">
+            <div id="chaptersList" class="grid gap-4 max-h-[600px] overflow-y-auto pr-2">
+                <% if (doujin.chapters && doujin.chapters.length> 0) { %>
+                    <% doujin.chapters.forEach(chapter=> { %>
+                        <a href="/doujin/chapter/<%= chapter.slug %>"
+                            class="group flex items-center justify-between p-4 bg-primary-700/50 rounded-xl hover:bg-primary-600/50 transition-all duration-300 backdrop-blur-sm">
                             <div>
-                                <h3 class="font-semibold group-hover:text-purple-400 transition-colors">
+                                <h3 class="font-semibold text-white group-hover:text-purple-400 transition-colors">
                                     <%= chapter.title %>
                                 </h3>
-                                <p class="text-sm text-gray-400"><%= chapter.date %></p>
+                                <p class="text-sm text-gray-400">Chapter <%= chapter.number %>
+                                </p>
                             </div>
+                            <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-400 transition-colors" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
                         </a>
-                    <% }); %>
-                <% } else { %>
-                    <div class="text-center py-8 text-gray-400">
-                        <p>No chapters available</p>
-                    </div>
-                <% } %>
+                        <% }); %>
+                            <% } else { %>
+                                <div class="text-center py-8 text-gray-400">
+                                    <p>No chapters available</p>
+                                </div>
+                                <% } %>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const whatsappBtn = document.getElementById('whatsappNotifBtn');
-        const doujinTitle = '<%= doujin.title %>';
-        const currentUrl = window.location.href;
-        
-        const message = `Notifikasi komik: ${doujinTitle}\n${currentUrl}`;
-        const whatsappLink = `https://wa.me/628979759401?text=${encodeURIComponent(message)}`;
-        
-        whatsappBtn.href = whatsappLink;
-
+    document.addEventListener('DOMContentLoaded', function () {
         const sortButton = document.getElementById('sortChapters');
         const chaptersList = document.getElementById('chaptersList');
         let isAscending = false;
-        
-        sortButton.addEventListener('click', function() {
+
+        sortButton.addEventListener('click', function () {
             const chapters = Array.from(chaptersList.children);
-            
+
             if (chapters.length === 0) return;
-            
+
             chapters.sort((a, b) => {
                 const titleA = a.querySelector('h3').textContent;
                 const titleB = b.querySelector('h3').textContent;
-                
+
                 // Extract chapter numbers for proper sorting
                 const numA = parseFloat(titleA.match(/\d+(\.\d+)?/)?.[0] || 0);
                 const numB = parseFloat(titleB.match(/\d+(\.\d+)?/)?.[0] || 0);
-                
+
                 return isAscending ? numA - numB : numB - numA;
             });
-            
+
             // Clear and re-append sorted chapters
             chaptersList.innerHTML = '';
             chapters.forEach(chapter => chaptersList.appendChild(chapter));
-            
+
             // Toggle sort direction
             isAscending = !isAscending;
-            
+
             // Update button icon rotation
             if (!isAscending) {
                 sortButton.style.transform = 'rotate(180deg)';
@@ -175,3 +174,23 @@
         });
     });
 </script>
+
+<style>
+    #chaptersList::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #chaptersList::-webkit-scrollbar-track {
+        background: rgba(45, 36, 57, 0.5);
+        border-radius: 4px;
+    }
+
+    #chaptersList::-webkit-scrollbar-thumb {
+        background: rgba(147, 51, 234, 0.5);
+        border-radius: 4px;
+    }
+
+    #chaptersList::-webkit-scrollbar-thumb:hover {
+        background: rgba(147, 51, 234, 0.7);
+    }
+</style>

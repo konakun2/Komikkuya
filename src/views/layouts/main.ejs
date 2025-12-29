@@ -918,6 +918,33 @@
             pendingAdultUrl = null;
         }
     </script>
+
+    <!-- Global Image Fallback Handler -->
+    <script>
+        const FALLBACK_IMAGE = '/images/fallback.png';
+
+        // Handle all image errors globally
+        document.addEventListener('error', function (e) {
+            if (e.target.tagName === 'IMG' && !e.target.dataset.fallbackApplied) {
+                e.target.dataset.fallbackApplied = 'true';
+                e.target.src = FALLBACK_IMAGE;
+            }
+        }, true);
+
+        // Also handle images that are already in DOM
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('img').forEach(function (img) {
+                if (!img.complete || img.naturalHeight === 0) {
+                    img.onerror = function () {
+                        if (!this.dataset.fallbackApplied) {
+                            this.dataset.fallbackApplied = 'true';
+                            this.src = FALLBACK_IMAGE;
+                        }
+                    };
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

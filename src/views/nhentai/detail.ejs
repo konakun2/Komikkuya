@@ -2,10 +2,9 @@
     <!-- Hero Background -->
     <div class="absolute inset-0 h-[400px] overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-primary-900 via-primary-900/95 to-primary-900 z-10"></div>
-        <img src="<%= nhentai.cover %>" 
-             alt="<%= nhentai.title %>" 
-             class="w-full h-full object-cover object-center blur-sm scale-110"
-             onerror="this.onerror=null; this.src='/images/placeholder.jpg';">
+        <img src="<%= wsrvUrl(nhentai.cover) %>" alt="<%= nhentai.title %>"
+            class="w-full h-full object-cover object-center blur-sm scale-110"
+            onerror="this.onerror=null; this.src='/images/fallback.png';">
     </div>
 
     <!-- Content -->
@@ -15,30 +14,31 @@
             <!-- Cover Image -->
             <div class="w-full md:w-72 flex-shrink-0 transform hover:scale-105 transition-transform duration-300">
                 <div class="relative rounded-xl overflow-hidden shadow-2xl">
-                    <img src="<%= nhentai.cover %>" 
-                         alt="<%= nhentai.title %>" 
-                         class="w-full aspect-[3/4] object-cover"
-                         onerror="this.onerror=null; this.src='/images/placeholder.jpg';">
+                    <img src="<%= wsrvUrl(nhentai.cover) %>" alt="<%= nhentai.title %>"
+                        class="w-full aspect-[3/4] object-cover"
+                        onerror="this.onerror=null; this.src='/images/fallback.png';">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>
             </div>
-            
+
             <!-- Info -->
             <div class="flex-1">
                 <div class="space-y-4">
-                    <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    <h1
+                        class="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                         <%= nhentai.title %>
                     </h1>
-                    
+
                     <!-- Tags -->
                     <div class="flex flex-wrap gap-2">
-                        <% if (nhentai.tags && nhentai.tags.length > 0) { %>
-                            <% nhentai.tags.forEach(tag => { %>
-                                <span class="bg-purple-500/20 text-purple-300 px-4 py-1 rounded-full text-sm backdrop-blur-sm">
+                        <% if (nhentai.tags && nhentai.tags.length> 0) { %>
+                            <% nhentai.tags.forEach(tag=> { %>
+                                <span
+                                    class="bg-purple-500/20 text-purple-300 px-4 py-1 rounded-full text-sm backdrop-blur-sm">
                                     <%= tag %>
                                 </span>
-                            <% }); %>
-                        <% } %>
+                                <% }); %>
+                                    <% } %>
                     </div>
                 </div>
             </div>
@@ -47,25 +47,28 @@
         <!-- Pages List -->
         <div class="bg-primary-800/50 backdrop-blur-sm rounded-xl p-6">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <h2
+                    class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                     Pages
                 </h2>
             </div>
             <div id="pagesList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <% if (nhentai.pages && nhentai.pages.length > 0) { %>
-                    <% nhentai.pages.forEach((page, idx) => { %>
-                        <a href="/nhentai<%= page.href %>" target="_blank" 
-                        class="group flex flex-col items-center p-4 bg-primary-700/50 rounded-xl hover:bg-primary-600/50 transition-all duration-300 backdrop-blur-sm">
-                            <img src="<%= page.src %>" alt="Page <%= idx+1 %>" 
-                                class="w-full object-contain rounded-lg hover:scale-105 transition-transform duration-300">
-                            <p class="text-sm text-gray-400 mt-2">Page <%= idx+1 %></p>
+                <% if (nhentai.pages && nhentai.pages.length> 0) { %>
+                    <% nhentai.pages.forEach((page, idx)=> { %>
+                        <a href="/nhentai<%= page.href %>" target="_blank"
+                            class="group flex flex-col items-center p-4 bg-primary-700/50 rounded-xl hover:bg-primary-600/50 transition-all duration-300 backdrop-blur-sm">
+                            <img src="<%= wsrvUrl(page.src) %>" alt="Page <%= idx+1 %>"
+                                class="w-full object-contain rounded-lg hover:scale-105 transition-transform duration-300"
+                                onerror="this.onerror=null; this.src='/images/fallback.png';">
+                            <p class="text-sm text-gray-400 mt-2">Page <%= idx+1 %>
+                            </p>
                         </a>
-                    <% }); %>
-                <% } else { %>
-                    <div class="text-center py-8 text-gray-400">
-                        <p>No pages available</p>
-                    </div>
-                <% } %>
+                        <% }); %>
+                            <% } else { %>
+                                <div class="text-center py-8 text-gray-400">
+                                    <p>No pages available</p>
+                                </div>
+                                <% } %>
             </div>
         </div>
     </div>
@@ -73,43 +76,43 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const whatsappBtn = document.getElementById('whatsappNotifBtn');
         const doujinTitle = '<%= nhentai.title %>';
         const currentUrl = window.location.href;
-        
+
         const message = `Notifikasi komik: ${doujinTitle}\n${currentUrl}`;
         const whatsappLink = `https://wa.me/628979759401?text=${encodeURIComponent(message)}`;
-        
+
         whatsappBtn.href = whatsappLink;
 
         const sortButton = document.getElementById('sortChapters');
         const chaptersList = document.getElementById('chaptersList');
         let isAscending = false;
-        
-        sortButton.addEventListener('click', function() {
+
+        sortButton.addEventListener('click', function () {
             const chapters = Array.from(chaptersList.children);
-            
+
             if (chapters.length === 0) return;
-            
+
             chapters.sort((a, b) => {
                 const titleA = a.querySelector('h3').textContent;
                 const titleB = b.querySelector('h3').textContent;
-                
+
                 // Extract chapter numbers for proper sorting
                 const numA = parseFloat(titleA.match(/\d+(\.\d+)?/)?.[0] || 0);
                 const numB = parseFloat(titleB.match(/\d+(\.\d+)?/)?.[0] || 0);
-                
+
                 return isAscending ? numA - numB : numB - numA;
             });
-            
+
             // Clear and re-append sorted chapters
             chaptersList.innerHTML = '';
             chapters.forEach(chapter => chaptersList.appendChild(chapter));
-            
+
             // Toggle sort direction
             isAscending = !isAscending;
-            
+
             // Update button icon rotation
             if (!isAscending) {
                 sortButton.style.transform = 'rotate(180deg)';

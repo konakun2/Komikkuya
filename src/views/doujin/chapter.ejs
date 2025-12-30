@@ -97,7 +97,7 @@
                         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
                         alt="<%= image.alt || 'Page ' + (index + 1) %>"
                         class="w-full rounded-none shadow-none image-enhance" loading="lazy"
-                        onerror="this.onerror=null; this.src='<%= image.url %>';">
+                        onerror="this.onerror=null; this.src='/images/fallback.png';">
                     <div
                         class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 bg-black/50 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity">
                         Page <%= index + 1 %>

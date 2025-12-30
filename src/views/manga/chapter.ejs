@@ -94,7 +94,7 @@
         <div class="max-w-4xl mx-auto">
             <% chapter.images.forEach((image, index)=> { %>
                 <div class="relative group mb-0" id="page-<%= index + 1 %>">
-                    <img data-src="/manga/image/<%= Buffer.from(image.url).toString('base64') %>"
+                    <img data-src="https://wsrv.nl/?url=<%= encodeURIComponent(image.url) %>&n=-1"
                         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
                         alt="<%= image.alt || `Page ${index + 1}` %>"
                         class="w-full rounded-none shadow-none image-enhance" loading="lazy"

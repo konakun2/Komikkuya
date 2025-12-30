@@ -4,7 +4,7 @@
         <div class="absolute inset-0 bg-gradient-to-b from-primary-900 via-primary-900/95 to-primary-900 z-10"></div>
         <img src="<%= doujin.cover %>" alt="<%= doujin.title %>"
             class="w-full h-full object-cover object-center blur-sm scale-110"
-            onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23333%22 width=%22400%22 height=%22300%22/%3E%3C/svg%3E';">
+            onerror="this.onerror=null; this.src='/images/fallback.png';">
     </div>
 
     <!-- Content -->
@@ -15,7 +15,7 @@
             <div class="w-full md:w-72 flex-shrink-0 transform hover:scale-105 transition-transform duration-300">
                 <div class="relative rounded-xl overflow-hidden shadow-2xl">
                     <img src="<%= doujin.cover %>" alt="<%= doujin.title %>" class="w-full aspect-[3/4] object-cover"
-                        onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22400%22%3E%3Crect fill=%22%23333%22 width=%22300%22 height=%22400%22/%3E%3C/svg%3E';">
+                        onerror="this.onerror=null; this.src='/images/fallback.png';">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>
             </div>

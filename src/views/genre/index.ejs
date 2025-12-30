@@ -11,170 +11,198 @@
                         </svg>
                     </button>
                 </div>
-                
+
                 <!-- Mobile Category selector -->
                 <div class="mb-4">
                     <h3 class="text-sm font-medium text-gray-400 mb-2">Category</h3>
                     <div class="flex flex-wrap gap-2">
-                        <a href="/genre?category=manga<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>" 
-                           class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manga' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
+                        <a href="/genre?category=manga<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>"
+                            class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manga' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
                             Manga
                         </a>
-                        <a href="/genre?category=manhwa<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>" 
-                           class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manhwa' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
+                        <a href="/genre?category=manhwa<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>"
+                            class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manhwa' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
                             Manhwa
                         </a>
-                        <a href="/genre?category=manhua<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>" 
-                           class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manhua' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
+                        <a href="/genre?category=manhua<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>"
+                            class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manhua' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
                             Manhua
                         </a>
                     </div>
                 </div>
-                
+
                 <!-- Mobile Genre list (collapsible) -->
                 <div id="mobileGenreList" class="hidden space-y-1 max-h-60 overflow-y-auto">
-                    <% genres.forEach(genre => { %>
-                        <a href="/genre?genre=<%= genre %>&category=<%= selectedCategory %>" 
-                           class="block px-3 py-2 rounded-lg text-sm <%= selectedGenre === genre ? 'bg-purple-600 text-white' : 'text-gray-300 hover:bg-primary-700/50' %> transition-colors">
+                    <% genres.forEach(genre=> { %>
+                        <a href="/genre?genre=<%= genre %>&category=<%= selectedCategory %>"
+                            class="block px-3 py-2 rounded-lg text-sm <%= selectedGenre === genre ? 'bg-purple-600 text-white' : 'text-gray-300 hover:bg-primary-700/50' %> transition-colors">
                             <%= genre.charAt(0).toUpperCase() + genre.slice(1) %>
                         </a>
-                    <% }); %>
+                        <% }); %>
                 </div>
             </div>
         </div>
-        
+
         <div class="flex flex-col lg:flex-row gap-8">
             <!-- Sidebar with genres (hidden on mobile) -->
             <div class="hidden lg:block lg:w-1/4">
-                <div class="bg-primary-800/80 backdrop-blur-sm rounded-xl p-6 border border-purple-500/20 sticky top-24">
+                <div
+                    class="bg-primary-800/80 backdrop-blur-sm rounded-xl p-6 border border-purple-500/20 sticky top-24">
                     <h2 class="text-xl font-bold text-white mb-4">Genres</h2>
-                    
+
                     <!-- Category selector -->
                     <div class="mb-6">
                         <h3 class="text-sm font-medium text-gray-400 mb-2">Category</h3>
                         <div class="flex flex-wrap gap-2">
-                            <a href="/genre?category=manga<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>" 
-                               class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manga' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
+                            <a href="/genre?category=manga<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>"
+                                class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manga' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
                                 Manga
                             </a>
-                            <a href="/genre?category=manhwa<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>" 
-                               class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manhwa' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
+                            <a href="/genre?category=manhwa<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>"
+                                class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manhwa' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
                                 Manhwa
                             </a>
-                            <a href="/genre?category=manhua<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>" 
-                               class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manhua' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
+                            <a href="/genre?category=manhua<%= selectedGenre ? `&genre=${selectedGenre}` : '' %>"
+                                class="px-3 py-1.5 rounded-lg text-sm <%= selectedCategory === 'manhua' ? 'bg-purple-600 text-white' : 'bg-primary-700/50 text-gray-300 hover:bg-purple-600/20' %> transition-colors">
                                 Manhua
                             </a>
                         </div>
                     </div>
-                    
+
                     <!-- Genre list -->
                     <div class="space-y-1">
-                        <% genres.forEach(genre => { %>
-                            <a href="/genre?genre=<%= genre %>&category=<%= selectedCategory %>" 
-                               class="block px-3 py-2 rounded-lg text-sm <%= selectedGenre === genre ? 'bg-purple-600 text-white' : 'text-gray-300 hover:bg-primary-700/50' %> transition-colors">
+                        <% genres.forEach(genre=> { %>
+                            <a href="/genre?genre=<%= genre %>&category=<%= selectedCategory %>"
+                                class="block px-3 py-2 rounded-lg text-sm <%= selectedGenre === genre ? 'bg-purple-600 text-white' : 'text-gray-300 hover:bg-primary-700/50' %> transition-colors">
                                 <%= genre.charAt(0).toUpperCase() + genre.slice(1) %>
                             </a>
-                        <% }); %>
+                            <% }); %>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Main content -->
             <div class="w-full lg:w-3/4">
                 <!-- Header -->
                 <div class="mb-8">
                     <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">
-                        <%= selectedGenre ? selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1) : 'All Genres' %>
-                        <span class="text-purple-400"><%= selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1) %></span>
+                        <%= selectedGenre ? selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1)
+                            : 'All Genres' %>
+                            <span class="text-purple-400">
+                                <%= selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1) %>
+                            </span>
                     </h1>
                     <p class="text-gray-400 text-sm md:text-base">
-                        <%= selectedGenre ? `Browse all ${selectedGenre} ${selectedCategory}` : 'Browse manga by genre' %>
+                        <%= selectedGenre ? `Browse all ${selectedGenre} ${selectedCategory}` : 'Browse manga by genre'
+                            %>
                     </p>
                 </div>
-                
+
                 <!-- Manga Grid -->
-                <% if (items.length > 0) { %>
+                <% if (items.length> 0) { %>
                     <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
-                        <% items.forEach(item => { %>
-                            <div class="bg-primary-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-purple-500/30 transition-all duration-300 group border border-purple-500/10 hover:border-purple-500/30">
+                        <% items.forEach(item=> { %>
+                            <div
+                                class="bg-primary-800/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg hover:shadow-purple-500/30 transition-all duration-300 group border border-purple-500/10 hover:border-purple-500/30">
                                 <a href="<%= new URL(item.url).pathname %>" class="block relative">
                                     <div class="relative overflow-hidden">
-                                        <img src="<%= item.imageUrl %>" 
-                                             alt="<%= item.title %>" 
-                                             class="w-full h-48 sm:h-56 md:h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                        <div class="absolute top-3 right-3 bg-black/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm border border-white/10">
+                                        <img src="<%= wsrvUrl(item.imageUrl) %>" alt="<%= item.title %>"
+                                            class="w-full h-48 sm:h-56 md:h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                                            onerror="this.onerror=null; this.src='/images/fallback.png';">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        </div>
+                                        <div
+                                            class="absolute top-3 right-3 bg-black/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm border border-white/10">
                                             <%= item.stats.views %>
                                         </div>
                                     </div>
                                     <div class="p-3 md:p-4">
-                                        <h3 class="text-white font-semibold text-sm line-clamp-2 mb-2 group-hover:text-purple-400 transition-colors"><%= item.title %></h3>
+                                        <h3
+                                            class="text-white font-semibold text-sm line-clamp-2 mb-2 group-hover:text-purple-400 transition-colors">
+                                            <%= item.title %>
+                                        </h3>
                                         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
-                                            <span class="text-gray-400 text-xs bg-primary-700/50 px-2 py-1 rounded-full inline-block w-fit"><%= item.type || selectedCategory %></span>
+                                            <span
+                                                class="text-gray-400 text-xs bg-primary-700/50 px-2 py-1 rounded-full inline-block w-fit">
+                                                <%= item.type || selectedCategory %>
+                                            </span>
                                             <% if (item.latestChapter && item.latestChapter.url) { %>
-                                                <a href="/chapter<%= new URL(item.latestChapter.url).pathname %>" 
-                                                   class="text-xs text-purple-400 hover:text-purple-300 transition-colors truncate">
+                                                <a href="/chapter<%= new URL(item.latestChapter.url).pathname %>"
+                                                    class="text-xs text-purple-400 hover:text-purple-300 transition-colors truncate">
                                                     <%= item.latestChapter.title %>
                                                 </a>
-                                            <% } %>
+                                                <% } %>
                                         </div>
                                     </div>
                                 </a>
                             </div>
-                        <% }); %>
+                            <% }); %>
                     </div>
-                    
+
                     <!-- Pagination -->
                     <div class="flex justify-center mt-8 md:mt-12">
-                        <div class="flex items-center space-x-2 bg-primary-800/50 backdrop-blur-sm rounded-xl p-1.5 border border-purple-500/20">
-                            <a href="/genre?genre=<%= selectedGenre %>&category=<%= selectedCategory %>&page=<%= pagination.currentPage > 1 ? pagination.currentPage - 1 : 1 %>" 
-                               class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
+                        <div
+                            class="flex items-center space-x-2 bg-primary-800/50 backdrop-blur-sm rounded-xl p-1.5 border border-purple-500/20">
+                            <a href="/genre?genre=<%= selectedGenre %>&category=<%= selectedCategory %>&page=<%= pagination.currentPage > 1 ? pagination.currentPage - 1 : 1 %>"
+                                class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7" />
                                 </svg>
                             </a>
-                            
+
                             <span class="px-4 py-1 text-sm text-gray-300 bg-primary-700/50 rounded-lg">
                                 Page <%= pagination.currentPage %>
                             </span>
-                            
-                            <a href="/genre?genre=<%= selectedGenre %>&category=<%= selectedCategory %>&page=<%= pagination.currentPage + 1 %>" 
-                               class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
+
+                            <a href="/genre?genre=<%= selectedGenre %>&category=<%= selectedCategory %>&page=<%= pagination.currentPage + 1 %>"
+                                class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
                                 </svg>
                             </a>
                         </div>
                     </div>
-                <% } else { %>
-                    <!-- Error or Empty State -->
-                    <div class="bg-primary-800/80 backdrop-blur-sm rounded-xl p-6 md:p-8 text-center border border-purple-500/20">
-                        <% if (error) { %>
-                            <div class="mb-4">
-                                <svg class="w-12 h-12 md:w-16 md:h-16 text-red-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                            </div>
-                            <h3 class="text-lg md:text-xl font-bold text-white mb-2">Error Loading Manga</h3>
-                            <p class="text-gray-400 mb-4 md:mb-6 text-sm md:text-base"><%= error %></p>
-                            <a href="/genre?category=<%= selectedCategory %>" class="inline-block px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm md:text-base">
-                                Try Again
-                            </a>
-                        <% } else { %>
-                            <div class="mb-4">
-                                <svg class="w-12 h-12 md:w-16 md:h-16 text-gray-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <h3 class="text-lg md:text-xl font-bold text-white mb-2">No Manga Found</h3>
-                            <p class="text-gray-400 mb-4 md:mb-6 text-sm md:text-base">There are no manga available in this genre.</p>
-                            <a href="/genre?category=<%= selectedCategory %>" class="inline-block px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm md:text-base">
-                                Browse All Genres
-                            </a>
+                    <% } else { %>
+                        <!-- Error or Empty State -->
+                        <div
+                            class="bg-primary-800/80 backdrop-blur-sm rounded-xl p-6 md:p-8 text-center border border-purple-500/20">
+                            <% if (error) { %>
+                                <div class="mb-4">
+                                    <svg class="w-12 h-12 md:w-16 md:h-16 text-red-500 mx-auto" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg md:text-xl font-bold text-white mb-2">Error Loading Manga</h3>
+                                <p class="text-gray-400 mb-4 md:mb-6 text-sm md:text-base">
+                                    <%= error %>
+                                </p>
+                                <a href="/genre?category=<%= selectedCategory %>"
+                                    class="inline-block px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm md:text-base">
+                                    Try Again
+                                </a>
+                                <% } else { %>
+                                    <div class="mb-4">
+                                        <svg class="w-12 h-12 md:w-16 md:h-16 text-gray-500 mx-auto" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-lg md:text-xl font-bold text-white mb-2">No Manga Found</h3>
+                                    <p class="text-gray-400 mb-4 md:mb-6 text-sm md:text-base">There are no manga
+                                        available in this genre.</p>
+                                    <a href="/genre?category=<%= selectedCategory %>"
+                                        class="inline-block px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm md:text-base">
+                                        Browse All Genres
+                                    </a>
+                                    <% } %>
+                        </div>
                         <% } %>
-                    </div>
-                <% } %>
             </div>
         </div>
     </div>
@@ -182,24 +210,24 @@
 
 <script>
     // Add staggered animation to grid items
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const gridItems = document.querySelectorAll('.grid > div');
-        
+
         gridItems.forEach((item, index) => {
             item.style.setProperty('--animation-order', index + 1);
             item.style.animation = `fadeIn 0.5s ease-out forwards`;
             item.style.animationDelay = `${(index + 1) * 0.05}s`;
             item.style.opacity = '0';
         });
-        
+
         // Mobile genre toggle
         const mobileGenreToggle = document.getElementById('mobileGenreToggle');
         const mobileGenreList = document.getElementById('mobileGenreList');
-        
+
         if (mobileGenreToggle && mobileGenreList) {
-            mobileGenreToggle.addEventListener('click', function() {
+            mobileGenreToggle.addEventListener('click', function () {
                 mobileGenreList.classList.toggle('hidden');
-                
+
                 // Rotate the arrow icon
                 const icon = this.querySelector('svg');
                 if (icon) {
@@ -214,14 +242,21 @@
 <style>
     /* Add some cool animations */
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-    
+
     /* Extra small breakpoint for better mobile grid */
     @media (min-width: 480px) {
         .xs\:grid-cols-2 {
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
     }
-</style> 
+</style>

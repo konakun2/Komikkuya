@@ -11,49 +11,48 @@
         <!-- Image Viewer -->
         <div class="flex justify-center mb-8">
             <div class="bg-primary-800/50 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden">
-                <img src="<%= readDetail.image %>" 
-                     alt="Page <%= readDetail.pagination.current %>" 
-                     class="max-h-[80vh] object-contain mx-auto"
-                     onerror="this.onerror=null; this.src='/images/placeholder.jpg';">
+                <img src="<%= wsrvUrl(readDetail.image) %>" alt="Page <%= readDetail.pagination.current %>"
+                    class="max-h-[80vh] object-contain mx-auto"
+                    onerror="this.onerror=null; this.src='/images/fallback.png';">
             </div>
         </div>
 
         <!-- Pagination Controls -->
         <div class="flex justify-center items-center gap-4 mb-12">
             <% if (readDetail.pagination.first) { %>
-                <a href="/readDetail?href=<%= readDetail.pagination.first %>" 
-                   class="px-3 py-2 bg-primary-700 text-white rounded-lg hover:bg-primary-600 transition">
-                   First
+                <a href="/readDetail?href=<%= readDetail.pagination.first %>"
+                    class="px-3 py-2 bg-primary-700 text-white rounded-lg hover:bg-primary-600 transition">
+                    First
                 </a>
-            <% } %>
+                <% } %>
 
-            <% if (readDetail.pagination.previous) { %>
-                <a href="/readDetail?href=<%= readDetail.pagination.previous %>" 
-                   class="px-3 py-2 bg-primary-700 text-white rounded-lg hover:bg-primary-600 transition">
-                   Prev
-                </a>
-            <% } %>
+                    <% if (readDetail.pagination.previous) { %>
+                        <a href="/readDetail?href=<%= readDetail.pagination.previous %>"
+                            class="px-3 py-2 bg-primary-700 text-white rounded-lg hover:bg-primary-600 transition">
+                            Prev
+                        </a>
+                        <% } %>
 
-            <span class="text-gray-300">
-                Page <%= readDetail.pagination.current %> of <%= readDetail.pagination.total %>
-            </span>
+                            <span class="text-gray-300">
+                                Page <%= readDetail.pagination.current %> of <%= readDetail.pagination.total %>
+                            </span>
 
-            <% if (readDetail.pagination.next) { %>
-                <a href="/nhentai<%= readDetail.pagination.next %>" 
-                   class="px-3 py-2 bg-primary-700 text-white rounded-lg hover:bg-primary-600 transition">
-                   Next
-                </a>
-            <% } %>
+                            <% if (readDetail.pagination.next) { %>
+                                <a href="/nhentai<%= readDetail.pagination.next %>"
+                                    class="px-3 py-2 bg-primary-700 text-white rounded-lg hover:bg-primary-600 transition">
+                                    Next
+                                </a>
+                                <% } %>
 
-            <% if (readDetail.pagination.last) { %>
-                <a href="/nhentai<%= readDetail.pagination.last %>" 
-                   class="px-3 py-2 bg-primary-700 text-white rounded-lg hover:bg-primary-600 transition">
-                   Last
-                </a>
-            <% } %>
+                                    <% if (readDetail.pagination.last) { %>
+                                        <a href="/nhentai<%= readDetail.pagination.last %>"
+                                            class="px-3 py-2 bg-primary-700 text-white rounded-lg hover:bg-primary-600 transition">
+                                            Last
+                                        </a>
+                                        <% } %>
         </div>
 
-    
+
     </div>
 </div>
 
@@ -70,9 +69,20 @@
 </script>
 
 <style>
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: rgba(45, 36, 57, 0.5); }
-    ::-webkit-scrollbar-thumb { background: rgba(147, 51, 234, 0.5); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(147, 51, 234, 0.7); }
-</style>
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
 
+    ::-webkit-scrollbar-track {
+        background: rgba(45, 36, 57, 0.5);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(147, 51, 234, 0.5);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(147, 51, 234, 0.7);
+    }
+</style>

@@ -11,6 +11,11 @@ const debugConfig = {
     ipLogFile: path.join(__dirname, 'logs', 'ip_addresses.txt')
 };
 
+// Maintenance mode configuration
+const maintenanceConfig = {
+    nhentai: true // Set to true to enable maintenance mode for nhentai
+};
+
 // Create logs directory if it doesn't exist
 if (debugConfig.saveIpAddresses) {
     const logsDir = path.join(__dirname, 'logs');
@@ -27,9 +32,18 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'layouts/main');
 
-// Add default title middleware
+// Add default title middleware and helpers
 app.use((req, res, next) => {
     res.locals.title = 'Komikkuya';
+    // Helper function to convert image URL to wsrv.nl CDN proxy URL
+    res.locals.wsrvUrl = (url) => {
+        if (!url) return '/images/fallback.png';
+        // If already a wsrv.nl URL, return as-is
+        if (url.includes('wsrv.nl')) return url;
+        // If it's a local URL (starts with /), don't proxy
+        if (url.startsWith('/')) return url;
+        return `https://wsrv.nl/?url=${encodeURIComponent(url)}&n=-1`;
+    };
     next();
 });
 
@@ -120,6 +134,15 @@ app.use('/latest', latestRoutes);
 app.use('/doujin', doujinRoutes);
 app.use('/doujin', doujinDetailRoutes);
 app.use('/doujin', doujinChapterRoutes);
+app.use('/nhentai', (req, res, next) => {
+    if (maintenanceConfig.nhentai) {
+        return res.render('nhentai/maintenance', {
+            title: 'Nhentai Maintenance - Komikkuya',
+            layout: 'layouts/main'
+        });
+    }
+    next();
+});
 app.use('/nhentai', nhentaiRoutes);
 app.use('/nhentai', nhentaiDetailRoutes);
 app.use('/nhentai', nhentaiReadDetailRoutes);

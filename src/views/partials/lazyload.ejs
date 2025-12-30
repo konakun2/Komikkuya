@@ -1,0 +1,89 @@
+<!-- Lazy Loading CSS -->
+<style>
+    /* Skeleton loading placeholder */
+    .lazy-img {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .lazy-img.loaded {
+        opacity: 1;
+    }
+
+    .img-skeleton {
+        background: linear-gradient(90deg, #2d2440 25%, #3d3350 50%, #2d2440 75%);
+        background-size: 200% 100%;
+        animation: skeleton-loading 1.5s infinite;
+    }
+
+    @keyframes skeleton-loading {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+</style>
+
+<!-- Lazy Loading Script with Intersection Observer -->
+<script>
+    (function () {
+        if (window.lazyLoadInitialized) return;
+        window.lazyLoadInitialized = true;
+
+        const lazyConfig = {
+            rootMargin: '100px 0px',
+            threshold: 0.1
+        };
+
+        const lazyObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    const dataSrc = img.dataset.lazySrc || img.dataset.src;
+
+                    if (dataSrc) {
+                        const tempImg = new Image();
+                        tempImg.onload = function () {
+                            img.src = dataSrc;
+                            img.classList.add('loaded');
+                            img.classList.remove('img-skeleton');
+                        };
+                        tempImg.onerror = function () {
+                            img.src = '/images/fallback.png';
+                            img.classList.add('loaded');
+                            img.classList.remove('img-skeleton');
+                        };
+                        tempImg.src = dataSrc;
+                    }
+                    observer.unobserve(img);
+                }
+            });
+        }, lazyConfig);
+
+        function initLazyLoading() {
+            const lazyImages = document.querySelectorAll('.grid img:not(.loaded):not([data-lazy-processed]), .popular-content img:not(.loaded):not([data-lazy-processed])');
+
+            lazyImages.forEach(img => {
+                if (img.dataset.lazyProcessed) return;
+
+                const originalSrc = img.src;
+                if (originalSrc.includes('fallback.png') || originalSrc.includes('data:image')) return;
+
+                img.dataset.lazyProcessed = 'true';
+                img.dataset.lazySrc = originalSrc;
+                img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                img.classList.add('lazy-img', 'img-skeleton');
+                lazyObserver.observe(img);
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initLazyLoading);
+        } else {
+            initLazyLoading();
+        }
+    })();
+</script>

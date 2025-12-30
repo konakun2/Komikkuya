@@ -134,6 +134,7 @@ const mangaController = {
                     { name: data.title, url: `https://komikkuya.my.id/manga/${slug}` }
                 ],
                 manga: data,
+                slug: slug,
                 sourceType: sourceType
             });
         } catch (error) {

@@ -139,6 +139,7 @@
                         extend: {
                             colors: {
                                 primary: {
+                                    950: '#0f0c15',
                                     900: '#1a1625',
                                     800: '#2d2439',
                                     700: '#3f324d',
@@ -162,74 +163,66 @@
             <style type="text/tailwindcss">
                 @layer base {
             body {
-                @apply bg-primary-900 text-gray-100;
+                @apply bg-primary-900 text-white selection:bg-purple-600 selection:text-white;
                 background-image: radial-gradient(circle at 50% 50%, rgba(88, 24, 69, 0.1) 0%, rgba(26, 22, 37, 1) 100%);
+                font-family: 'Inter', sans-serif;
             }
         }
         
         .glass-effect {
-            @apply bg-primary-800/70 backdrop-blur-md border border-purple-500/10;
+            @apply bg-black/40 backdrop-blur-2xl border-b border-white/5;
         }
         
         .nav-link {
-            @apply relative text-gray-300 hover:text-white px-3 py-2 rounded-md transition-all duration-300;
+            @apply relative text-white/40 hover:text-white px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 italic flex items-center;
+        }
+        
+        .nav-link.active {
+            @apply text-white;
         }
         
         .nav-link::after {
             content: '';
-            @apply absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500 transition-all duration-300;
+            @apply absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 scale-x-0 transition-transform duration-500;
         }
         
-        .nav-link:hover::after {
-            @apply w-full;
+        .nav-link:hover::after, .nav-link.active::after {
+            @apply scale-x-100;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
         }
         
-        .nav-link.active {
-            @apply text-purple-400;
+        ::-webkit-scrollbar-track {
+            background: #000;
         }
         
-        .nav-link.active::after {
-            @apply w-full bg-purple-400;
+        ::-webkit-scrollbar-thumb {
+            @apply bg-white/10 hover:bg-white/30 transition-colors;
         }
-          /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: rgba(45, 36, 57, 0.5);
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: rgba(147, 51, 234, 0.5);
-    border-radius: 4px;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(147, 51, 234, 0.7);
-  }
     </style>
 </head>
 
 <body class="min-h-screen">
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 z-50 glass-effect">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-[1800px] mx-auto px-6">
             <div class="flex items-center justify-between h-20">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <a href="/" class="flex items-center space-x-2 group">
+                    <a href="/" class="flex items-center space-x-3 group">
                         <div
-                            class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:shadow-purple-500/40 transition-all duration-300">
-                            <img src="/assets/icon.png" alt="Komikkuya" class="w-full h-full object-contain rounded-xl">
+                            class="w-8 h-8 rounded-sm overflow-hidden transform group-hover:rotate-12 transition-transform duration-500 shadow-lg shadow-purple-500/20">
+                            <img src="/assets/icon.png" alt="K" class="w-full h-full object-cover">
                         </div>
-                        <span
-                            class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Komikkuya</span>
+                        <span class="text-xl font-black text-white uppercase tracking-tighter italic">Komikkuya</span>
                     </a>
                 </div>
 
                 <!-- Navigation -->
-                <nav class="hidden md:flex items-center space-x-1">
+                <nav class="hidden lg:flex items-center space-x-2">
                     <a href="/" class="nav-link">Home</a>
                     <a href="/popular" class="nav-link">Popular</a>
                     <a href="/genre" class="nav-link">Genres</a>
@@ -237,25 +230,22 @@
                     <a href="/doujin" class="nav-link" onclick="return checkAge(event, '/doujin')">Doujin</a>
                     <a href="/nhentai" class="nav-link" onclick="return checkAge(event, '/nhentai')">Nhentai</a>
                     <a href="/history" class="nav-link">History</a>
+                    <a href="/favorites" class="nav-link">Favorites</a>
                 </nav>
 
                 <!-- Search & Mobile Menu -->
-                <div class="flex items-center space-x-4">
-                    <!-- Search Button -->
-                    <button id="search-button"
-                        class="p-2 rounded-full text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">
+                <div class="flex items-center space-x-6">
+                    <button id="search-button" class="text-white/40 hover:text-white transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </button>
 
-                    <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-button"
-                        class="md:hidden p-2 rounded-full text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">
+                    <button id="mobile-menu-button" class="lg:hidden text-white/40 hover:text-white">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M4 8h16M4 16h16" />
                         </svg>
                     </button>
                 </div>
@@ -263,127 +253,124 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden glass-effect">
-            <div class="px-2 pt-2 pb-3 space-y-1">
+        <div id="mobile-menu" class="hidden lg:hidden bg-primary-900/95 backdrop-blur-3xl border-t border-white/5">
+            <div class="px-6 py-8 space-y-4">
                 <a href="/"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Home</a>
+                    class="block text-2xl font-black text-white/40 hover:text-white uppercase italic tracking-tighter">Home</a>
                 <a href="/popular"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Popular</a>
+                    class="block text-2xl font-black text-white/40 hover:text-white uppercase italic tracking-tighter">Popular</a>
                 <a href="/genre"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Genres</a>
+                    class="block text-2xl font-black text-white/40 hover:text-white uppercase italic tracking-tighter">Genres</a>
                 <a href="/latest"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Latest</a>
+                    class="block text-2xl font-black text-white/40 hover:text-white uppercase italic tracking-tighter">Latest</a>
                 <a href="/doujin" onclick="return checkAge(event, '/doujin')"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Doujin</a>
+                    class="block text-2xl font-black text-white/40 hover:text-white uppercase italic tracking-tighter">Doujin</a>
                 <a href="/nhentai" onclick="return checkAge(event, '/nhentai')"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">Nhentai</a>
+                    class="block text-2xl font-black text-white/40 hover:text-white uppercase italic tracking-tighter">Nhentai</a>
                 <a href="/history"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">History</a>
+                    class="block text-2xl font-black text-white/40 hover:text-white uppercase italic tracking-tighter">History</a>
+                <a href="/favorites"
+                    class="block text-2xl font-black text-white/40 hover:text-white uppercase italic tracking-tighter">Favorites</a>
             </div>
         </div>
     </header>
 
     <!-- Search Modal -->
-    <div id="search-modal" class="fixed inset-0 z-50 hidden">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
-        <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div class="w-full max-w-3xl bg-primary-800/90 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-purple-500/20 transform transition-all duration-300 scale-95 opacity-0"
+    <div id="search-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-primary-950/95 backdrop-blur-3xl"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-start pt-32 px-6">
+            <div class="w-full max-w-5xl transform transition-all duration-700 translate-y-20 opacity-0"
                 id="search-modal-content">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-white">Search Manga</h2>
-                    <button id="close-search"
-                        class="p-2 rounded-full text-gray-400 hover:text-white hover:bg-purple-500/20 transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-6 mb-12">
+                    <input type="text" id="search-input" placeholder="SEARCH FOR SERIES..."
+                        class="w-full bg-transparent border-b-2 border-white/20 pb-4 text-4xl md:text-6xl font-black uppercase italic tracking-tighter placeholder:text-white/10 focus:outline-none focus:border-purple-600 transition-all">
+                    <button id="close-search" class="text-white/20 hover:text-white p-2">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
-                <div class="relative mb-6">
-                    <input type="text" id="search-input" placeholder="Search for manga..."
-                        class="w-full bg-primary-900/50 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all">
-                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
-                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
-                </div>
-                <div id="search-results" class="max-h-[60vh] overflow-y-auto">
-                    <div class="text-center text-gray-400 py-8">
-                        <p>Type to search for manga</p>
+
+                <div id="search-results" class="max-h-[60vh] overflow-y-auto no-scrollbar">
+                    <div class="text-center py-20">
+                        <p class="text-white/20 text-xs font-black uppercase tracking-[0.4em] italic leading-loose">
+                            START TYPING TO DISCOVER NEW STORIES</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content with Header Spacing -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-20">
+    <!-- Main Content (Full-Bleed Enabled) -->
+    <main class="mt-20">
         <%- body %>
     </main>
 
-    <!-- Footer -->
-    <footer class="glass-effect mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- Logo & Description -->
-                <div class="col-span-1 md:col-span-2">
-                    <div class="flex items-center space-x-2 mb-4">
+    <!-- Cinematic Footer -->
+    <footer class="bg-primary-950 border-t border-white/5 pt-20 pb-10">
+        <div class="max-w-[1800px] mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+                <!-- Brand -->
+                <div class="md:col-span-4">
+                    <a href="/" class="flex items-center space-x-3 mb-6 group">
                         <div
-                            class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20">
-                            <img src="/assets/icon.png" alt="Komikkuya" class="w-full h-full object-contain rounded-xl">
+                            class="w-8 h-8 rounded-sm overflow-hidden transform group-hover:rotate-12 transition-transform duration-500 shadow-lg shadow-purple-500/20">
+                            <img src="/assets/icon.png" alt="K" class="w-full h-full object-cover">
                         </div>
-                        <span
-                            class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Komikkuya</span>
-                    </div>
-                    <p class="text-gray-400 mb-4">Andalan Kamu dalam membaca Komik yaitu terdiri dari manga manhwa dan
-                        manhua dengan tanpa Adanya IKLAN!</p>
-                    <div class="flex space-x-4">
+                        <span class="text-xl font-black text-white uppercase tracking-tighter italic">Komikkuya</span>
+                    </a>
+                    <p class="text-white/40 text-xs font-bold uppercase tracking-[0.2em] leading-relaxed italic">
+                        Premium Manga Streaming Experience.<br>
+                        No Ads. No Distractions. Just Stories.
+                    </p>
+                </div>
 
+                <!-- Links -->
+                <div class="md:col-span-2">
+                    <h3 class="text-[10px] font-black text-white uppercase tracking-[0.4em] mb-6 italic">Navigation</h3>
+                    <div class="flex flex-col gap-3">
+                        <a href="/popular"
+                            class="text-white/30 hover:text-white text-[10px] font-black uppercase tracking-widest italic transition-all">Popular</a>
+                        <a href="/latest"
+                            class="text-white/30 hover:text-white text-[10px] font-black uppercase tracking-widest italic transition-all">Latest</a>
+                        <a href="/genre"
+                            class="text-white/30 hover:text-white text-[10px] font-black uppercase tracking-widest italic transition-all">Genres</a>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2">
+                    <h3 class="text-[10px] font-black text-white uppercase tracking-[0.4em] mb-6 italic">Community</h3>
+                    <div class="flex flex-col gap-3">
+                        <a href="https://whatsapp.com/channel/0029Vb7586h2UPBFAPxb5S1P"
+                            class="text-white/30 hover:text-white text-[10px] font-black uppercase tracking-widest italic transition-all">WhatsApp</a>
                         <a href="https://github.com/ItzApipAjalah"
-                            class="w-10 h-10 rounded-full glass-effect flex items-center justify-center text-gray-300 hover:text-white hover:bg-purple-500/20 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path fill-rule="evenodd"
-                                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </a>
+                            class="text-white/30 hover:text-white text-[10px] font-black uppercase tracking-widest italic transition-all">GitHub</a>
                     </div>
                 </div>
 
-                <!-- Quick Links -->
-                <div>
-                    <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="/" class="text-gray-400 hover:text-purple-400 transition-colors">Home</a></li>
-                        <li><a href="/popular" class="text-gray-400 hover:text-purple-400 transition-colors">Popular</a>
-                        </li>
-                        <li><a href="/genre" class="text-gray-400 hover:text-purple-400 transition-colors">Genres</a>
-                        </li>
-                        <li><a href="/latest" class="text-gray-400 hover:text-purple-400 transition-colors">Latest</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Legal -->
-                <div>
-                    <h3 class="text-lg font-semibold text-white mb-4">Legal</h3>
-                    <ul class="space-y-2">
-                        <li><a href="/terms" class="text-gray-400 hover:text-purple-400 transition-colors">Terms of
-                                Usage</a></li>
-                        <li><a href="/privacy" class="text-gray-400 hover:text-purple-400 transition-colors">Privacy
-                                Policy</a></li>
-                        <li><a href="/dmca" class="text-gray-400 hover:text-purple-400 transition-colors">DMCA</a></li>
-
-                        <li><a href="/about" class="text-gray-400 hover:text-purple-400 transition-colors">About
-                                Us</a></li>
-                    </ul>
+                <!-- Description -->
+                <div class="md:col-span-4">
+                    <p class="text-white/20 text-[9px] font-bold uppercase tracking-widest leading-loose text-justify">
+                        Komikkuya provides high-quality manga, manhwa, and manhua content without the annoyance of
+                        intrusive advertisements. Our platform is optimized for performance and visual excellence,
+                        ensuring an immersive reading experience on any device.
+                    </p>
                 </div>
             </div>
 
-            <div class="border-t border-purple-500/10 mt-8 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2025 Komikkuya. All rights reserved.</p>
+            <div
+                class="mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-white/10 text-[9px] font-black uppercase tracking-[0.3em]">© 2025 Komikkuya. High
+                    Contrast Edition.</p>
+                <div class="flex gap-8">
+                    <a href="/privacy"
+                        class="text-white/10 hover:text-white text-[8px] font-black uppercase tracking-widest italic transition-all">Privacy</a>
+                    <a href="/terms"
+                        class="text-white/10 hover:text-white text-[8px] font-black uppercase tracking-widest italic transition-all">Terms</a>
+                    <a href="/dmca"
+                        class="text-white/10 hover:text-white text-[8px] font-black uppercase tracking-widest italic transition-all">DMCA</a>
+                </div>
             </div>
         </div>
     </footer>
@@ -433,19 +420,19 @@
             searchButton.addEventListener('click', function () {
                 searchModal.classList.remove('hidden');
                 setTimeout(() => {
-                    searchModalContent.classList.remove('scale-95', 'opacity-0');
-                    searchModalContent.classList.add('scale-100', 'opacity-100');
+                    searchModalContent.classList.remove('translate-y-20', 'opacity-0');
+                    searchModalContent.classList.add('translate-y-0', 'opacity-100');
                     searchInput.focus();
                 }, 10);
             });
 
             // Close search modal
             closeSearch.addEventListener('click', function () {
-                searchModalContent.classList.remove('scale-100', 'opacity-100');
-                searchModalContent.classList.add('scale-95', 'opacity-0');
+                searchModalContent.classList.remove('translate-y-0', 'opacity-100');
+                searchModalContent.classList.add('translate-y-20', 'opacity-0');
                 setTimeout(() => {
                     searchModal.classList.add('hidden');
-                }, 300);
+                }, 500);
             });
 
             // Close on escape key
@@ -531,14 +518,20 @@
                                 if (manga.source === 'international') sourceLabel = 'EN';
 
                                 return `
-                                        <a href="/manga/${mangaSlug}" class="flex items-center space-x-4 p-3 rounded-xl bg-primary-700/30 hover:bg-primary-700/50 transition-colors">
-                                            <div class="w-16 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                                                <img src="${manga.imageUrl}" alt="${manga.title}" class="w-full h-full object-cover">
+                                        <a href="/manga/${mangaSlug}" class="group/search-item flex items-center gap-6 p-4 border-b border-white/5 hover:bg-white/5 transition-all">
+                                            <div class="w-20 aspect-[2/3] overflow-hidden rounded-sm bg-primary-900 shadow-2xl">
+                                                <img src="${manga.imageUrl}" alt="${manga.title}" class="w-full h-full object-cover group-hover/search-item:scale-110 transition-transform duration-700">
                                             </div>
                                             <div class="flex-1 min-w-0">
-                                                <h3 class="text-white font-medium truncate">${manga.title}</h3>
-                                                <p class="text-gray-400 text-sm truncate">${manga.genre || manga.status || 'Unknown'}</p>
-                                                <p class="text-purple-400 text-xs truncate">${sourceLabel}</p>
+                                                <div class="flex items-center gap-3 mb-1">
+                                                    <span class="text-purple-600 text-[8px] font-black uppercase tracking-widest italic">${manga.source || 'Server'}</span>
+                                                    <span class="text-white/20 text-[8px] font-bold uppercase tracking-widest">${manga.type || 'Manga'}</span>
+                                                </div>
+                                                <h3 class="text-xl font-black text-white uppercase italic tracking-tighter truncate group-hover/search-item:text-purple-400 transition-colors">${manga.title}</h3>
+                                                <p class="text-white/20 text-[10px] font-black uppercase tracking-widest italic truncate">${sourceLabel}</p>
+                                            </div>
+                                            <div class="opacity-0 group-hover/search-item:opacity-100 transition-opacity">
+                                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                                             </div>
                                         </a>
                                     `}).join('')}

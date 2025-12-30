@@ -27,7 +27,7 @@ router.get('/sitemap.xml', async (req, res) => {
 
         try {
             // Fetch recommendations
-            const recResponse = await fetch('https://komiku-api-self.vercel.app/api/recommendations');
+            const recResponse = await fetch('https://komiku-api-self.vercel.app/api/custom');
             const recData = await recResponse.json();
 
             if (recData.success && recData.data) {

@@ -31,7 +31,7 @@ class HomeController {
 
             // Fetch all data in parallel for better performance
             const [recommendationsData, genresData, hotData, latestData, popularDailyData, popularWeeklyData, popularAllData] = await Promise.all([
-                fetchJsonWithFallback('/api/recommendations'),
+                fetchJsonWithFallback('/api/custom'),
                 fetchJsonWithFallback('/api/genres'),
                 fetchJsonWithFallback('/api/hot?page=1'),
                 fetchJsonWithFallback('/api/last-update?category=manga&page=1'),

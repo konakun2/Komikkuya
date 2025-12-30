@@ -1,627 +1,324 @@
-<div class="min-h-screen bg-primary-900">
-    <!-- Reader Header -->
+<div class="min-h-screen bg-primary-900 selection:bg-purple-600 selection:text-white">
+    <!-- Smart Cinematic Reader Header -->
     <header id="readerHeader"
-        class="fixed top-0 left-0 right-0 z-50 bg-primary-900/80 backdrop-blur-lg border-b border-purple-500/20 transition-transform duration-300">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                <div class="flex items-center space-x-4">
-                    <a href="<%= navigation.mangaUrl || '/doujin' %>"
-                        class="text-gray-400 hover:text-white transition-colors">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
+        class="fixed top-0 left-0 right-0 z-[100] bg-primary-950/40 backdrop-blur-2xl border-b border-white/5 transition-all duration-700 ease-in-out py-4">
+        <div class="max-w-[1800px] mx-auto px-6 flex items-center justify-between">
+            <div class="flex items-center gap-6">
+                <!-- Back Link with improved logic -->
+                <a href="<%= (navigation && navigation.mangaUrl) ? navigation.mangaUrl : '/doujin' %>"
+                    class="p-3 bg-white/5 hover:bg-white/10 rounded-sm border border-white/5 transition-all group/back">
+                    <svg class="w-5 h-5 text-white/40 group-hover/back:text-white transform group-hover/back:-translate-x-1 transition-all"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </a>
+                <div class="max-w-md">
+                    <h1 class="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1 italic truncate">
+                        <%= mangaTitle %>
+                    </h1>
+                    <p class="text-sm font-black text-white uppercase italic tracking-tighter truncate">
+                        Chapter <%= chapterNumber %>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Header Controls -->
+            <div class="flex items-center gap-4">
+                <!-- Server Switcher (Glassmorphism) -->
+                <div class="hidden md:flex items-center bg-black/40 border border-white/5 p-1 rounded-sm">
+                    <a href="/doujin/chapter/<%= chapterSlug %>?server=1"
+                        class="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-sm transition-all italic <%= currentServer === '1' ? 'bg-purple-600 text-white shadow-lg' : 'text-white/30 hover:text-white hover:bg-white/5' %>">
+                        S1
                     </a>
-                    <div>
-                        <h1 class="text-lg sm:text-xl font-bold text-white truncate max-w-[200px] sm:max-w-xs">
-                            <%= mangaTitle %>
-                        </h1>
-                        <p class="text-xs sm:text-sm text-gray-400 truncate max-w-[200px] sm:max-w-xs">
-                            <%= chapterNumber %>
-                        </p>
-                    </div>
+                    <a href="/doujin/chapter/<%= chapterSlug %>?server=2"
+                        class="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-sm transition-all italic <%= currentServer === '2' ? 'bg-purple-600 text-white shadow-lg' : 'text-white/30 hover:text-white hover:bg-white/5' %>">
+                        S2
+                    </a>
                 </div>
-                <div class="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
-                    <!-- Server Switcher -->
-                    <div class="flex items-center gap-1 bg-primary-800 rounded-lg p-1">
-                        <a href="/doujin/chapter/<%= chapterSlug %>?server=1"
-                            class="px-2 py-1 text-xs rounded <%= currentServer === '1' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white' %> transition-colors">
-                            Server 1
+
+                <!-- Navigation Group -->
+                <div class="flex items-center bg-white/5 border border-white/5 p-1 rounded-sm">
+                    <% if (navigation && navigation.prev) { %>
+                        <a href="<%= navigation.prev %>"
+                            class="p-2 text-white/40 hover:text-white hover:bg-white/5 transition-all" title="Prev">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
                         </a>
-                        <a href="/doujin/chapter/<%= chapterSlug %>?server=2"
-                            class="px-2 py-1 text-xs rounded <%= currentServer === '2' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white' %> transition-colors">
-                            Server 2
-                        </a>
-                    </div>
-                    <div class="flex items-center bg-primary-800 rounded-lg p-1">
-                        <% if (navigation.prev) { %>
-                            <a href="<%= navigation.prev %>"
-                                class="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-all"
-                                title="Previous Chapter">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </a>
-                            <% } else { %>
-                                <button class="p-1.5 sm:p-2 text-gray-600 cursor-not-allowed rounded-lg" disabled>
-                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 19l-7-7 7-7" />
+                        <% } %>
+                            <span
+                                class="px-3 text-[9px] font-black text-white/40 uppercase tracking-widest italic border-x border-white/10">
+                                <span id="currentPageDisplay">1</span> / <span id="totalPageDisplay">
+                                    <%= totalImages %>
+                                </span>
+                            </span>
+                            <% if (navigation && navigation.next) { %>
+                                <a href="<%= navigation.next %>"
+                                    class="p-2 text-white/40 hover:text-white hover:bg-white/5 transition-all"
+                                    title="Next">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                            d="M9 5l7 7-7 7" />
                                     </svg>
-                                </button>
+                                </a>
                                 <% } %>
-                                    <span class="px-2 sm:px-3 text-xs sm:text-sm text-gray-400">
-                                        Page <span id="currentPageDisplay">1</span> / <span id="totalPageDisplay">
-                                            <%= totalImages %>
-                                        </span>
-                                    </span>
-                                    <% if (navigation.next) { %>
-                                        <a href="<%= navigation.next %>"
-                                            class="p-1.5 sm:p-2 text-gray-400 hover:text-white hover:bg-primary-700 rounded-lg transition-all"
-                                            title="Next Chapter">
-                                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </a>
-                                        <% } else { %>
-                                            <button class="p-1.5 sm:p-2 text-gray-600 cursor-not-allowed rounded-lg"
-                                                disabled>
-                                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M9 5l7 7-7 7" />
-                                                </svg>
-                                            </button>
-                                            <% } %>
-                    </div>
                 </div>
+
+                <button id="toggleUI"
+                    class="p-3 bg-purple-600/20 text-purple-400 border border-purple-500/20 rounded-sm hover:bg-purple-600 hover:text-white transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Progress Bar -->
-    <div id="readingProgress" class="fixed top-0 left-0 right-0 h-1 bg-primary-800 z-50">
-        <div id="progressBar" class="h-full bg-purple-500 transition-all duration-300" style="width: 0%"></div>
+    <!-- Sleek Gradient Progress Bar -->
+    <div id="readingProgress" class="fixed top-0 left-0 right-0 h-1 z-[110] bg-white/5">
+        <div id="progressBar"
+            class="h-full bg-gradient-to-r from-purple-600 via-pink-500 to-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.5)] transition-all duration-300"
+            style="width: 0%"></div>
     </div>
 
-    <!-- Reader Content -->
-    <main class="container mx-auto px-2 sm:px-4 pt-20 sm:pt-24 pb-16 sm:pb-12">
-        <div class="max-w-4xl mx-auto">
+    <!-- Main Reader Content -->
+    <main class="relative z-10 pt-24 pb-32">
+        <div class="max-w-4xl mx-auto space-y-0" id="mangaPages">
             <% images.forEach((image, index)=> { %>
-                <div class="relative group mb-0" id="page-<%= index + 1 %>">
-                    <img data-src="<%= image.url %>"
-                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-                        alt="<%= image.alt || 'Page ' + (index + 1) %>"
-                        class="w-full rounded-none shadow-none image-enhance" loading="lazy"
-                        onerror="this.onerror=null; this.src='/images/fallback.png';">
-                    <div
-                        class="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 bg-black/50 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                        Page <%= index + 1 %>
+                <div class="relative group" id="page-<%= index + 1 %>">
+                    <div class="relative overflow-hidden bg-primary-950 min-h-[400px] flex items-center justify-center">
+                        <!-- Use wsrv or original url if server 2 -->
+                        <img data-src="<%= image.url %>"
+                            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                            alt="Page <%= index + 1 %>"
+                            class="w-full h-auto opacity-0 transition-opacity duration-1000 page-img relative z-10"
+                            loading="lazy"
+                            onerror="this.onerror=null; this.src='/images/fallback.png'; this.parentElement.querySelector('.page-loader')?.remove();">
+
+                        <!-- Cinematic Page Loader -->
+                        <div class="page-loader absolute inset-0 flex items-center justify-center z-0">
+                            <div class="relative w-16 h-16">
+                                <div class="absolute inset-0 border-4 border-purple-600/20 rounded-full"></div>
+                                <div
+                                    class="absolute inset-0 border-4 border-purple-600 rounded-full border-t-transparent animate-spin">
+                                </div>
+                                <div class="absolute inset-4 bg-purple-600/20 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="absolute bottom-6 right-6 bg-black/60 backdrop-blur-md text-white/30 text-[9px] font-black px-3 py-1.5 rounded-sm uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-opacity">
+                            PG-<%= index + 1 %>
+                        </div>
                     </div>
                 </div>
                 <% }); %>
         </div>
-    </main>
 
-    <!-- Reader Footer -->
-    <footer id="readerFooter"
-        class="fixed bottom-0 left-0 right-0 z-50 bg-primary-900/80 backdrop-blur-lg border-t border-purple-500/20 transition-transform duration-300">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                <div class="text-xs sm:text-sm text-gray-400">
-                    <%= mangaTitle %> - <%= chapterNumber %>
+        <!-- End Section -->
+        <div class="max-w-4xl mx-auto mt-20 px-6">
+            <div
+                class="bg-primary-800/20 backdrop-blur-3xl border border-white/5 p-16 text-center rounded-sm space-y-8 overflow-hidden relative">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-transparent pointer-events-none">
                 </div>
-                <div class="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
-                    <div class="flex items-center space-x-2">
-                        <button id="toggleReadingMode"
-                            class="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary-800 text-white text-xs sm:text-sm rounded-lg hover:bg-primary-700 transition-colors">
-                            Start Auto-Scroll
-                        </button>
-                        <button id="toggleHeaderFooter"
-                            class="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary-800 text-white text-xs sm:text-sm rounded-lg hover:bg-primary-700 transition-colors flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16" />
+                <div class="relative space-y-4">
+                    <span class="text-purple-500 font-black text-xs uppercase tracking-[0.4em] italic block">Chapter
+                        Complete</span>
+                    <h3 class="text-4xl font-black text-white uppercase italic tracking-tighter leading-none">
+                        <%= mangaTitle %><br>
+                            <span class="text-white/20 text-lg mt-2 inline-block">Chapter <%= chapterNumber %>
+                                    Finished</span>
+                    </h3>
+                </div>
+
+                <div class="relative flex flex-col md:flex-row items-center justify-center gap-4 pt-4">
+                    <% if (navigation && navigation.next) { %>
+                        <a href="<%= navigation.next %>"
+                            class="w-full md:w-auto px-16 py-5 bg-white text-black font-black uppercase text-xs tracking-[0.3em] hover:bg-purple-600 hover:text-white transition-all duration-500 rounded-sm italic shadow-2xl flex items-center justify-center gap-3">
+                            Next Chapter
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M13 7l5 5-5 5M18 12H6" />
                             </svg>
-                            <span>Hide UI</span>
-                        </button>
-                        <div class="hidden sm:flex items-center space-x-2 bg-primary-800 rounded-lg px-3 py-2">
-                            <span class="text-xs sm:text-sm text-gray-400">Speed:</span>
-                            <input type="range" id="scrollSpeed" min="1" max="10" value="5"
-                                class="w-16 sm:w-24 h-1.5 sm:h-2 bg-primary-700 rounded-lg appearance-none cursor-pointer">
-                            <span id="speedValue" class="text-xs sm:text-sm text-white">5x</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mobile Speed Control -->
-            <div class="sm:hidden mt-2 flex items-center justify-between">
-                <span class="text-xs text-gray-400">Scroll Speed:</span>
-                <div class="flex items-center space-x-2">
-                    <input type="range" id="mobileScrollSpeed" min="1" max="10" value="5"
-                        class="w-24 h-1.5 bg-primary-700 rounded-lg appearance-none cursor-pointer">
-                    <span id="mobileSpeedValue" class="text-xs text-white">5x</span>
+                        </a>
+                        <% } %>
+                            <a href="<%= navigation && navigation.mangaUrl ? navigation.mangaUrl : '/doujin' %>"
+                                class="w-full md:w-auto px-16 py-5 bg-white/5 border border-white/10 text-white font-black uppercase text-xs tracking-[0.3em] hover:bg-white/10 transition-all rounded-sm italic">
+                                Back to Library
+                            </a>
                 </div>
             </div>
         </div>
-    </footer>
+    </main>
 
-    <!-- Floating Controls -->
-    <div id="floatingControls"
-        class="fixed right-4 bottom-20 z-50 flex flex-col space-y-2 opacity-0 transition-opacity duration-300">
-        <button id="floatingToggleHeaderFooter"
-            class="bg-primary-800 text-white p-2 rounded-full shadow-lg hover:bg-primary-700 transition-colors"
-            title="Show UI">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
+    <!-- Floating Action Menu -->
+    <div id="readerControls"
+        class="fixed right-6 bottom-10 z-[100] flex flex-col gap-4 transform transition-all duration-700">
+        <div class="bg-primary-950/80 backdrop-blur-3xl border border-white/10 p-2 rounded-sm space-y-2 shadow-2xl">
+            <!-- Auto Scroll Control -->
+            <button id="autoScrollToggle"
+                class="w-12 h-12 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all rounded-sm group relative"
+                title="Auto Scroll">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+                <div
+                    class="absolute right-full mr-4 px-4 py-2 bg-black text-[10px] font-black uppercase tracking-widest text-white rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none italic border border-white/10">
+                    Auto Scroll</div>
+            </button>
+
+            <!-- Go to Top -->
+            <button id="scrollToTop"
+                class="w-12 h-12 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all rounded-sm group relative"
+                title="Top">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 11l7-7 7 7M12 4v16" />
+                </svg>
+                <div
+                    class="absolute right-full mr-4 px-4 py-2 bg-black text-[10px] font-black uppercase tracking-widest text-white rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none italic border border-white/10">
+                    Back to Top</div>
+            </button>
+        </div>
     </div>
 </div>
 
 <style>
-    .image-enhance {
+    .page-img {
         image-rendering: -webkit-optimize-contrast;
-        image-rendering: crisp-edges;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        transform: translateZ(0);
-        filter: contrast(1.1) brightness(1.08) saturate(1.15) blur(0.2px);
-        will-change: transform;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        filter: contrast(1.05) brightness(1.02);
     }
 
-    /* Custom range input styling */
-    input[type="range"] {
-        -webkit-appearance: none;
-        appearance: none;
-        height: 8px;
-        background: #4B5563;
-        border-radius: 4px;
-        outline: none;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 16px;
-        height: 16px;
-        background: #9333EA;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-
-    input[type="range"]::-webkit-slider-thumb:hover {
-        background: #A855F7;
-    }
-
-    input[type="range"]::-moz-range-thumb {
-        width: 16px;
-        height: 16px;
-        background: #9333EA;
-        border-radius: 50%;
-        cursor: pointer;
-        border: none;
-        transition: background 0.2s;
-    }
-
-    input[type="range"]::-moz-range-thumb:hover {
-        background: #A855F7;
-    }
-
-    /* Mobile optimizations */
-    @media (max-width: 640px) {
-        input[type="range"] {
-            height: 6px;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            width: 14px;
-            height: 14px;
-        }
-
-        input[type="range"]::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
-        }
-    }
-
-    /* Header/Footer hidden state */
     .header-hidden {
         transform: translateY(-100%);
+        opacity: 0;
     }
 
-    .footer-hidden {
-        transform: translateY(100%);
+    .controls-hidden {
+        transform: translateX(120%);
+        opacity: 0;
     }
 
-    /* Floating controls visible state */
-    .controls-visible {
-        opacity: 1;
+    ::-webkit-scrollbar {
+        width: 4px;
     }
 
-    /* Progress bar styling */
-    #readingProgress {
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    ::-webkit-scrollbar-track {
+        background: #000;
     }
 
-    #progressBar {
-        box-shadow: 0 0 5px rgba(147, 51, 234, 0.5);
+    ::-webkit-scrollbar-thumb {
+        background: #9333ea;
     }
 </style>
 
 <script>
-    // Reading mode toggle and auto-scroll
-    const toggleReadingMode = document.getElementById('toggleReadingMode');
-    const scrollSpeed = document.getElementById('scrollSpeed');
-    const mobileScrollSpeed = document.getElementById('mobileScrollSpeed');
-    const speedValue = document.getElementById('speedValue');
-    const mobileSpeedValue = document.getElementById('mobileSpeedValue');
-    const readerHeader = document.getElementById('readerHeader');
-    const readerFooter = document.getElementById('readerFooter');
-    const floatingControls = document.getElementById('floatingControls');
-    const toggleHeaderFooter = document.getElementById('toggleHeaderFooter');
-    const floatingToggleHeaderFooter = document.getElementById('floatingToggleHeaderFooter');
-    const progressBar = document.getElementById('progressBar');
-    const currentPageDisplay = document.getElementById('currentPageDisplay');
-    const totalPageDisplay = document.getElementById('totalPageDisplay');
+    document.addEventListener('DOMContentLoaded', function () {
+        const header = document.getElementById('readerHeader');
+        const controls = document.getElementById('readerControls');
+        const progressBar = document.getElementById('progressBar');
+        const autoScrollBtn = document.getElementById('autoScrollToggle');
+        const topBtn = document.getElementById('scrollToTop');
+        const toggleUIBtn = document.getElementById('toggleUI');
+        const currentPageDisplay = document.getElementById('currentPageDisplay');
+        let isUIShown = true;
+        let isAutoScrolling = false;
+        let scrollSpeed = 2; // Speed multiplier
+        let lastScrollY = window.scrollY;
 
-    let isReadingMode = false;
-    let autoScrollInterval = null;
-    let currentSpeed = 5;
-    let lastScrollTime = 0;
-    let scrollPosition = 0;
-    let isHeaderFooterVisible = true;
-    let inactivityTimer = null;
-    let currentPage = 1;
-    let pagePositions = [];
-    let loadedImages = new Set();
-    let preloadQueue = [];
-    let isPreloading = false;
-
-    // Get total pages from DOM
-    const totalPages = parseInt(totalPageDisplay.textContent) || 1;
-
-    // Sync mobile and desktop speed controls
-    function syncSpeedControls() {
-        const isMobile = window.innerWidth < 640;
-        const activeControl = isMobile ? mobileScrollSpeed : scrollSpeed;
-
-        currentSpeed = parseInt(activeControl.value);
-        speedValue.textContent = `${currentSpeed}x`;
-        mobileSpeedValue.textContent = `${currentSpeed}x`;
-
-        if (autoScrollInterval) {
-            clearInterval(autoScrollInterval);
-            startAutoScroll();
-        }
-    }
-
-    scrollSpeed.addEventListener('input', syncSpeedControls);
-    mobileScrollSpeed.addEventListener('input', syncSpeedControls);
-
-    // Smooth scroll function
-    function smoothScroll() {
-        const now = performance.now();
-        const elapsed = now - lastScrollTime;
-        lastScrollTime = now;
-
-        const baseSpeed = 30;
-        const scrollAmount = (baseSpeed * currentSpeed / 5) * (elapsed / 16.67);
-
-        scrollPosition += scrollAmount;
-
-        if (scrollPosition >= 1) {
-            const pixelsToScroll = Math.floor(scrollPosition);
-            window.scrollBy(0, pixelsToScroll);
-            scrollPosition -= pixelsToScroll;
-        }
-
-        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
-            clearInterval(autoScrollInterval);
-            autoScrollInterval = null;
-            toggleReadingMode.textContent = 'Start Auto-Scroll';
-            isReadingMode = false;
-            return;
-        }
-
-        if (autoScrollInterval) {
-            requestAnimationFrame(smoothScroll);
-        }
-    }
-
-    // Start auto-scroll
-    function startAutoScroll() {
-        lastScrollTime = performance.now();
-        scrollPosition = 0;
-        autoScrollInterval = setInterval(() => {
-            requestAnimationFrame(smoothScroll);
-        }, 16);
-    }
-
-    toggleReadingMode.addEventListener('click', () => {
-        isReadingMode = !isReadingMode;
-
-        if (isReadingMode) {
-            toggleReadingMode.textContent = 'Stop Auto-Scroll';
-            startAutoScroll();
-        } else {
-            if (autoScrollInterval) {
-                clearInterval(autoScrollInterval);
-                autoScrollInterval = null;
+        // Smart Header & Progress
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > lastScrollY && currentScrollY > 200) {
+                header.classList.add('header-hidden');
+            } else {
+                header.classList.remove('header-hidden');
             }
-            toggleReadingMode.textContent = 'Start Auto-Scroll';
-        }
-    });
 
-    // Toggle header and footer visibility
-    function toggleUI() {
-        isHeaderFooterVisible = !isHeaderFooterVisible;
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
 
-        if (isHeaderFooterVisible) {
-            readerHeader.classList.remove('header-hidden');
-            readerFooter.classList.remove('footer-hidden');
-            floatingControls.classList.remove('controls-visible');
-            toggleHeaderFooter.innerHTML = '<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg><span>Hide UI</span>';
-        } else {
-            readerHeader.classList.add('header-hidden');
-            readerFooter.classList.add('footer-hidden');
-            floatingControls.classList.add('controls-visible');
-            toggleHeaderFooter.innerHTML = '<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg><span>Show UI</span>';
-        }
-
-        resetInactivityTimer();
-    }
-
-    toggleHeaderFooter.addEventListener('click', toggleUI);
-    floatingToggleHeaderFooter.addEventListener('click', toggleUI);
-
-    // Auto-hide header and footer after inactivity
-    function resetInactivityTimer() {
-        clearTimeout(inactivityTimer);
-        inactivityTimer = setTimeout(() => {
-            if (isHeaderFooterVisible) {
-                readerHeader.classList.add('header-hidden');
-                readerFooter.classList.add('footer-hidden');
-                floatingControls.classList.add('controls-visible');
-                isHeaderFooterVisible = false;
-                toggleHeaderFooter.innerHTML = '<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg><span>Show UI</span>';
-            }
-        }, 3000);
-    }
-
-    // Track user activity
-    function trackUserActivity(event) {
-        if (!isHeaderFooterVisible && event && event.type === 'keydown') {
-            readerHeader.classList.remove('header-hidden');
-            readerFooter.classList.remove('footer-hidden');
-            floatingControls.classList.remove('controls-visible');
-            isHeaderFooterVisible = true;
-            toggleHeaderFooter.innerHTML = '<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg><span>Hide UI</span>';
-            resetInactivityTimer();
-        }
-    }
-
-    document.addEventListener('keydown', trackUserActivity);
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        syncSpeedControls();
-        calculatePagePositions();
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-            const prevLink = document.querySelector('a[title="Previous Chapter"]');
-            if (prevLink) {
-                window.location.href = prevLink.href;
-            }
-        } else if (e.key === 'ArrowRight') {
-            const nextLink = document.querySelector('a[title="Next Chapter"]');
-            if (nextLink) {
-                window.location.href = nextLink.href;
-            }
-        } else if (e.key === ' ' || e.key === 'Enter') {
-            e.preventDefault();
-            toggleReadingMode.click();
-        } else if (e.key === 'h') {
-            toggleUI();
-        }
-    });
-
-    // Calculate page positions
-    function calculatePagePositions() {
-        pagePositions = [];
-        const pages = document.querySelectorAll('[id^="page-"]');
-
-        pages.forEach((page, index) => {
-            const rect = page.getBoundingClientRect();
-            const pageTop = rect.top + window.scrollY;
-            const pageBottom = pageTop + rect.height;
-            const pageMiddle = pageTop + (rect.height / 2);
-
-            pagePositions.push({
-                top: pageTop,
-                bottom: pageBottom,
-                middle: pageMiddle,
-                index: index + 1
-            });
-        });
-    }
-
-    // Update reading progress
-    function updateReadingProgress() {
-        if (pagePositions.length === 0) return;
-
-        const viewportTop = window.scrollY;
-        const viewportBottom = viewportTop + window.innerHeight;
-        const viewportMiddle = viewportTop + (window.innerHeight / 2);
-
-        let visiblePages = [];
-
-        for (let i = 0; i < pagePositions.length; i++) {
-            const page = pagePositions[i];
-
-            const visibleTop = Math.max(page.top, viewportTop);
-            const visibleBottom = Math.min(page.bottom, viewportBottom);
-            const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-            const visibilityPercentage = (visibleHeight / (page.bottom - page.top)) * 100;
-
-            if (visibilityPercentage > 0) {
-                visiblePages.push({
-                    index: page.index,
-                    visibility: visibilityPercentage
-                });
-            }
-        }
-
-        if (visiblePages.length === 0) {
-            let closestPage = pagePositions[0];
-            let minDistance = Math.abs(viewportMiddle - pagePositions[0].middle);
-
-            for (let i = 1; i < pagePositions.length; i++) {
-                const distance = Math.abs(viewportMiddle - pagePositions[i].middle);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    closestPage = pagePositions[i];
+            // Update page indicator based on scroll position
+            const pages = document.querySelectorAll('[id^="page-"]');
+            let currentPg = 1;
+            pages.forEach(p => {
+                const rect = p.getBoundingClientRect();
+                if (rect.top < window.innerHeight / 2) {
+                    currentPg = parseInt(p.id.split('-')[1]);
                 }
+            });
+            currentPageDisplay.textContent = currentPg;
+
+            lastScrollY = currentScrollY;
+        }, { passive: true });
+
+        // UI Toggles
+        toggleUIBtn.addEventListener('click', () => {
+            isUIShown = !isUIShown;
+            header.classList.toggle('header-hidden', !isUIShown);
+            controls.classList.toggle('controls-hidden', !isUIShown);
+        });
+
+        // Auto Scroll Engine
+        function doScroll() {
+            if (!isAutoScrolling) return;
+            window.scrollBy(0, scrollSpeed);
+            requestAnimationFrame(doScroll);
+        }
+
+        autoScrollBtn.addEventListener('click', () => {
+            isAutoScrolling = !isAutoScrolling;
+            autoScrollBtn.classList.toggle('bg-purple-600', isAutoScrolling);
+            autoScrollBtn.classList.toggle('text-white', isAutoScrolling);
+            if (isAutoScrolling) {
+                header.classList.add('header-hidden');
+                doScroll();
             }
+        });
 
-            currentPage = closestPage.index;
-        } else {
-            visiblePages.sort((a, b) => b.visibility - a.visibility);
-            currentPage = visiblePages[0].index;
-        }
+        topBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
-        const isLastPage = currentPage === totalPages;
-        let progress;
-
-        if (isLastPage) {
-            progress = 100;
-        } else {
-            progress = Math.min(100, (currentPage / totalPages) * 100);
-        }
-
-        progressBar.style.width = `${progress}%`;
-        currentPageDisplay.textContent = currentPage;
-        preloadAdjacentImages(currentPage);
-    }
-
-    // Preload adjacent images
-    function preloadAdjacentImages(currentPageIndex) {
-        for (let i = 1; i <= 2; i++) {
-            const nextPageIndex = currentPageIndex + i;
-            if (nextPageIndex <= totalPages) {
-                addToPreloadQueue(nextPageIndex);
-            }
-        }
-
-        const prevPageIndex = currentPageIndex - 1;
-        if (prevPageIndex >= 1) {
-            addToPreloadQueue(prevPageIndex);
-        }
-
-        if (!isPreloading && preloadQueue.length > 0) {
-            processPreloadQueue();
-        }
-    }
-
-    // Add image to preload queue
-    function addToPreloadQueue(pageIndex) {
-        if (!loadedImages.has(pageIndex) && !preloadQueue.includes(pageIndex)) {
-            preloadQueue.push(pageIndex);
-        }
-    }
-
-    // Process preload queue
-    function processPreloadQueue() {
-        if (preloadQueue.length === 0) {
-            isPreloading = false;
-            return;
-        }
-
-        isPreloading = true;
-        const pageIndex = preloadQueue.shift();
-        const img = document.querySelector(`#page-${pageIndex} img`);
-
-        if (img && img.dataset.src) {
-            const imageUrl = img.dataset.src;
-
-            const preloadImg = new Image();
-            preloadImg.onload = function () {
-                img.src = imageUrl;
-                img.removeAttribute('data-src');
-                loadedImages.add(pageIndex);
-
-                setTimeout(() => {
-                    processPreloadQueue();
-                }, 50);
-            };
-
-            preloadImg.onerror = function () {
-                console.error('Failed to load image:', pageIndex);
-                loadedImages.delete(pageIndex);
-                setTimeout(() => {
-                    processPreloadQueue();
-                }, 50);
-            };
-
-            preloadImg.src = imageUrl;
-        } else {
-            setTimeout(() => {
-                processPreloadQueue();
-            }, 50);
-        }
-    }
-
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
-        syncSpeedControls();
-        resetInactivityTimer();
-        calculatePagePositions();
-
-        window.addEventListener('scroll', updateReadingProgress);
-
-        updateReadingProgress();
-
-        for (let i = 1; i <= Math.min(3, totalPages); i++) {
-            addToPreloadQueue(i);
-        }
-
-        processPreloadQueue();
+        // Optimized Image Intersection Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px 1000px 0px'
+        };
 
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
-                    const pageId = img.closest('[id^="page-"]').id;
-                    const pageIndex = parseInt(pageId.replace('page-', ''));
-
-                    if (img.dataset.src && !loadedImages.has(pageIndex)) {
-                        addToPreloadQueue(pageIndex);
-                        if (!isPreloading) {
-                            processPreloadQueue();
-                        }
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.onload = () => {
+                            img.classList.remove('opacity-0');
+                            img.classList.add('opacity-100');
+                            // Remove loader after fade-in
+                            setTimeout(() => {
+                                img.parentElement.querySelector('.page-loader')?.remove();
+                            }, 1000);
+                        };
+                        img.removeAttribute('data-src');
                     }
-
                     observer.unobserve(img);
                 }
             });
-        }, {
-            rootMargin: '200px 0px',
-            threshold: 0.1
-        });
+        }, observerOptions);
 
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
+        document.querySelectorAll('.page-img').forEach(img => imageObserver.observe(img));
+
+        // Sync Server Switcher Links with Local Storage if needed
+        const currentServer = '<%= currentServer %>';
+        localStorage.setItem('doujinServer', currentServer);
     });
 </script>
+
+<%- include('../partials/lazyload') %>

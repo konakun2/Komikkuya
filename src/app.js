@@ -121,6 +121,7 @@ const nhentaiRoutes = require('./routes/nhentaiRoutes');
 const nhentaiDetailRoutes = require('./routes/nhentaiDetailRoutes');
 const nhentaiReadDetailRoutes = require('./routes/nhentaiReadDetailRoutes');
 const nhentaiSearchRoutes = require('./routes/nhentaiSearchRoutes');
+const favoriteRoutes = require('./routes/favoriteRoutes');
 const seoRoutes = require('./routes/seoRoutes');
 
 app.use('/', homeRoutes);
@@ -148,6 +149,7 @@ app.use('/nhentai', nhentaiDetailRoutes);
 app.use('/nhentai', nhentaiReadDetailRoutes);
 app.use('/', legalRoutes);
 app.use('/history', historyRoutes);
+app.use('/favorites', favoriteRoutes);
 app.use('/', seoRoutes);
 
 // Error handling

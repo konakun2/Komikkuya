@@ -1,41 +1,50 @@
-<!-- Lazy Loading CSS -->
+<!-- Cinematic Loading CSS -->
 <style>
-    /* Skeleton loading placeholder */
     .lazy-img {
         opacity: 0;
-        transition: opacity 0.5s ease-in-out;
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .lazy-img.loaded {
         opacity: 1;
     }
 
-    .img-skeleton {
-        background: linear-gradient(90deg, #2d2440 25%, #3d3350 50%, #2d2440 75%);
-        background-size: 200% 100%;
-        animation: skeleton-loading 1.5s infinite;
+    .loading-skeleton {
+        position: relative;
+        overflow: hidden;
+        background-color: #1a1625 !important;
     }
 
-    @keyframes skeleton-loading {
-        0% {
-            background-position: 200% 0;
-        }
+    .loading-skeleton::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(90deg,
+                transparent,
+                rgba(147, 51, 234, 0.05),
+                rgba(147, 51, 234, 0.15),
+                rgba(147, 51, 234, 0.05),
+                transparent);
+        animation: shimmer-effect 2s infinite;
+    }
 
+    @keyframes shimmer-effect {
         100% {
-            background-position: -200% 0;
+            transform: translateX(100%);
         }
     }
 </style>
 
-<!-- Lazy Loading Script with Intersection Observer -->
+<!-- Standardized Lazy Loading Script -->
 <script>
     (function () {
         if (window.lazyLoadInitialized) return;
         window.lazyLoadInitialized = true;
 
         const lazyConfig = {
-            rootMargin: '100px 0px',
-            threshold: 0.1
+            rootMargin: '200px 0px',
+            threshold: 0.01
         };
 
         const lazyObserver = new IntersectionObserver((entries, observer) => {
@@ -49,12 +58,21 @@
                         tempImg.onload = function () {
                             img.src = dataSrc;
                             img.classList.add('loaded');
-                            img.classList.remove('img-skeleton');
+
+                            // Remove skeleton from parent or itself
+                            const container = img.closest('.loading-skeleton') || (img.classList.contains('loading-skeleton') ? img : null);
+                            if (container) {
+                                // Small delay for smoother transition
+                                setTimeout(() => {
+                                    container.classList.remove('loading-skeleton');
+                                }, 300);
+                            }
                         };
                         tempImg.onerror = function () {
                             img.src = '/images/fallback.png';
                             img.classList.add('loaded');
-                            img.classList.remove('img-skeleton');
+                            const container = img.closest('.loading-skeleton');
+                            if (container) container.classList.remove('loading-skeleton');
                         };
                         tempImg.src = dataSrc;
                     }
@@ -64,26 +82,44 @@
         }, lazyConfig);
 
         function initLazyLoading() {
-            const lazyImages = document.querySelectorAll('.grid img:not(.loaded):not([data-lazy-processed]), .popular-content img:not(.loaded):not([data-lazy-processed])');
+            // Target all grid images and card covers
+            const lazyImages = document.querySelectorAll('img:not(.loaded):not([data-lazy-processed])');
 
             lazyImages.forEach(img => {
-                if (img.dataset.lazyProcessed) return;
-
                 const originalSrc = img.src;
-                if (originalSrc.includes('fallback.png') || originalSrc.includes('data:image')) return;
+                if (!originalSrc || originalSrc.includes('fallback.png') || originalSrc.startsWith('data:image')) return;
+
+                // Only process images in grids or cards that look like posters
+                const isProcessable = img.closest('.grid') || img.closest('[class*="aspect-"]') || img.classList.contains('hero-img');
+                if (!isProcessable) return;
 
                 img.dataset.lazyProcessed = 'true';
                 img.dataset.lazySrc = originalSrc;
+
+                // Use a tiny transparent GIF as placeholder
                 img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                img.classList.add('lazy-img', 'img-skeleton');
+                img.classList.add('lazy-img');
+
+                // Add skeleton to parent for posters/cards
+                const container = img.parentElement;
+                if (container && (container.classList.contains('aspect-[2/3]') || container.classList.contains('aspect-square') || container.classList.contains('overflow-hidden'))) {
+                    container.classList.add('loading-skeleton');
+                } else {
+                    img.classList.add('loading-skeleton');
+                }
+
                 lazyObserver.observe(img);
             });
         }
 
+        // Run on load and after dynamic updates
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initLazyLoading);
         } else {
             initLazyLoading();
         }
+
+        // Expose helper globally
+        window.refreshLazyLoading = initLazyLoading;
     })();
 </script>

@@ -1,156 +1,253 @@
-<div class="relative">
-    <!-- Hero Background -->
-    <div class="absolute inset-0 h-[400px] overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-primary-900 via-primary-900/95 to-primary-900 z-10"></div>
-        <img src="<%= wsrvUrl(manga.coverImage) %>" alt="<%= manga.title %>"
-            class="w-full h-full object-cover object-center blur-sm scale-110"
-            onerror="this.onerror=null; this.src='/images/fallback.png';">
-    </div>
+<div class="relative min-h-screen bg-transparent">
+    <!-- Cinematic Hero Section -->
+    <div class="relative w-full h-[70vh] min-h-[600px] overflow-hidden">
+        <!-- Background Banner with Ken Burns -->
+        <div class="absolute inset-0 z-0">
+            <img src="<%= wsrvUrl(manga.coverImage) %>" alt="<%= manga.title %>"
+                class="w-full h-full object-cover object-[center_20%] scale-110 blur-[2px] brightness-[0.4] saturate-[1.2]"
+                onerror="this.onerror=null; this.src='/images/fallback.png';">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900 via-primary-900/60 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-primary-900 via-transparent to-transparent"></div>
+        </div>
 
-    <!-- Content -->
-    <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <!-- Manga Header -->
-        <div class="flex flex-col md:flex-row gap-8 mb-12">
-            <!-- Cover Image -->
-            <div class="w-full md:w-72 flex-shrink-0 transform hover:scale-105 transition-transform duration-300">
-                <div class="relative rounded-xl overflow-hidden shadow-2xl">
-                    <img src="<%= wsrvUrl(manga.coverImage) %>" alt="<%= manga.title %>"
-                        class="w-full aspect-[3/4] object-cover"
-                        onerror="this.onerror=null; this.src='/images/fallback.png';">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        <!-- Hero Content Wrapper -->
+        <div class="absolute inset-0 z-10 flex flex-col justify-end pb-20 pt-32 md:pt-40">
+            <div class="max-w-[1800px] mx-auto px-6 md:px-12 w-full">
+                <div class="flex flex-col md:flex-row gap-10 items-end">
+                    <!-- Poster Shadow Box -->
+                    <div class="hidden md:block w-72 flex-shrink-0 group/poster">
+                        <div class="relative aspect-[2/3] rounded-sm overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-white/10 group-hover/poster:scale-105 transition-transform duration-700 bg-primary-800 loading-skeleton"
+                            id="posterContainer">
+                            <img src="<%= wsrvUrl(manga.coverImage) %>" alt="<%= manga.title %>"
+                                class="w-full h-full object-cover opacity-0 transition-opacity duration-700"
+                                onload="this.classList.remove('opacity-0'); document.getElementById('posterContainer').classList.remove('loading-skeleton')"
+                                onerror="this.onerror=null; this.src='/images/fallback.png'; document.getElementById('posterContainer').classList.remove('loading-skeleton')">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        </div>
+                    </div>
+
+                    <!-- Mega Info Section -->
+                    <div class="flex-1 space-y-6">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span
+                                    class="bg-purple-600 text-white text-[10px] font-black px-3 py-1 rounded-sm uppercase tracking-[0.2em] italic">
+                                    <%= manga.type || 'Manga' %>
+                                </span>
+                                <span class="text-white/40 font-black text-[10px] uppercase tracking-[0.2em]">
+                                    <%= manga.status %>
+                                </span>
+                            </div>
+                            <h1
+                                class="text-5xl md:text-8xl font-black text-white uppercase italic tracking-tighter leading-none drop-shadow-2xl">
+                                <%= manga.title %>
+                            </h1>
+                            <p class="text-xl md:text-2xl text-purple-400/80 font-bold italic tracking-tight">
+                                <%= manga.alternativeTitle %>
+                            </p>
+                        </div>
+
+                        <!-- Action Bar -->
+                        <div class="flex flex-wrap gap-4 pt-6">
+                            <% if (manga.chapters && manga.chapters.length> 0) {
+                                const lastChapter = manga.chapters[0]; // Usually first in array is latest
+                                const firstChapter = manga.chapters[manga.chapters.length - 1]; // Start from beginning
+
+                                let firstChapterPath = '';
+                                try {
+                                const url = new URL(firstChapter.url);
+                                if (url.hostname.includes('westmanga')) firstChapterPath =
+                                url.pathname.replace('/view/', 'view/');
+                                else if (url.hostname.includes('weebcentral')) firstChapterPath =
+                                `chapters/${url.pathname.split('/chapters/')[1]}`;
+                                else firstChapterPath = url.pathname;
+                                } catch(e) { firstChapterPath = firstChapter.chapterId ?
+                                `chapters/${firstChapter.chapterId}` : firstChapter.url; }
+                                %>
+                                <a href="/chapter/<%= firstChapterPath %>"
+                                    class="px-10 py-4 bg-white text-black font-black uppercase text-sm tracking-widest hover:bg-purple-600 hover:text-white transition-all duration-500 rounded-sm italic shadow-xl flex items-center gap-3 group">
+                                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z" />
+                                    </svg>
+                                    Mulai Membaca
+                                </a>
+                                <% } %>
+
+                                    <button id="favoriteButton"
+                                        class="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/10 text-white font-black uppercase text-sm tracking-widest hover:bg-white/20 transition-all rounded-sm italic flex items-center gap-3 group">
+                                        <svg id="favoriteIcon"
+                                            class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                        </svg>
+                                        <span id="favoriteText">Favorit</span>
+                                    </button>
+
+                                    <button id="shareButton"
+                                        class="p-4 bg-white/10 backdrop-blur-md border border-white/10 text-white hover:bg-white/20 transition-all rounded-sm group">
+                                        <svg class="w-5 h-5 group-hover:rotate-12 transition-transform" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                        </svg>
+                                    </button>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- Manga Info -->
-            <div class="flex-1">
-                <div class="space-y-4">
-                    <div>
-                        <h1
-                            class="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                            <%= manga.title %>
-                        </h1>
-                        <p class="text-xl text-purple-300/80">
-                            <%= manga.alternativeTitle %>
+    <!-- Main Content Area -->
+    <div class="max-w-[1800px] mx-auto px-6 md:px-12 -mt-10 relative z-20 pb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Left Column: Details & Synopsis -->
+            <div class="lg:col-span-8 space-y-12">
+                <!-- Glassmorphism Stats Grids -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-primary-800/40 backdrop-blur-xl border border-white/5 p-6 rounded-sm">
+                        <span
+                            class="block text-[10px] font-black text-white/30 uppercase tracking-widest mb-1 italic">Author</span>
+                        <span class="text-white font-bold tracking-tight truncate block">
+                            <%= manga.author || 'Unknown' %>
+                        </span>
+                    </div>
+                    <div class="bg-primary-800/40 backdrop-blur-xl border border-white/5 p-6 rounded-sm">
+                        <span
+                            class="block text-[10px] font-black text-white/30 uppercase tracking-widest mb-1 italic">Type</span>
+                        <span class="text-white font-bold tracking-tight truncate block">
+                            <%= manga.type || 'N/A' %>
+                        </span>
+                    </div>
+                    <div class="bg-primary-800/40 backdrop-blur-xl border border-white/5 p-6 rounded-sm">
+                        <span
+                            class="block text-[10px] font-black text-white/30 uppercase tracking-widest mb-1 italic">Genre
+                            Count</span>
+                        <span class="text-white font-bold tracking-tight block">
+                            <%= manga.genres.length %> Genres
+                        </span>
+                    </div>
+                    <div class="bg-primary-800/40 backdrop-blur-xl border border-white/5 p-6 rounded-sm">
+                        <span
+                            class="block text-[10px] font-black text-white/30 uppercase tracking-widest mb-1 italic">Status</span>
+                        <div class="flex items-center gap-2">
+                            <span
+                                class="w-2 h-2 rounded-full <%= manga.status.toLowerCase().includes('ongoing') ? 'bg-green-500 animate-pulse' : 'bg-blue-500' %>"></span>
+                            <span class="text-white font-bold tracking-tight">
+                                <%= manga.status %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Genre Tags -->
+                <div class="flex flex-wrap gap-2">
+                    <% manga.genres.forEach(genre=> { %>
+                        <a href="/genre/?genre=<%= genre.toLowerCase().replace(/\s+/g, '-') %>"
+                            class="px-4 py-2 bg-primary-800/60 hover:bg-purple-600 text-white/70 hover:text-white border border-white/5 rounded-sm text-[10px] font-black uppercase tracking-widest transition-all italic">
+                            <%= genre %>
+                        </a>
+                        <% }); %>
+                </div>
+
+                <!-- Synopsis Section -->
+                <section class="space-y-6">
+                    <div class="flex items-center gap-4">
+                        <h2 class="text-2xl font-black text-white uppercase italic tracking-tighter">Synopsis</h2>
+                        <div class="h-[1px] flex-1 bg-white/10"></div>
+                    </div>
+                    <div class="prose prose-invert max-w-none">
+                        <p class="text-gray-400 text-lg leading-relaxed font-medium italic">
+                            <%= manga.description %>
                         </p>
                     </div>
+                </section>
 
-                    <div class="flex flex-wrap gap-4">
-                        <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
-                            <p class="text-gray-400 text-sm">Type</p>
-                            <p class="font-semibold">
-                                <%= manga.type %>
-                            </p>
+                <!-- Premium WhatsApp Integration -->
+                <section
+                    class="bg-gradient-to-r from-green-600/20 to-purple-600/20 border border-white/5 p-8 rounded-sm relative overflow-hidden group">
+                    <div
+                        class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] opacity-20">
+                    </div>
+                    <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="space-y-2 text-center md:text-left">
+                            <h3 class="text-xl font-black text-white uppercase italic tracking-tighter">Stay Updated via
+                                WhatsApp</h3>
+                            <p class="text-white/40 text-xs font-bold uppercase tracking-[0.2em]">Dapatkan notifikasi
+                                chapter terbaru langsung di WA kamu</p>
                         </div>
-                        <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
-                            <p class="text-gray-400 text-sm">Status</p>
-                            <p class="font-semibold">
-                                <%= manga.status %>
-                            </p>
-                        </div>
-                        <div class="bg-primary-800/50 backdrop-blur-sm px-4 py-2 rounded-lg">
-                            <p class="text-gray-400 text-sm">Author</p>
-                            <p class="font-semibold">
-                                <%= manga.author %>
-                            </p>
-                        </div>
+                        <a href="#" id="whatsappNotifBtn"
+                            class="px-8 py-3 bg-green-500 hover:bg-green-600 text-white font-black uppercase text-xs tracking-widest rounded-sm italic transition-all shadow-lg transform hover:scale-105">
+                            Aktifkan Notifikasi
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Chapter List -->
+            <div class="lg:col-span-4">
+                <div
+                    class="sticky top-28 bg-primary-800/20 backdrop-blur-2xl border border-white/5 p-8 rounded-sm shrink-0">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-2xl font-black text-white uppercase italic tracking-tighter">Chapters</h2>
+                        <button id="sortChapters"
+                            class="text-white/30 hover:text-white transition-all transform hover:rotate-180">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                            </svg>
+                        </button>
                     </div>
 
-                    <div class="flex flex-wrap gap-2">
-                        <% manga.genres.forEach(genre=> { %>
-                            <a href="/genre/?genre=<%= genre.toLowerCase().replace(/\s+/g, '-') %>"
-                                class="bg-purple-500/20 text-purple-300 px-4 py-1 rounded-full text-sm backdrop-blur-sm hover:bg-purple-500/30 transition-colors">
-                                <%= genre %>
+                    <!-- Search Within Chapters -->
+                    <div class="relative mb-6">
+                        <input type="text" id="chapterSearch" placeholder="Find chapter..."
+                            class="w-full bg-white/5 border border-white/5 text-white text-xs font-bold px-4 py-3 rounded-sm focus:border-purple-600 focus:ring-0 transition-all placeholder:text-white/10 italic">
+                        <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-white/20" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+
+                    <div id="chaptersList" class="space-y-2 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+                        <% manga.chapters.forEach(chapter=> {
+                            let chapterPath = '';
+                            try {
+                            const url = new URL(chapter.url);
+                            if (url.hostname.includes('westmanga')) chapterPath = url.pathname.replace('/view/',
+                            'view/');
+                            else if (url.hostname.includes('weebcentral')) chapterPath =
+                            `chapters/${url.pathname.split('/chapters/')[1]}`;
+                            else chapterPath = url.pathname;
+                            } catch(e) { chapterPath = chapter.chapterId ? `chapters/${chapter.chapterId}` :
+                            chapter.url; }
+                            %>
+                            <a href="/chapter/<%= chapterPath %>"
+                                class="group/ch-item flex items-center justify-between p-4 bg-white/[0.02] hover:bg-white/[0.08] border border-transparent hover:border-white/10 rounded-sm transition-all duration-300">
+                                <div class="flex-1 min-w-0">
+                                    <h4
+                                        class="text-xs font-black text-white/80 group-hover/ch-item:text-white transition-colors uppercase italic truncate">
+                                        <%= chapter.title %>
+                                    </h4>
+                                    <span class="text-[9px] font-bold text-white/20 uppercase tracking-widest">
+                                        <%= chapter.date %>
+                                    </span>
+                                </div>
+                                <div class="text-right flex items-center gap-3">
+                                    <span
+                                        class="text-[8px] font-black text-white/10 group-hover/ch-item:text-purple-500 transition-colors uppercase italic">READ</span>
+                                    <svg class="w-3 h-3 text-white/10 group-hover/ch-item:text-purple-500 transform group-hover/ch-item:translate-x-1 transition-all"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
                             </a>
                             <% }); %>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- WhatsApp Notification Button -->
-        <div class="mb-12">
-            <a href="#" id="whatsappNotifBtn"
-                class="inline-flex items-center gap-3 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 backdrop-blur-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-whatsapp" viewBox="0 0 16 16">
-                    <path
-                        d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
-                </svg>
-                Aktifkan Notifikasi di WhatsApp Untuk <%= manga.title %>
-            </a>
-        </div>
-
-        <!-- Description -->
-        <div class="bg-primary-800/50 backdrop-blur-sm rounded-xl p-6 mb-12">
-            <h2
-                class="text-2xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Description
-            </h2>
-            <p class="text-gray-300 whitespace-pre-line leading-relaxed">
-                <%= manga.description %>
-            </p>
-        </div>
-
-        <!-- Chapters List -->
-        <div class="bg-primary-800/50 backdrop-blur-sm rounded-xl p-6">
-            <div class="flex justify-between items-center mb-6">
-                <h2
-                    class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    Chapters
-                </h2>
-                <div class="flex items-center gap-2">
-                    <button id="sortChapters"
-                        class="p-2 text-gray-400 hover:text-white hover:bg-primary-700/50 rounded-lg transition-all">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div id="chaptersList" class="grid gap-4">
-                <% manga.chapters.forEach(chapter=> {
-                    // Handle different URL formats from Komiku, Asia, and International APIs
-                    let chapterPath = '';
-                    try {
-                    const chapterUrl = new URL(chapter.url);
-                    if (chapterUrl.hostname.includes('westmanga')) {
-                    // Asia chapter - use view/ prefix
-                    chapterPath = chapterUrl.pathname.replace('/view/', 'view/');
-                    } else if (chapterUrl.hostname.includes('weebcentral')) {
-                    // International chapter - use chapters/ID format
-                    const chapterId = chapterUrl.pathname.split('/chapters/')[1] || '';
-                    chapterPath = `chapters/${chapterId}`;
-                    } else {
-                    // Komiku chapter
-                    chapterPath = chapterUrl.pathname;
-                    }
-                    } catch(e) {
-                    // If URL parsing fails, use chapter.chapterId for International or raw url
-                    if (chapter.chapterId) {
-                    chapterPath = `chapters/${chapter.chapterId}`;
-                    } else {
-                    chapterPath = chapter.url;
-                    }
-                    }
-                    %>
-                    <a href="/chapter/<%= chapterPath %>"
-                        class="group flex items-center justify-between p-4 bg-primary-700/50 rounded-xl hover:bg-primary-600/50 transition-all duration-300 backdrop-blur-sm">
-                        <div>
-                            <h3 class="font-semibold group-hover:text-purple-400 transition-colors">
-                                <%= chapter.title %>
-                            </h3>
-                            <p class="text-sm text-gray-400">
-                                <%= chapter.date %>
-                            </p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-sm text-purple-400">
-                                <%= chapter.readers.toLocaleString() %> readers
-                            </p>
-                        </div>
-                    </a>
-                    <% }); %>
             </div>
         </div>
     </div>
@@ -158,50 +255,141 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // WhatsApp logic
         const whatsappBtn = document.getElementById('whatsappNotifBtn');
-        const mangaTitle = '<%= manga.title %>';
-        const currentUrl = window.location.href;
+        if (whatsappBtn) {
+            const message = `notifikasi komik ${window.location.href}`;
+            whatsappBtn.href = `https://wa.me/628979759401?text=${encodeURIComponent(message)}`;
+        }
 
-        const message = `notifikasi komik ${currentUrl}`;
-        const whatsappLink = `https://wa.me/628979759401?text=${encodeURIComponent(message)}`;
-
-        whatsappBtn.href = whatsappLink;
-
+        // Sorting logic
         const sortButton = document.getElementById('sortChapters');
         const chaptersList = document.getElementById('chaptersList');
-        let isAscending = true;
+        let isAscending = false;
 
-        sortButton.addEventListener('click', function () {
-            const chapters = Array.from(chaptersList.children);
+        if (sortButton && chaptersList) {
+            sortButton.addEventListener('click', function () {
+                const chapters = Array.from(chaptersList.querySelectorAll('a'));
+                isAscending = !isAscending;
 
-            chapters.sort((a, b) => {
-                const titleA = a.querySelector('h3').textContent;
-                const titleB = b.querySelector('h3').textContent;
+                chapters.sort((a, b) => {
+                    const titleA = a.querySelector('h4').textContent;
+                    const titleB = b.querySelector('h4').textContent;
+                    const numA = parseFloat(titleA.match(/\d+(\.\d+)?/)?.[0] || 0);
+                    const numB = parseFloat(titleB.match(/\d+(\.\d+)?/)?.[0] || 0);
+                    return isAscending ? numA - numB : numB - numA;
+                });
 
-                // Extract chapter numbers for proper sorting
-                const numA = parseFloat(titleA.match(/\d+(\.\d+)?/)?.[0] || 0);
-                const numB = parseFloat(titleB.match(/\d+(\.\d+)?/)?.[0] || 0);
-
-                return isAscending ? numA - numB : numB - numA;
+                chaptersList.innerHTML = '';
+                chapters.forEach(ch => chaptersList.appendChild(ch));
             });
+        }
 
-            // Clear and re-append sorted chapters
-            chaptersList.innerHTML = '';
-            chapters.forEach(chapter => chaptersList.appendChild(chapter));
+        // Search logic
+        const chSearch = document.getElementById('chapterSearch');
+        if (chSearch && chaptersList) {
+            chSearch.addEventListener('input', function (e) {
+                const query = e.target.value.toLowerCase();
+                const chapters = chaptersList.querySelectorAll('a');
+                chapters.forEach(ch => {
+                    const title = ch.querySelector('h4').textContent.toLowerCase();
+                    ch.classList.toggle('hidden', !title.includes(query));
+                });
+            });
+        }
 
-            // Toggle sort direction
-            isAscending = !isAscending;
+        // Share logic
+        const shareBtn = document.getElementById('shareButton');
+        if (shareBtn) {
+            shareBtn.addEventListener('click', async () => {
+                try {
+                    await navigator.share({
+                        title: '<%= manga.title %>',
+                        url: window.location.href
+                    });
+                } catch (err) {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert('Link copied to clipboard!');
+                }
+            });
+        }
 
-            // Update button icon
-            const icon = sortButton.querySelector('svg');
-            if (isAscending) {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />';
+        // Favorites logic
+        const favoriteBtn = document.getElementById('favoriteButton');
+        const favoriteIcon = document.getElementById('favoriteIcon');
+        const favoriteText = document.getElementById('favoriteText');
+
+        const mangaData = {
+            id: '<%= manga.id || manga.mangaId || slug %>',
+            slug: '<%= slug %>',
+            title: '<%= manga.title %>',
+            cover: '<%= manga.coverImage || manga.thumbnail || manga.imageUrl %>' || '/images/fallback.png',
+            type: '<%= manga.type || "Manga" %>',
+            source: '<%= manga.source || "Server" %>'
+        };
+
+        function updateFavoriteUI() {
+            if (!favoriteBtn) return;
+            const favorites = JSON.parse(localStorage.getItem('komikkuya_favorites') || '[]');
+            const isFavorited = favorites.some(item => item.id === mangaData.id);
+
+            if (isFavorited) {
+                favoriteIcon.setAttribute('fill', 'currentColor');
+                favoriteIcon.classList.add('text-pink-500');
+                favoriteBtn.classList.add('bg-pink-600/20', 'border-pink-500/30');
+                favoriteText.textContent = 'Favorited';
             } else {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />';
-                icon.style.transform = 'rotate(180deg)';
+                favoriteIcon.setAttribute('fill', 'none');
+                favoriteIcon.classList.remove('text-pink-500');
+                favoriteBtn.classList.remove('bg-pink-600/20', 'border-pink-500/30');
+                favoriteText.textContent = 'Favorit';
             }
-        });
+        }
+
+        if (favoriteBtn) {
+            favoriteBtn.addEventListener('click', function () {
+                let favorites = JSON.parse(localStorage.getItem('komikkuya_favorites') || '[]');
+                const index = favorites.findIndex(item => item.id === mangaData.id);
+
+                if (index > -1) {
+                    favorites.splice(index, 1);
+                } else {
+                    favorites.push(mangaData);
+                }
+
+                localStorage.setItem('komikkuya_favorites', JSON.stringify(favorites));
+                updateFavoriteUI();
+            });
+            updateFavoriteUI();
+        }
     });
 </script>
+
+<style>
+    .loading-skeleton {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .loading-skeleton::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(90deg,
+                transparent,
+                rgba(147, 51, 234, 0.1),
+                rgba(147, 51, 234, 0.2),
+                rgba(147, 51, 234, 0.1),
+                transparent);
+        animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+</style>
 
 <%- include('../partials/lazyload') %>

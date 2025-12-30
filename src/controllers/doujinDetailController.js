@@ -45,7 +45,8 @@ const doujinDetailController = {
                 genres: data.genres || [],
                 chapters: chapters,
                 totalChapters: chapters.length,
-                lastUpdate: data.lastUpdate || '-'
+                lastUpdate: data.lastUpdate || '-',
+                slug: slug
             };
 
             return res.render('doujin/detail', {

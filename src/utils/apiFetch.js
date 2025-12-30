@@ -6,7 +6,7 @@ const TIMEOUT_MS = 10000; // 10 seconds timeout
 
 /**
  * Fetch with timeout and fallback support
- * @param {string} path - API path (e.g., '/api/recommendations')
+ * @param {string} path - API path (e.g., '/api/custom')
  * @param {object} options - Fetch options
  * @returns {Promise<Response>}
  */

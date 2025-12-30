@@ -51,506 +51,628 @@
 
 <div class="space-y-12">
 
-    <!-- Hero Section -->
-    <section class="relative h-[500px] rounded-2xl overflow-hidden">
-        <div id="heroCarousel" class="relative h-full">
+    <!-- Cinematic Hero Section (Netflix/Crunchyroll Style) -->
+    <section class="relative w-full h-[65vh] min-h-[500px] max-h-[850px] -mt-12 mb-16 overflow-hidden group">
+        <div id="heroCarousel" class="relative h-full w-full">
             <% recommendations.slice(0, 5).forEach((manga, index)=> { %>
-                <div class="hero-slide absolute inset-0 transition-opacity duration-1000 <%= index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' %>"
+                <div class="hero-slide absolute inset-0 transition-all duration-[1500ms] cubic-bezier(0.4, 0, 0.2, 1) <%= index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' %>"
                     data-index="<%= index %>">
-                    <div
-                        class="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-900/95 to-transparent z-10">
+
+                    <!-- Full-Bleed Background Image with Ken Burns Zoom Effect -->
+                    <div class="absolute inset-0 z-0 overflow-hidden">
+                        <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
+                            class="hero-img w-full h-full object-cover object-[center_20%] transition-transform duration-[12000ms] ease-out <%= index === 0 ? 'scale-110' : 'scale-100' %>"
+                            style="filter: brightness(0.55) contrast(1.2) saturate(1.15);">
                     </div>
-                    <div class="absolute inset-0 bg-primary-900/50 z-5 loading-placeholder"></div>
-                    <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
-                        class="w-full h-full object-cover object-center" loading="eager"
-                        onload="this.parentElement.querySelector('.loading-placeholder').style.display='none'"
-                        onerror="this.onerror=null; this.src='/images/fallback.png';">
-                    <div class="absolute bottom-0 left-0 p-8 z-20 max-w-2xl">
-                        <h1
-                            class="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                            <%= manga.title %>
-                        </h1>
-                        <p class="text-xl text-gray-300 mb-6 leading-relaxed">
-                            <%= manga.genre %> • <%= manga.latestChapter.title %>
-                        </p>
-                        <a href="/manga/<%= manga.url.split('/manga/')[1].replace('/', '') %>"
-                            class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105">
-                            Read Now
-                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                            </svg>
-                        </a>
+
+                    <!-- Cinematic Gradients -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-900/40 to-transparent z-10 hidden md:block">
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-primary-900 via-transparent to-transparent z-10 top-1/2">
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-b from-primary-900/60 via-transparent to-transparent z-10 h-40">
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-primary-900 to-transparent z-15">
+                    </div>
+
+                    <!-- Immersive Content Area -->
+                    <div class="absolute inset-0 z-20 container mx-auto px-6 md:px-12 flex flex-col justify-center">
+                        <div
+                            class="max-w-4xl hero-content-box transition-all duration-1000 transform <%= index === 0 ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0' %>">
+
+                            <!-- Sub-header Metadata -->
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                    <span
+                                        class="text-white text-xs font-black tracking-[0.3em] uppercase drop-shadow-md">REKOMENDASI
+                                        ADMIN</span>
+                                </div>
+                                <div class="h-4 w-[1px] bg-white/20"></div>
+                                <span class="text-purple-400 font-bold text-sm tracking-widest uppercase">
+                                    <%= manga.genre %>
+                                </span>
+                            </div>
+
+                            <!-- Mega-Title Typography (Enforced 2-line clamp to prevent clashing) -->
+                            <h1
+                                class="text-4xl sm:text-6xl md:text-7xl lg:text-[90px] font-black text-white mb-4 md:mb-6 uppercase tracking-[-0.05em] leading-[0.85] italic drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)] line-clamp-2">
+                                <%= manga.title %>
+                            </h1>
+
+                            <!-- Social Proof & Info -->
+                            <div class="flex items-center gap-8 mb-12 text-white/80 font-bold tracking-tight">
+                                <div class="flex items-center gap-2 text-yellow-400">
+                                    <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                    <span class="text-xl italic">9.8</span>
+                                </div>
+                                <div class="h-5 w-[2px] bg-white/10"></div>
+                                <span class="text-white text-lg">
+                                    <%= manga.latestChapter.title %>
+                                </span>
+                                <div class="h-5 w-[2px] bg-white/10"></div>
+                                <span
+                                    class="px-3 py-1 bg-white/10 rounded-sm text-[10px] uppercase font-black tracking-widest border border-white/20">
+                                    <%= manga.genre %>
+                                </span>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="flex items-center gap-3 md:gap-5">
+                                <a href="/manga/<%= manga.url.split('/manga/')[1].replace('/', '') %>"
+                                    class="group/btn relative flex items-center gap-2 md:gap-4 px-6 py-3 md:px-12 md:py-5 bg-white text-black font-black rounded-sm shadow-[0_20px_40px_rgba(255,255,255,0.1)] transition-all duration-400 hover:bg-purple-600 hover:text-white transform hover:-translate-y-2 active:scale-95">
+                                    <svg class="w-6 h-6 md:w-8 md:h-8 fill-current" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z" />
+                                    </svg>
+                                    <span class="text-sm md:text-lg tracking-tight">MULAI BACA</span>
+                                </a>
+                                <div class="relative group/info-container">
+                                    <button
+                                        class="group/info relative p-3 md:p-5 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-sm hover:bg-white/10 transition-all duration-400 hover:scale-105 active:scale-95 peer">
+                                        <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </button>
+
+                                    <!-- Premium Synopsis Tooltip (Responsive Fix) -->
+                                    <div
+                                        class="absolute bottom-full left-0 mb-6 w-[calc(100vw-80px)] sm:w-80 md:w-96 p-5 md:p-6 bg-black/80 backdrop-blur-2xl border border-white/10 rounded-sm opacity-0 translate-y-4 pointer-events-none group-hover/info-container:opacity-100 group-hover/info-container:translate-y-0 peer-focus:opacity-100 peer-focus:translate-y-0 transition-all duration-500 z-50 shadow-[0_30px_60px_rgba(0,0,0,0.8)]">
+                                        <div
+                                            class="flex items-center gap-2 mb-3 text-purple-400 text-[10px] font-black uppercase tracking-[0.2em]">
+                                            <span class="w-8 h-[1px] bg-purple-500"></span>
+                                            Synopsis
+                                        </div>
+                                        <p
+                                            class="text-white/80 text-xs md:text-sm font-medium leading-relaxed italic break-words">
+                                            <%= manga.tentang || 'Kisah epik yang menanti untuk dijelajahi...' %>
+                                        </p>
+                                        <!-- Decorative Corner -->
+                                        <div
+                                            class="absolute -bottom-2 left-6 w-4 h-4 bg-black/80 rotate-45 border-r border-b border-white/10">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <% }); %>
 
-                    <!-- Carousel Controls -->
-                    <div class="absolute bottom-4 right-4 z-30 flex space-x-2">
+                    <!-- Dynamic Interactive Controls -->
+                    <div
+                        class="absolute right-4 md:right-8 top-0 bottom-0 z-30 flex flex-col items-center justify-center gap-4 md:gap-8">
                         <% recommendations.slice(0, 5).forEach((_, index)=> { %>
-                            <button
-                                class="carousel-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors <%= index === 0 ? 'bg-white' : '' %>"
-                                data-index="<%= index %>" aria-label="Go to slide <%= index + 1 %>"></button>
+                            <button class="carousel-dot group/dot flex flex-col items-center" data-index="<%= index %>">
+                                <div
+                                    class="relative w-1 h-10 md:w-1.5 md:h-16 bg-white/5 rounded-full overflow-hidden transition-all duration-700 group-hover/dot:bg-white/20 <%= index === 0 ? 'h-16 md:h-24 bg-white/20' : '' %>">
+                                    <div
+                                        class="progress-fill absolute bottom-0 left-0 right-0 h-0 bg-gradient-to-t from-purple-500 via-pink-500 to-purple-400 transition-all duration-100 ease-linear">
+                                    </div>
+                                </div>
+                                <span
+                                    class="absolute right-full mr-6 text-[10px] md:text-xs font-black tracking-widest text-white/50 opacity-0 transform translate-x-4 group-hover/dot:opacity-100 group-hover/dot:translate-x-0 transition-all uppercase whitespace-nowrap hidden sm:block">
+                                    Vol. 0<%= index + 1 %>
+                                </span>
+                            </button>
                             <% }); %>
+                    </div>
+
+                    <!-- Sleek Arrow Navigation (Hidden on Tablet/Mobile to prevent clashing) -->
+                    <div class="absolute bottom-16 left-12 md:left-24 z-30 hidden lg:flex items-center gap-6">
+                        <button id="heroPrev"
+                            class="p-4 border border-white/10 bg-black/40 text-white hover:bg-white hover:text-black transition-all duration-400 rounded-sm backdrop-blur-md group/arrow">
+                            <svg class="w-6 h-6 transform group-hover/arrow:-translate-x-1 transition-transform"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <div class="h-10 w-[1px] bg-white/10"></div>
+                        <button id="heroNext"
+                            class="p-4 border border-white/10 bg-black/40 text-white hover:bg-white hover:text-black transition-all duration-400 rounded-sm backdrop-blur-md group/arrow">
+                            <svg class="w-6 h-6 transform group-hover/arrow:translate-x-1 transition-transform"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
                     </div>
         </div>
     </section>
 
-    <!-- Alert Banners -->
-    <div class="space-y-2">
-        <!-- Server Info Alert -->
-        <div id="serverAlert"
-            class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="flex-shrink-0">
-                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-white text-sm font-medium">
-                        <span class="text-blue-400">💡 Tips:</span> Gunakan fitur <span
-                            class="text-purple-400 font-bold">Search</span> untuk mencari manga dari semua server!
-                    </p>
-                    <p class="text-gray-400 text-xs mt-1">
-                        Kami memiliki 3 server: <span class="text-purple-300">Indonesia</span> (ID) • <span
-                            class="text-blue-300">Asia</span> (ID/EN) • <span
-                            class="text-green-300">International</span>
-                        (EN)
-                    </p>
-                </div>
-            </div>
-            <button onclick="document.getElementById('serverAlert').remove()"
-                class="flex-shrink-0 ml-4 p-1 text-gray-400 hover:text-white transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-
-        <!-- Project Promotion Banner -->
-        <div id="promoBanner"
-            class="bg-gradient-to-r from-purple-900/50 to-blue-900/50 border border-purple-500/20 rounded-xl p-4 relative">
-            <button onclick="document.getElementById('promoBanner').remove()"
-                class="absolute top-2 right-2 text-gray-400 hover:text-white transition-colors p-1">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            <div class="flex flex-col sm:flex-row sm:items-center gap-3 pr-8">
-                <div class="flex items-center gap-2 flex-shrink-0">
-                    <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    <span class="text-white text-sm font-medium">Cek project lainnya:</span>
-                </div>
-                <div class="flex flex-wrap gap-2">
-                    <a href="https://donghua.komikkuya.my.id/" target="_blank" rel="noopener"
-                        class="flex items-center gap-2 px-3 py-1.5 bg-red-600/20 hover:bg-red-600/40 border border-red-500/30 rounded-lg text-red-300 hover:text-white transition-all text-xs">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z" />
-                        </svg>
-                        Donghua Streaming
-                    </a>
-                    <a href="https://steam.kotaklegend.my.id/" target="_blank" rel="noopener"
-                        class="flex items-center gap-2 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/30 rounded-lg text-blue-300 hover:text-white transition-all text-xs">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="w-4 h-4" viewBox="0 0 16 16">
-                            <path
-                                d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006 4.304 1.769A2.2 2.2 0 0 1 5.62 8.88l1.96-2.844-.001-.04a3.046 3.046 0 0 1 3.042-3.043 3.046 3.046 0 0 1 3.042 3.043 3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11 2.22 2.22 0 0 1-1.312-1.568L.33 10.333Z" />
-                            <path
-                                d="M4.868 12.683a1.715 1.715 0 0 0 1.318-3.165 1.7 1.7 0 0 0-1.263-.02l1.023.424a1.261 1.261 0 1 1-.97 2.33l-.99-.41a1.7 1.7 0 0 0 .882.84Zm3.726-6.687a2.03 2.03 0 0 0 2.027 2.029 2.03 2.03 0 0 0 2.027-2.029 2.03 2.03 0 0 0-2.027-2.027 2.03 2.03 0 0 0-2.027 2.027m2.03-1.527a1.524 1.524 0 1 1-.002 3.048 1.524 1.524 0 0 1 .002-3.048" />
-                        </svg>
-                        Steam Game Inject
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Main Content with Sidebar -->
-    <div class="flex flex-col lg:flex-row gap-8">
-        <!-- Main Content -->
-        <div class="flex-1 space-y-12">
-
-            <!-- Hot Section (Hot Manga) -->
-            <section class="relative">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2
-                            class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                            Hot
-                        </h2>
-                        <p class="text-gray-400 mt-2">Komik hot & trending saat ini</p>
+    <!-- Content Container -->
+    <div class="max-w-[1800px] mx-auto px-6 md:px-12 pb-32">
+        <div class="space-y-12">
+            <!-- Alert Banners -->
+            <div class="space-y-2">
+                <!-- Server Info Alert -->
+                <div id="serverAlert"
+                    class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="flex-shrink-0">
+                            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-white text-sm font-medium">
+                                <span class="text-blue-400">💡 Tips:</span> Gunakan fitur <span
+                                    class="text-purple-400 font-bold">Search</span> untuk mencari manga dari semua
+                                server!
+                            </p>
+                            <p class="text-gray-400 text-xs mt-1">
+                                Kami memiliki 3 server: <span class="text-purple-300">Indonesia</span> (ID) • <span
+                                    class="text-blue-300">Asia</span> (ID/EN) • <span
+                                    class="text-green-300">International</span>
+                                (EN)
+                            </p>
+                        </div>
                     </div>
-                    <a href="/popular"
-                        class="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors">
-                        View All
-                        <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    <button onclick="document.getElementById('serverAlert').remove()"
+                        class="flex-shrink-0 ml-4 p-1 text-gray-400 hover:text-white transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
                         </svg>
-                    </a>
+                    </button>
                 </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                    <% hotManga.slice(0, 10).forEach(manga=> { %>
-                        <div class="group">
-                            <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>" class="block">
-                                <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-4">
-                                    <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
-                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                        loading="lazy" onerror="this.onerror=null; this.src='/images/fallback.png';">
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                    <div
-                                        class="absolute top-3 right-3 bg-red-500 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm font-medium">
-                                        Hot
-                                    </div>
-                                    <% if (manga.updateStatus) { %>
+                <!-- Project Promotion Banner -->
+                <div id="promoBanner"
+                    class="bg-gradient-to-r from-purple-900/50 to-blue-900/50 border border-purple-500/20 rounded-xl p-4 relative">
+                    <button onclick="document.getElementById('promoBanner').remove()"
+                        class="absolute top-2 right-2 text-gray-400 hover:text-white transition-colors p-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-3 pr-8">
+                        <div class="flex items-center gap-2 flex-shrink-0">
+                            <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            <span class="text-white text-sm font-medium">Cek project lainnya:</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="https://donghua.komikkuya.my.id/" target="_blank" rel="noopener"
+                                class="flex items-center gap-2 px-3 py-1.5 bg-red-600/20 hover:bg-red-600/40 border border-red-500/30 rounded-lg text-red-300 hover:text-white transition-all text-xs">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z" />
+                                </svg>
+                                Donghua Streaming
+                            </a>
+                            <a href="https://steam.kotaklegend.my.id/" target="_blank" rel="noopener"
+                                class="flex items-center gap-2 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/30 rounded-lg text-blue-300 hover:text-white transition-all text-xs">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="w-4 h-4" viewBox="0 0 16 16">
+                                    <path
+                                        d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006 4.304 1.769A2.2 2.2 0 0 1 5.62 8.88l1.96-2.844-.001-.04a3.046 3.046 0 0 1 3.042-3.043 3.046 3.046 0 0 1 3.042 3.043 3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11 2.22 2.22 0 0 1-1.312-1.568L.33 10.333Z" />
+                                    <path
+                                        d="M4.868 12.683a1.715 1.715 0 0 0 1.318-3.165 1.7 1.7 0 0 0-1.263-.02l1.023.424a1.261 1.261 0 1 1-.97 2.33l-.99-.41a1.7 1.7 0 0 0 .882.84Zm3.726-6.687a2.03 2.03 0 0 0 2.027 2.029 2.03 2.03 0 0 0 2.027-2.029 2.03 2.03 0 0 0-2.027-2.027 2.03 2.03 0 0 0-2.027 2.027m2.03-1.527a1.524 1.524 0 1 1-.002 3.048 1.524 1.524 0 0 1 .002-3.048" />
+                                </svg>
+                                Steam Game Inject
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Main Content with Sidebar -->
+            <!-- Main Content with Cinematic Sidebar -->
+            <div class="flex flex-col lg:flex-row gap-12 mt-8">
+                <!-- Main Content (Streaming Style Grids) -->
+                <div class="flex-1 space-y-16">
+
+                    <!-- Hot Section (Trending Row) -->
+                    <section class="relative group/section">
+                        <div class="flex items-end justify-between mb-8 border-l-4 border-purple-600 pl-6">
+                            <div>
+                                <h2 class="text-4xl font-black text-white uppercase tracking-tighter italic">
+                                    Trending Now
+                                </h2>
+                                <p class="text-gray-500 mt-1 font-bold text-sm tracking-widest uppercase">Paling banyak
+                                    dibaca
+                                    minggu ini</p>
+                            </div>
+                            <a href="/popular"
+                                class="group flex items-center gap-2 text-xs font-black text-white/50 hover:text-white transition-all uppercase tracking-widest">
+                                See All
+                                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-10">
+                            <% hotManga.slice(0, 10).forEach(manga=> { %>
+                                <div class="group/card relative">
+                                    <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>"
+                                        class="block">
                                         <div
-                                            class="absolute top-3 left-3 bg-purple-600 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
-                                            <%= manga.updateStatus %>
-                                        </div>
-                                        <% } %>
+                                            class="relative aspect-[2/3] overflow-hidden rounded-sm bg-primary-800 shadow-2xl">
+                                            <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
+                                                class="w-full h-full object-cover transform group-hover/card:scale-110 group-hover/card:rotate-1 transition-all duration-700"
+                                                loading="lazy"
+                                                onerror="this.onerror=null; this.src='/images/fallback.png';">
+
+                                            <!-- Cinematic Overlay -->
                                             <div
-                                                class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                                                <div class="flex items-center gap-2 text-white text-sm">
+                                                class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover/card:opacity-90 transition-opacity duration-500">
+                                            </div>
+
+                                            <!-- Badges -->
+                                            <div class="absolute top-3 left-3 flex flex-col gap-2">
+                                                <span
+                                                    class="bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-sm uppercase tracking-tighter">HOT</span>
+                                                <% if (manga.updateStatus) { %>
                                                     <span
-                                                        class="bg-purple-600/80 backdrop-blur-sm px-3 py-1 rounded-full">
+                                                        class="bg-purple-600 text-white text-[10px] font-black px-2 py-0.5 rounded-sm uppercase tracking-tighter">
+                                                        <%= manga.updateStatus %>
+                                                    </span>
+                                                    <% } %>
+                                            </div>
+
+                                            <!-- Quick View Info on Hover -->
+                                            <div
+                                                class="absolute inset-0 flex flex-col justify-end p-4 translate-y-4 opacity-0 group-hover/card:translate-y-0 group-hover/card:opacity-100 transition-all duration-500">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span
+                                                        class="bg-white text-black text-[10px] font-black px-2 py-0.5 rounded-sm uppercase italic">
+                                                        <%= manga.genre %>
+                                                    </span>
+
+                                                </div>
+                                                <button
+                                                    class="w-full py-2 bg-white text-black text-xs font-black uppercase rounded-sm hover:bg-purple-600 hover:text-white transition-colors">Baca
+                                                    Sekarang</button>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 space-y-1">
+                                            <h3
+                                                class="font-black text-white uppercase tracking-tighter text-sm line-clamp-1 group-hover/card:text-purple-400 transition-colors italic">
+                                                <%= manga.title %>
+                                            </h3>
+                                            <div class="flex items-center justify-between">
+                                                <span
+                                                    class="text-purple-500 font-bold text-[11px] uppercase tracking-wider">
+                                                    <%= manga.latestChapter?.title || 'Chapter 00' %>
+                                                </span>
+                                                <% if (manga.stats) { %>
+                                                    <span
+                                                        class="text-gray-600 text-[10px] font-bold uppercase tracking-widest">
+                                                        <%= manga.stats.timeAgo %>
+                                                    </span>
+                                                    <% } %>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <% }); %>
+                        </div>
+                    </section>
+
+                    <!-- Recommended Content (Streaming Grid) -->
+                    <section class="relative group/section">
+                        <div
+                            class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 border-l-4 border-white pl-6">
+                            <div>
+                                <h2 class="text-4xl font-black text-white uppercase tracking-tighter italic">Recommended
+                                </h2>
+                                <p class="text-gray-500 mt-1 font-bold text-sm tracking-widest uppercase">Pilihan editor
+                                    khusus
+                                    untuk kamu</p>
+                            </div>
+
+                            <div
+                                class="flex items-center gap-4 bg-primary-800/40 backdrop-blur-xl border border-white/5 p-1 rounded-sm">
+                                <div class="relative group/search">
+                                    <input type="text" id="searchInput" placeholder="Cari judul..."
+                                        class="bg-transparent border-none text-white text-xs font-bold px-4 py-2 w-48 focus:w-64 focus:ring-0 transition-all placeholder:text-white/20">
+                                    <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-white/20 group-focus-within/search:text-purple-500 transition-colors"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                                <div class="w-[1px] h-6 bg-white/10"></div>
+                                <a href="/popular"
+                                    class="px-4 py-2 text-[10px] font-black text-white/50 hover:text-white transition-all uppercase tracking-widest">See
+                                    All</a>
+                            </div>
+                        </div>
+
+                        <!-- Search Results (High Contrast) -->
+                        <div id="searchResults" class="hidden mb-12">
+                            <div class="bg-primary-800/30 backdrop-blur-3xl border border-purple-500/20 rounded-sm p-8">
+                                <h3 class="text-xl font-black text-white uppercase italic mb-8 flex items-center gap-3">
+                                    <span class="w-2 h-8 bg-purple-600"></span>
+                                    Found Collections
+                                </h3>
+                                <div id="searchResultsList"
+                                    class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-6"></div>
+                            </div>
+                        </div>
+
+                        <!-- Premium Genre Bar -->
+                        <div class="flex items-center gap-3 overflow-x-auto pb-6 scrollbar-hide no-scrollbar">
+                            <a href="/genre"
+                                class="flex-shrink-0 px-6 py-2 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-purple-600 hover:text-white transition-all rounded-sm italic">
+                                All Genres
+                            </a>
+                            <% genres.forEach(genre=> { %>
+                                <a href="/genre?genre=<%= genre %>"
+                                    class="flex-shrink-0 px-5 py-2 bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-purple-600/10 text-white/60 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all rounded-sm">
+                                    <%= genre %>
+                                </a>
+                                <% }); %>
+                        </div>
+
+                        <div id="mangaGrid"
+                            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-12">
+                            <% recommendations.forEach(manga=> { %>
+                                <div class="group/card relative">
+                                    <a href="/manga/<%= manga.url.split('/manga/')[1].replace('/', '') %>"
+                                        class="block">
+                                        <div
+                                            class="relative aspect-[2/3] overflow-hidden rounded-sm bg-primary-800 shadow-xl border border-white/5">
+                                            <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
+                                                class="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                                                loading="lazy"
+                                                onerror="this.onerror=null; this.src='/images/fallback.png';">
+
+                                            <div
+                                                class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60">
+                                            </div>
+
+                                            <% if (manga.isHot) { %>
+                                                <div class="absolute top-2 right-2 flex gap-1">
+                                                    <span
+                                                        class="bg-red-600 text-white text-[9px] font-black px-2 py-0.5 rounded-sm uppercase italic">Trending</span>
+                                                </div>
+                                                <% } %>
+
+                                                    <div
+                                                        class="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
+                                                        <div class="flex items-center gap-2">
+                                                            <span
+                                                                class="bg-purple-600 text-white text-[9px] font-black px-2 py-1 rounded-sm uppercase">
+                                                                <%= manga.genre %>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <h3
+                                                class="font-black text-white uppercase tracking-tighter text-sm line-clamp-1 group-hover/card:text-purple-400 transition-colors italic">
+                                                <%= manga.title %>
+                                            </h3>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span
+                                                    class="text-gray-500 font-bold text-[10px] uppercase tracking-widest italic group-hover/card:text-white transition-colors">
+                                                    <%= manga.latestChapter.title %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <% }); %>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Sidebar (Netflix Style Top 10 / Coming Soon) -->
+                <div class="w-full lg:w-[380px] flex-shrink-0 space-y-12">
+
+                    <!-- Trending List (Top TV Shows Style) -->
+                    <section
+                        class="bg-white/5 border border-white/5 p-8 rounded-sm backdrop-blur-sm relative overflow-hidden group/sidebar">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-purple-600/10 blur-[60px] rounded-full"></div>
+
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-8">
+                                <h3 class="text-2xl font-black text-white uppercase tracking-tighter italic">Top Pick
+                                </h3>
+                                <div class="flex gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-gray-700"></span>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-gray-700"></span>
+                                </div>
+                            </div>
+
+                            <!-- Modern Tabs -->
+                            <div class="flex gap-2 p-1 bg-black/40 rounded-sm mb-6 border border-white/5">
+                                <button
+                                    class="popular-tab flex-1 py-2 text-[10px] font-black uppercase tracking-widest text-black bg-white italic transition-all rounded-sm"
+                                    data-tab="daily">Hari Ini</button>
+                                <button
+                                    class="popular-tab flex-1 py-2 text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white italic transition-all rounded-sm"
+                                    data-tab="weekly">Minggu</button>
+                                <button
+                                    class="popular-tab flex-1 py-2 text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-white italic transition-all rounded-sm"
+                                    data-tab="all">Lengkap</button>
+                            </div>
+
+                            <div id="popular-content-container" class="space-y-6">
+                                <!-- Daily Content -->
+                                <div id="popular-daily" class="popular-content space-y-5">
+                                    <% popularDaily.slice(0, 5).forEach((manga, index)=> { %>
+                                        <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>"
+                                            class="group/item flex gap-5 items-center">
+                                            <!-- Netflix Style Numbers -->
+                                            <div class="relative w-12 flex items-center justify-center">
+                                                <span
+                                                    class="text-5xl font-black text-white/10 group-hover/item:text-purple-600/40 transition-colors italic leading-none transform -translate-x-2">
+                                                    <%= index + 1 %>
+                                                </span>
+                                            </div>
+                                            <div
+                                                class="relative w-14 h-20 flex-shrink-0 overflow-hidden rounded-sm group-hover/item:ring-2 ring-purple-600 transition-all">
+                                                <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
+                                                    class="w-full h-full object-cover">
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <h4
+                                                    class="font-black text-white uppercase text-xs tracking-tighter line-clamp-2 group-hover/item:text-purple-400 transition-colors italic">
+                                                    <%= manga.title %>
+                                                </h4>
+                                                <div class="flex items-center gap-2 mt-2">
+                                                    <span
+                                                        class="text-[9px] font-black text-purple-500 uppercase tracking-widest italic">
+                                                        <%= manga.latestChapter?.title || 'NEW' %>
+                                                    </span>
+                                                    <span class="w-1 h-1 rounded-full bg-white/10"></span>
+                                                    <span
+                                                        class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">
                                                         <%= manga.genre %>
                                                     </span>
                                                 </div>
                                             </div>
+                                        </a>
+                                        <% }); %>
                                 </div>
-                                <div class="space-y-2">
-                                    <h3
-                                        class="font-semibold text-lg group-hover:text-purple-400 transition-colors line-clamp-1">
-                                        <%= manga.title %>
-                                    </h3>
-                                    <div class="flex items-center justify-between text-sm">
-                                        <span class="text-purple-400 font-medium">
-                                            <%= manga.latestChapter?.title || '' %>
-                                        </span>
-                                        <% if (manga.stats) { %>
-                                            <span class="text-gray-500 text-xs">
-                                                <%= manga.stats.timeAgo %>
-                                            </span>
-                                            <% } %>
-                                    </div>
-                                    <% if (manga.stats && manga.stats.views) { %>
-                                        <div class="flex items-center gap-1 text-xs text-gray-500">
-                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
-                                            </svg>
-                                            <%= manga.stats.views %>
-                                        </div>
-                                        <% } %>
-                                </div>
-                            </a>
-                        </div>
-                        <% }); %>
-                </div>
-            </section>
 
-            <!-- Recommended Manga Section -->
-            <section class="relative">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-                    <div>
-                        <h2
-                            class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                            Recommended Manga
-                        </h2>
-                        <p class="text-gray-400 mt-2">Rekomendasi komik populer</p>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="relative">
-                            <input type="text" id="searchInput" placeholder="Search manga..."
-                                class="bg-primary-800/50 backdrop-blur-sm border border-purple-500/20 rounded-xl px-4 py-2 text-gray-300 focus:outline-none focus:border-purple-500/50 w-64">
-                            <svg class="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </div>
-                        <a href="/popular"
-                            class="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors">
-                            View All
-                            <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Search Results -->
-                <div id="searchResults" class="hidden mb-8">
-                    <div class="bg-primary-800/50 backdrop-blur-sm rounded-xl p-4">
-                        <h3 class="text-lg font-semibold mb-4 text-purple-400">Search Results</h3>
-                        <div id="searchResultsList"
-                            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Category Filters -->
-                <div class="flex flex-wrap gap-2 mb-8">
-                    <a href="/genre" class="px-4 py-2 bg-purple-600 text-white rounded-xl text-sm font-medium">
-                        All Genres
-                    </a>
-                    <% genres.forEach(genre=> { %>
-                        <a href="/genre?genre=<%= genre %>"
-                            class="px-4 py-2 bg-primary-800/50 backdrop-blur-sm text-gray-300 hover:bg-purple-600/20 rounded-xl text-sm font-medium transition-colors">
-                            <%= genre.charAt(0).toUpperCase() + genre.slice(1) %>
-                        </a>
-                        <% }); %>
-                </div>
-
-                <!-- Manga Grid -->
-                <div id="mangaGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                    <% recommendations.forEach(manga=> { %>
-                        <div class="group">
-                            <a href="/manga/<%= manga.url.split('/manga/')[1].replace('/', '') %>" class="block">
-                                <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-4">
-                                    <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
-                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                        onerror="this.onerror=null; this.src='/images/fallback.png';">
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    </div>
-                                    <% if (manga.isHot) { %>
-                                        <div
-                                            class="absolute top-3 right-3 bg-red-500 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">
-                                            Hot
-                                        </div>
-                                        <% } %>
+                                <!-- Weekly (Hidden Initially) -->
+                                <div id="popular-weekly" class="popular-content hidden space-y-5">
+                                    <% popularWeekly.slice(0, 5).forEach((manga, index)=> { %>
+                                        <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>"
+                                            class="group/item flex gap-5 items-center">
                                             <div
-                                                class="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                                                <div class="flex items-center justify-between text-white text-sm">
-                                                    <span
-                                                        class="bg-purple-600/80 backdrop-blur-sm px-3 py-1 rounded-full">
-                                                        <%= manga.genre %>
-                                                    </span>
-                                                    <span
-                                                        class="bg-primary-900/80 backdrop-blur-sm px-3 py-1 rounded-full">
-                                                        <%= manga.latestChapter.title %>
-                                                    </span>
-                                                </div>
+                                                class="relative w-12 flex items-center justify-center text-5xl font-black text-white/10 italic leading-none transform -translate-x-2">
+                                                <%= index + 1 %>
                                             </div>
+                                            <div class="relative w-14 h-20 flex-shrink-0 overflow-hidden rounded-sm">
+                                                <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
+                                                    class="w-full h-full object-cover">
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <h4
+                                                    class="font-black text-white uppercase text-xs tracking-tighter line-clamp-2 italic">
+                                                    <%= manga.title %>
+                                                </h4>
+                                                <p
+                                                    class="text-[9px] font-black text-purple-500 uppercase tracking-widest italic mt-2">
+                                                    <%= manga.latestChapter?.title || 'NEW' %>
+                                                </p>
+                                            </div>
+                                        </a>
+                                        <% }); %>
                                 </div>
-                                <div class="space-y-2">
-                                    <h3
-                                        class="font-semibold text-lg group-hover:text-purple-400 transition-colors line-clamp-1">
-                                        <%= manga.title %>
-                                    </h3>
-                                    <div class="flex items-center gap-2 text-sm text-gray-400">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                        </svg>
-                                        <span class="text-purple-400 font-medium">
-                                            <%= manga.latestChapter.title %>
-                                        </span>
+
+                                <!-- All Time (Hidden Initially) -->
+                                <div id="popular-all" class="popular-content hidden space-y-5">
+                                    <% popularAll.slice(0, 5).forEach((manga, index)=> { %>
+                                        <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>"
+                                            class="group/item flex gap-5 items-center">
+                                            <div
+                                                class="relative w-12 flex items-center justify-center text-5xl font-black text-white/10 italic leading-none transform -translate-x-2">
+                                                <%= index + 1 %>
+                                            </div>
+                                            <div class="relative w-14 h-20 flex-shrink-0 overflow-hidden rounded-sm">
+                                                <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
+                                                    class="w-full h-full object-cover">
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <h4
+                                                    class="font-black text-white uppercase text-xs tracking-tighter line-clamp-2 italic">
+                                                    <%= manga.title %>
+                                                </h4>
+                                                <p
+                                                    class="text-[9px] font-black text-purple-500 uppercase tracking-widest italic mt-2">
+                                                    <%= manga.latestChapter?.title || 'NEW' %>
+                                                </p>
+                                            </div>
+                                        </a>
+                                        <% }); %>
+                                </div>
+                            </div>
+
+                            <a href="/popular"
+                                class="block w-full text-center mt-10 py-3 border border-white/5 hover:bg-white/5 text-[10px] font-black uppercase tracking-[0.3em] text-white/30 hover:text-white transition-all italic">Lihat
+                                Selengkapnya</a>
+                        </div>
+                    </section>
+
+                    <!-- Latest Releases (Coming Soon Style Sidebar) -->
+                    <section class="bg-white/5 border border-white/5 p-8 rounded-sm">
+                        <h3 class="text-2xl font-black text-white uppercase tracking-tighter italic mb-8">Updates</h3>
+                        <div class="space-y-6">
+                            <% latestManga.slice(0, 6).forEach(manga=> { %>
+                                <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>"
+                                    class="group/update block border-b border-white/5 pb-4 last:border-0 hover:bg-white/[0.02] -mx-2 px-2 transition-colors">
+                                    <div class="flex items-start gap-4">
+                                        <span
+                                            class="bg-green-500 text-black text-[8px] font-black px-1.5 py-0.5 rounded-sm uppercase mt-1">NEW</span>
+                                        <div class="flex-1 min-w-0">
+                                            <h4
+                                                class="font-black text-white uppercase text-xs tracking-tighter line-clamp-1 group-hover/update:text-purple-400 transition-colors">
+                                                <%= manga.title %>
+                                            </h4>
+                                            <p
+                                                class="text-[10px] font-bold text-gray-500 mt-1 uppercase tracking-wider line-clamp-1">
+                                                <%= manga.chapters && manga.chapters.length> 0 ? manga.chapters[0].title
+                                                    :
+                                                    (manga.latestChapter?.title || 'Chapter 00') %>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
+                                <% }); %>
                         </div>
-                        <% }); %>
-                </div>
-            </section>
-        </div>
-
-        <!-- Sidebar -->
-        <div class="w-full lg:w-80 flex-shrink-0 space-y-8">
-            <!-- Serial Populer - New Clean UI -->
-            <section class="bg-primary-800/50 backdrop-blur-sm rounded-2xl border border-purple-500/20 overflow-hidden">
-                <div class="p-4 border-b border-purple-500/10">
-                    <h3
-                        class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                        Serial Populer
-                    </h3>
-                </div>
-
-                <!-- Tabs -->
-                <div class="flex border-b border-purple-500/10">
-                    <button
-                        class="popular-tab flex-1 py-3 text-sm font-medium text-center text-purple-400 bg-purple-500/10 border-b-2 border-purple-400"
-                        data-tab="daily">Daily</button>
-                    <button
-                        class="popular-tab flex-1 py-3 text-sm font-medium text-center text-gray-400 hover:text-white hover:bg-primary-700/30 transition-colors"
-                        data-tab="weekly">Weekly</button>
-                    <button
-                        class="popular-tab flex-1 py-3 text-sm font-medium text-center text-gray-400 hover:text-white hover:bg-primary-700/30 transition-colors"
-                        data-tab="all">All Time</button>
-                </div>
-
-                <!-- Daily Content -->
-                <div id="popular-daily" class="popular-content">
-                    <% popularDaily.slice(0, 5).forEach((manga, index)=> { %>
-                        <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>"
-                            class="flex items-center gap-3 p-3 hover:bg-primary-700/30 transition-colors border-b border-purple-500/5 last:border-0">
-                            <span class="text-lg font-bold text-purple-400 w-6">
-                                <%= index + 1 %>
-                            </span>
-                            <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
-                                class="w-12 h-16 object-cover rounded-lg flex-shrink-0" loading="lazy"
-                                onerror="this.onerror=null; this.src='/images/fallback.png';">
-                            <div class="flex-1 min-w-0">
-                                <h4
-                                    class="font-medium text-sm text-white line-clamp-2 hover:text-purple-400 transition-colors">
-                                    <%= manga.title %>
-                                </h4>
-                                <div class="flex items-center gap-2 mt-1">
-                                    <span class="text-xs text-gray-500">
-                                        <%= manga.genre %>
-                                    </span>
-                                    <span class="text-xs text-purple-400">
-                                        <%= manga.latestChapter?.title || '' %>
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                        <% }); %>
-                </div>
-
-                <!-- Weekly Content -->
-                <div id="popular-weekly" class="popular-content hidden">
-                    <% popularWeekly.slice(0, 5).forEach((manga, index)=> { %>
-                        <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>"
-                            class="flex items-center gap-3 p-3 hover:bg-primary-700/30 transition-colors border-b border-purple-500/5 last:border-0">
-                            <span class="text-lg font-bold text-purple-400 w-6">
-                                <%= index + 1 %>
-                            </span>
-                            <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
-                                class="w-12 h-16 object-cover rounded-lg flex-shrink-0" loading="lazy"
-                                onerror="this.onerror=null; this.src='/images/fallback.png';">
-                            <div class="flex-1 min-w-0">
-                                <h4
-                                    class="font-medium text-sm text-white line-clamp-2 hover:text-purple-400 transition-colors">
-                                    <%= manga.title %>
-                                </h4>
-                                <div class="flex items-center gap-2 mt-1">
-                                    <span class="text-xs text-gray-500">
-                                        <%= manga.genre %>
-                                    </span>
-                                    <span class="text-xs text-purple-400">
-                                        <%= manga.latestChapter?.title || '' %>
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                        <% }); %>
-                </div>
-
-                <!-- All Time Content -->
-                <div id="popular-all" class="popular-content hidden">
-                    <% popularAll.slice(0, 5).forEach((manga, index)=> { %>
-                        <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>"
-                            class="flex items-center gap-3 p-3 hover:bg-primary-700/30 transition-colors border-b border-purple-500/5 last:border-0">
-                            <span class="text-lg font-bold text-purple-400 w-6">
-                                <%= index + 1 %>
-                            </span>
-                            <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
-                                class="w-12 h-16 object-cover rounded-lg flex-shrink-0" loading="lazy"
-                                onerror="this.onerror=null; this.src='/images/fallback.png';">
-                            <div class="flex-1 min-w-0">
-                                <h4
-                                    class="font-medium text-sm text-white line-clamp-2 hover:text-purple-400 transition-colors">
-                                    <%= manga.title %>
-                                </h4>
-                                <div class="flex items-center gap-2 mt-1">
-                                    <span class="text-xs text-gray-500">
-                                        <%= manga.genre %>
-                                    </span>
-                                    <span class="text-xs text-purple-400">
-                                        <%= manga.latestChapter?.title || '' %>
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                        <% }); %>
-                </div>
-
-                <a href="/popular"
-                    class="block p-3 text-center text-sm text-purple-400 hover:text-purple-300 hover:bg-primary-700/30 transition-colors">
-                    Lihat Semua →
-                </a>
-            </section>
-
-            <!-- Serial Baru -->
-            <section class="bg-primary-800/50 backdrop-blur-sm rounded-2xl border border-purple-500/20 overflow-hidden">
-                <div class="p-4 border-b border-purple-500/10">
-                    <h3
-                        class="text-xl font-bold bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent">
-                        Serial Baru
-                    </h3>
-                </div>
-
-                <% latestManga.slice(0, 5).forEach(manga=> { %>
-                    <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>"
-                        class="flex items-center gap-3 p-3 hover:bg-primary-700/30 transition-colors border-b border-purple-500/5 last:border-0">
-                        <div class="relative">
-                            <img src="<%= wsrvUrl(manga.imageUrl) %>" alt="<%= manga.title %>"
-                                class="w-12 h-16 object-cover rounded-lg flex-shrink-0" loading="lazy"
-                                onerror="this.onerror=null; this.src='/images/fallback.png';">
-                            <span
-                                class="absolute -top-1 -right-1 bg-green-500 text-white text-[8px] px-1.5 py-0.5 rounded font-bold">NEW</span>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h4
-                                class="font-medium text-sm text-white line-clamp-2 hover:text-purple-400 transition-colors">
-                                <%= manga.title %>
-                            </h4>
-                            <% if (manga.chapters && manga.chapters.length> 0) { %>
-                                <p class="text-xs text-purple-400 mt-1">
-                                    <%= manga.chapters[0].title %>
-                                </p>
-                                <% } else { %>
-                                    <p class="text-xs text-gray-500 mt-1">
-                                        <%= manga.type || 'Manga' %>
-                                    </p>
-                                    <% } %>
-                        </div>
-                    </a>
-                    <% }); %>
-
                         <a href="/latest"
-                            class="block p-3 text-center text-sm text-purple-400 hover:text-purple-300 hover:bg-primary-700/30 transition-colors">
-                            Lihat Semua →
-                        </a>
-            </section>
+                            class="block w-full text-center mt-8 text-[10px] font-black uppercase tracking-widest text-purple-500 hover:text-purple-400">View
+                            All Updates</a>
+                    </section>
 
-            <!-- Genre Tags -->
-            <section class="bg-primary-800/50 backdrop-blur-sm rounded-2xl border border-purple-500/20 p-4">
-                <h3 class="text-lg font-bold text-white mb-4">Genre</h3>
-                <div class="flex flex-wrap gap-2">
-                    <a href="/genre?genre=Action"
-                        class="px-3 py-1.5 bg-primary-700/50 text-gray-300 hover:bg-purple-600 hover:text-white rounded-full text-xs font-medium transition-colors">Action</a>
-                    <a href="/genre?genre=Romance"
-                        class="px-3 py-1.5 bg-primary-700/50 text-gray-300 hover:bg-purple-600 hover:text-white rounded-full text-xs font-medium transition-colors">Romance</a>
-                    <a href="/genre?genre=Fantasy"
-                        class="px-3 py-1.5 bg-primary-700/50 text-gray-300 hover:bg-purple-600 hover:text-white rounded-full text-xs font-medium transition-colors">Fantasy</a>
-                    <a href="/genre?genre=Comedy"
-                        class="px-3 py-1.5 bg-primary-700/50 text-gray-300 hover:bg-purple-600 hover:text-white rounded-full text-xs font-medium transition-colors">Comedy</a>
-                    <a href="/genre?genre=Drama"
-                        class="px-3 py-1.5 bg-primary-700/50 text-gray-300 hover:bg-purple-600 hover:text-white rounded-full text-xs font-medium transition-colors">Drama</a>
-                    <a href="/genre?genre=Isekai"
-                        class="px-3 py-1.5 bg-primary-700/50 text-gray-300 hover:bg-purple-600 hover:text-white rounded-full text-xs font-medium transition-colors">Isekai</a>
-                    <a href="/genre?genre=Horror"
-                        class="px-3 py-1.5 bg-primary-700/50 text-gray-300 hover:bg-purple-600 hover:text-white rounded-full text-xs font-medium transition-colors">Horror</a>
-                    <a href="/genre?genre=Martial+Arts"
-                        class="px-3 py-1.5 bg-primary-700/50 text-gray-300 hover:bg-purple-600 hover:text-white rounded-full text-xs font-medium transition-colors">Martial
-                        Arts</a>
-                    <a href="/genre" class="px-3 py-1.5 bg-purple-600 text-white rounded-full text-xs font-medium">All
-                        Genres →</a>
+                    <!-- Cinematic Genre Explorer -->
+                    <section class="bg-gradient-to-br from-purple-900/40 to-black p-8 border border-white/5 rounded-sm">
+                        <h3 class="text-xl font-black text-white uppercase tracking-tighter italic mb-6">Explore Genres
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <% ['Action', 'Romance' , 'Fantasy' , 'Comedy' , 'Drama' , 'Isekai' , 'Horror'
+                                , 'Martial Arts' ].forEach(genre=> { %>
+                                <a href="/genre?genre=<%= genre %>"
+                                    class="px-3 py-1.5 bg-black/40 border border-white/10 hover:border-purple-500 hover:bg-purple-600/20 text-white/50 hover:text-white rounded-sm text-[10px] font-black uppercase tracking-widest transition-all italic">
+                                    <%= genre %>
+                                </a>
+                                <% }); %>
+                        </div>
+                    </section>
                 </div>
-            </section>
+            </div>
         </div>
     </div>
 </div>
@@ -631,59 +753,149 @@
             }, 500);
         }
 
-        // Hero Carousel
+        // Cinematic Hero Carousel (Netflix/Crunchyroll Style)
         const heroCarousel = document.getElementById('heroCarousel');
         const slides = heroCarousel.querySelectorAll('.hero-slide');
         const dots = heroCarousel.querySelectorAll('.carousel-dot');
+        const prevBtn = document.getElementById('heroPrev');
+        const nextBtn = document.getElementById('heroNext');
         let currentSlide = 0;
         let interval;
+        let progressInterval;
+        const SLIDE_DURATION = 8000; // 8 seconds for cinematic feel
+        const PROGRESS_UPDATE_INTERVAL = 40;
 
-        function preloadImages() {
-            slides.forEach(slide => {
-                const img = slide.querySelector('img');
-                if (img) {
-                    const preloadImg = new Image();
-                    preloadImg.src = img.src;
+        function updateProgress() {
+            let progress = 0;
+            if (progressInterval) clearInterval(progressInterval);
+
+            const currentFill = dots[currentSlide].querySelector('.progress-fill');
+
+            progressInterval = setInterval(() => {
+                progress += (PROGRESS_UPDATE_INTERVAL / SLIDE_DURATION) * 100;
+                if (currentFill) {
+                    currentFill.style.height = Math.min(progress, 100) + '%';
                 }
-            });
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                }
+            }, PROGRESS_UPDATE_INTERVAL);
         }
 
         function changeSlide(index) {
+            // Reset indicators
+            dots.forEach(dot => {
+                const fill = dot.querySelector('.progress-fill');
+                const indicatorBar = dot.querySelector('.relative');
+                if (fill) fill.style.height = '0%';
+                if (indicatorBar) {
+                    indicatorBar.classList.remove('h-24', 'bg-white/20');
+                    indicatorBar.classList.add('h-16', 'bg-white/5');
+                }
+            });
+
+            // Slide transitions
             slides.forEach(slide => {
                 slide.classList.remove('opacity-100', 'z-10');
                 slide.classList.add('opacity-0', 'z-0');
+
+                const img = slide.querySelector('.hero-img');
+                if (img) img.classList.remove('scale-110');
+
+                const content = slide.querySelector('.hero-content-box');
+                if (content) {
+                    content.classList.remove('translate-y-0', 'opacity-100');
+                    content.classList.add('translate-y-16', 'opacity-0');
+                }
             });
 
             slides[index].classList.remove('opacity-0', 'z-0');
             slides[index].classList.add('opacity-100', 'z-10');
 
-            dots.forEach(dot => dot.classList.remove('bg-white'));
-            dots[index].classList.add('bg-white');
+            // Re-trigger animations
+            const activeImg = slides[index].querySelector('.hero-img');
+            if (activeImg) {
+                setTimeout(() => activeImg.classList.add('scale-110'), 50);
+            }
+
+            const activeContent = slides[index].querySelector('.hero-content-box');
+            if (activeContent) {
+                setTimeout(() => {
+                    activeContent.classList.remove('translate-y-16', 'opacity-0');
+                    activeContent.classList.add('translate-y-0', 'opacity-100');
+                }, 300);
+            }
+
+            const activeBar = dots[index].querySelector('.relative');
+            if (activeBar) {
+                activeBar.classList.remove('h-16', 'bg-white/5');
+                activeBar.classList.add('h-24', 'bg-white/20');
+            }
 
             currentSlide = index;
+            updateProgress();
+        }
+
+        function nextSlide() {
+            const next = (currentSlide + 1) % slides.length;
+            changeSlide(next);
+        }
+
+        function prevSlide() {
+            const prev = (currentSlide - 1 + slides.length) % slides.length;
+            changeSlide(prev);
         }
 
         function startAutoAdvance() {
-            interval = setInterval(() => {
-                const nextSlide = (currentSlide + 1) % slides.length;
-                changeSlide(nextSlide);
-            }, 5000);
+            interval = setInterval(nextSlide, SLIDE_DURATION);
+            updateProgress();
         }
 
-        heroCarousel.addEventListener('mouseenter', () => clearInterval(interval));
-        heroCarousel.addEventListener('mouseleave', () => startAutoAdvance());
+        function stopAutoAdvance() {
+            clearInterval(interval);
+            clearInterval(progressInterval);
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', () => { stopAutoAdvance(); prevSlide(); startAutoAdvance(); });
+        if (nextBtn) nextBtn.addEventListener('click', () => { stopAutoAdvance(); nextSlide(); startAutoAdvance(); });
 
         dots.forEach(dot => {
             dot.addEventListener('click', () => {
                 const index = parseInt(dot.getAttribute('data-index'));
+                stopAutoAdvance();
                 changeSlide(index);
+                startAutoAdvance();
             });
         });
 
-        preloadImages();
+        // Touch Swipe
+        let touchStart = 0;
+        heroCarousel.addEventListener('touchstart', (e) => { touchStart = e.changedTouches[0].screenX; }, { passive: true });
+        heroCarousel.addEventListener('touchend', (e) => {
+            const diff = touchStart - e.changedTouches[0].screenX;
+            if (Math.abs(diff) > 50) {
+                stopAutoAdvance();
+                if (diff > 0) nextSlide(); else prevSlide();
+                startAutoAdvance();
+            }
+        }, { passive: true });
+
+        // Ken Burns and Content animation for first slide
+        setTimeout(() => {
+            const firstImg = slides[0].querySelector('.hero-img');
+            if (firstImg) firstImg.classList.add('scale-110');
+
+            const firstContent = slides[0].querySelector('.hero-content-box');
+            if (firstContent) {
+                firstContent.classList.remove('translate-y-16', 'opacity-0');
+                firstContent.classList.add('translate-y-0', 'opacity-100');
+            }
+            updateProgress();
+        }, 200);
+
         startAutoAdvance();
 
-        // Popular tabs with content switching
+        // Popular tabs with streaming style switching
         const popularTabs = document.querySelectorAll('.popular-tab');
         const popularContents = document.querySelectorAll('.popular-content');
 
@@ -691,15 +903,15 @@
             tab.addEventListener('click', () => {
                 const tabName = tab.getAttribute('data-tab');
 
-                // Update tabs
+                // Update active tab styles (Streaming style: Black text on White bg)
                 popularTabs.forEach(t => {
-                    t.classList.remove('text-purple-400', 'bg-purple-500/10', 'border-b-2', 'border-purple-400');
-                    t.classList.add('text-gray-400');
+                    t.classList.remove('text-black', 'bg-white');
+                    t.classList.add('text-white/50');
                 });
-                tab.classList.remove('text-gray-400');
-                tab.classList.add('text-purple-400', 'bg-purple-500/10', 'border-b-2', 'border-purple-400');
+                tab.classList.remove('text-white/50');
+                tab.classList.add('text-black', 'bg-white');
 
-                // Update content
+                // Update content focus
                 popularContents.forEach(content => content.classList.add('hidden'));
                 document.getElementById(`popular-${tabName}`).classList.remove('hidden');
             });
@@ -777,21 +989,32 @@
                         }
 
                         return `
-                        <div class="group">
+                        <div class="group/card relative">
                             <a href="/manga/${mangaSlug}" class="block">
-                                <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-4">
-                                    <img src="${manga.imageUrl}" 
-                                         alt="${manga.title}" 
-                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                         onerror="this.onerror=null; this.src='${manga.imageUrl}';">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <div class="relative aspect-[2/3] overflow-hidden rounded-sm bg-primary-800 shadow-xl border border-white/5">
+                                    <img src="${manga.imageUrl}" alt="${manga.title}" 
+                                         class="w-full h-full object-cover transform group-hover/card:scale-105 transition-transform duration-700" 
+                                         onerror="this.onerror=null; this.src='/images/fallback.png';">
+                                    
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                                    
                                     ${sourceBadge}
+
+                                    <div class="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
+                                        <div class="flex items-center gap-2">
+                                            <span class="bg-purple-600 text-white text-[9px] font-black px-2 py-1 rounded-sm uppercase italic">${manga.type || 'Manga'}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="space-y-2">
-                                    <h3 class="font-semibold text-lg group-hover:text-purple-400 transition-colors line-clamp-1">
+                                <div class="mt-4">
+                                    <h3 class="font-black text-white uppercase tracking-tighter text-xs line-clamp-1 group-hover/card:text-purple-400 transition-colors italic">
                                         ${manga.title}
                                     </h3>
-                                    <span class="text-purple-400 text-sm">${manga.latestChapter?.title || manga.status || ''}</span>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span class="text-gray-500 font-bold text-[9px] uppercase tracking-widest italic">
+                                            ${manga.latestChapter?.title || manga.status || 'NEW'}
+                                        </span>
+                                    </div>
                                 </div>
                             </a>
                         </div>
@@ -822,112 +1045,4 @@
     });
 </script>
 
-<!-- Lazy Loading CSS -->
-<style>
-    /* Skeleton loading placeholder */
-    .lazy-img {
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-    }
-
-    .lazy-img.loaded {
-        opacity: 1;
-    }
-
-    .img-skeleton {
-        background: linear-gradient(90deg, #2d2440 25%, #3d3350 50%, #2d2440 75%);
-        background-size: 200% 100%;
-        animation: skeleton-loading 1.5s infinite;
-    }
-
-    @keyframes skeleton-loading {
-        0% {
-            background-position: 200% 0;
-        }
-
-        100% {
-            background-position: -200% 0;
-        }
-    }
-</style>
-
-<!-- Lazy Loading Script with Intersection Observer -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Configuration
-        const lazyConfig = {
-            rootMargin: '100px 0px', // Load 100px before entering viewport
-            threshold: 0.1
-        };
-
-        // Create Intersection Observer
-        const lazyObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    const dataSrc = img.dataset.lazySrc || img.dataset.src;
-
-                    if (dataSrc) {
-                        // Create temporary image to preload
-                        const tempImg = new Image();
-                        tempImg.onload = function () {
-                            img.src = dataSrc;
-                            img.classList.add('loaded');
-                            img.classList.remove('img-skeleton');
-                        };
-                        tempImg.onerror = function () {
-                            img.src = '/images/fallback.png';
-                            img.classList.add('loaded');
-                            img.classList.remove('img-skeleton');
-                        };
-                        tempImg.src = dataSrc;
-                    }
-
-                    // Stop observing this image
-                    observer.unobserve(img);
-                }
-            });
-        }, lazyConfig);
-
-        // Convert existing images to lazy load
-        function initLazyLoading() {
-            // Select all images in grid sections (not hero carousel)
-            const lazyImages = document.querySelectorAll('.grid img:not(.loaded), .popular-content img:not(.loaded)');
-
-            lazyImages.forEach(img => {
-                // Skip if already processed
-                if (img.dataset.lazyProcessed) return;
-
-                // Store original src
-                const originalSrc = img.src;
-
-                // Skip placeholder/fallback images
-                if (originalSrc.includes('fallback.png') || originalSrc.includes('data:image')) return;
-
-                // Mark as processed
-                img.dataset.lazyProcessed = 'true';
-                img.dataset.lazySrc = originalSrc;
-
-                // Set placeholder and add skeleton class
-                img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                img.classList.add('lazy-img', 'img-skeleton');
-
-                // Start observing
-                lazyObserver.observe(img);
-            });
-        }
-
-        // Initial load
-        initLazyLoading();
-
-        // Re-run on dynamic content (search results, etc.)
-        const originalFetch = window.fetch;
-        window.fetch = function (...args) {
-            return originalFetch.apply(this, args).then(response => {
-                // Delay to allow DOM to update
-                setTimeout(initLazyLoading, 100);
-                return response;
-            });
-        };
-    });
-</script>
+<%- include('partials/lazyload') %>

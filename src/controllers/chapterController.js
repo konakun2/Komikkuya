@@ -119,25 +119,48 @@ const chapterController = {
             const prevChapterNumber = data.navigation?.prev?.url?.match(/chapter-?(\d+)/i)?.[1] || '';
             const nextChapterNumber = data.navigation?.next?.url?.match(/chapter-?(\d+)/i)?.[1] || '';
 
-            // Extract manga detail URL from chapterList
+            // Extract manga detail URL from chapterList or chapter URL
             let mangaDetailUrl = null;
             if (data.navigation?.chapterList) {
                 try {
-                    const chapterListUrl = new URL(data.navigation.chapterList);
-                    if (chapterListUrl.hostname.includes('westmanga')) {
-                        // Asia manga - extract slug from /comic/slug
-                        const slug = chapterListUrl.pathname.split('/comic/')[1]?.replace('/', '') || '';
-                        mangaDetailUrl = `/manga/${slug}`;
-                    } else if (chapterListUrl.hostname.includes('weebcentral')) {
-                        // International manga - extract slug from /series/ID/slug
-                        const pathParts = chapterListUrl.pathname.split('/');
-                        const slug = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2] || '';
-                        mangaDetailUrl = `/manga/${slug}`;
+                    const chList = data.navigation.chapterList;
+                    if (chList.startsWith('http')) {
+                        const chapterListUrl = new URL(chList);
+                        if (chapterListUrl.hostname.includes('westmanga')) {
+                            const slug = chapterListUrl.pathname.split('/comic/')[1]?.replace('/', '') || '';
+                            mangaDetailUrl = `/manga/${slug}`;
+                        } else if (chapterListUrl.hostname.includes('weebcentral')) {
+                            const pathParts = chapterListUrl.pathname.split('/');
+                            const slug = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2] || '';
+                            mangaDetailUrl = `/manga/${slug}`;
+                        } else {
+                            mangaDetailUrl = chapterListUrl.pathname;
+                        }
                     } else {
-                        mangaDetailUrl = chapterListUrl.pathname;
+                        mangaDetailUrl = chList.startsWith('/') ? chList : '/' + chList;
                     }
                 } catch (e) {
                     mangaDetailUrl = null;
+                }
+            }
+
+            // Fallback: Try to extract from cleanUrl (most reliable for Komiku)
+            if (!mangaDetailUrl || mangaDetailUrl === '/') {
+                const slugMatch = cleanUrl.match(/manga\/([^\/]+)/);
+                if (slugMatch && slugMatch[1]) {
+                    mangaDetailUrl = `/manga/${slugMatch[1]}`;
+                }
+            }
+
+            // Final safety: normalize path
+            if (mangaDetailUrl) {
+                if (!mangaDetailUrl.startsWith('http')) {
+                    if (!mangaDetailUrl.startsWith('/')) mangaDetailUrl = '/' + mangaDetailUrl;
+                    // Fix double slashes
+                    mangaDetailUrl = mangaDetailUrl.replace(/\/+/g, '/');
+                    if (mangaDetailUrl.length > 1 && mangaDetailUrl.endsWith('/')) {
+                        mangaDetailUrl = mangaDetailUrl.slice(0, -1);
+                    }
                 }
             }
 

@@ -1,10 +1,29 @@
 const fetch = require('node-fetch');
+const multer = require('multer');
+const FormData = require('form-data');
 
 // Discord webhook URLs (hidden from client)
 const DISCORD_WEBHOOKS = [
     'https://discord.com/api/webhooks/1455145456014196737/sy1zEjGbXoCRLqW8JDjktN1YvvQ8Fg3-eFVXN3wS7Bls-kpWL7dwSANXLtCMbJFi_big',
     'https://discord.com/api/webhooks/1455146998876340380/o-O3OAFuwuhcIL_RQLAvYE_hGLxWMJubhDfOPx7aucgeXXknP02XKVf3W6on0-lg_cKa'
 ];
+
+// Multer configuration for memory storage (no disk save)
+const storage = multer.memoryStorage();
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 8 * 1024 * 1024, // 8MB max (Discord limit)
+    },
+    fileFilter: (req, file, cb) => {
+        // Only allow images
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Only images are allowed'), false);
+        }
+    }
+}).single('image'); // 'image' is the field name
 
 // In-memory rate limit store (resets on server restart)
 // For production with multiple instances, use Redis or similar
@@ -124,6 +143,9 @@ const legalController = {
         });
     },
 
+    // Multer middleware export for route
+    uploadMiddleware: upload,
+
     // POST handler for contact form - sends to Discord webhooks
     submitContact: async (req, res) => {
         try {
@@ -142,6 +164,7 @@ const legalController = {
             }
 
             const { name, email, subject, message } = req.body;
+            const imageFile = req.file; // Multer adds this
 
             // Validate required fields
             if (!name || !email || !subject || !message) {
@@ -194,6 +217,18 @@ const legalController = {
                 timestamp: new Date().toISOString()
             };
 
+            // If there's an image, add it to the embed
+            if (imageFile) {
+                embed.image = {
+                    url: 'attachment://uploaded_image.' + (imageFile.mimetype.split('/')[1] || 'png')
+                };
+                embed.fields.push({
+                    name: '🖼️ Attachment',
+                    value: `${imageFile.originalname} (${(imageFile.size / 1024).toFixed(1)} KB)`,
+                    inline: true
+                });
+            }
+
             const payload = {
                 username: 'Komikkuya Contact',
                 avatar_url: 'https://komikkuya.my.id/assets/favicon.png',
@@ -201,15 +236,31 @@ const legalController = {
             };
 
             // Send to all Discord webhooks in parallel
-            const webhookPromises = DISCORD_WEBHOOKS.map(webhookUrl =>
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                })
-            );
+            const webhookPromises = DISCORD_WEBHOOKS.map(async webhookUrl => {
+                if (imageFile) {
+                    // Use FormData for file upload
+                    const formData = new FormData();
+                    formData.append('payload_json', JSON.stringify(payload));
+                    formData.append('file', imageFile.buffer, {
+                        filename: 'uploaded_image.' + (imageFile.mimetype.split('/')[1] || 'png'),
+                        contentType: imageFile.mimetype
+                    });
+
+                    return fetch(webhookUrl, {
+                        method: 'POST',
+                        body: formData
+                    });
+                } else {
+                    // No file, use JSON
+                    return fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                }
+            });
 
             const results = await Promise.allSettled(webhookPromises);
 
@@ -244,3 +295,4 @@ const legalController = {
 };
 
 module.exports = legalController;
+

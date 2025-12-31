@@ -1,79 +1,135 @@
-<div class="min-h-screen bg-primary-900 flex items-center justify-center px-4">
-    <div class="max-w-md w-full bg-primary-800/50 backdrop-blur-lg rounded-xl shadow-2xl p-8 border border-purple-500/20">
+<!-- Cinematic Error Page -->
+<div class="min-h-screen bg-primary-950 flex items-center justify-center px-4 overflow-hidden relative">
+
+    <!-- Ambient Background Glows -->
+    <div
+        class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-purple-600/10 blur-[120px] rounded-full pointer-events-none animate-drift">
+    </div>
+    <div
+        class="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-pink-600/5 blur-[100px] rounded-full pointer-events-none animate-swell">
+    </div>
+
+    <div class="max-w-xl w-full relative z-10">
         <div class="text-center">
-            <div class="mb-6">
-                <svg class="w-24 h-24 mx-auto text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
+            <!-- Mega Error Code -->
+            <div class="mb-8 relative">
+                <h1
+                    class="text-[180px] md:text-[220px] font-black text-white/[0.03] uppercase italic tracking-tighter leading-none select-none">
+                    <%= error.status===404 ? '404' : error.status || 'ERR' %>
+                </h1>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="text-center">
+                        <span
+                            class="text-[10px] font-black text-purple-500 uppercase tracking-[0.5em] italic block mb-2">Error</span>
+                        <h2 class="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter">
+                            <% if (error.status===404) { %>
+                                <span class="stroke-text">Not</span> Found
+                                <% } else { %>
+                                    <span class="stroke-text">Something</span> Broke
+                                    <% } %>
+                        </h2>
+                    </div>
+                </div>
             </div>
-            
-            <h1 class="text-4xl font-bold text-white mb-2">
-                <%= error.status === 404 ? '404' : error.status || 'Error' %>
-            </h1>
-            
-            <h2 class="text-xl text-gray-300 mb-4">
-                <%= error.status === 404 ? 'Page Not Found' : error.message || 'Something went wrong' %>
-            </h2>
-            
-            <p class="text-gray-400 mb-8">
-                <%= error.status === 404 
-                    ? "The page you're looking for doesn't exist or has been moved." 
-                    : "We encountered an unexpected error. Please try again later." %>
+
+            <!-- Description -->
+            <p
+                class="text-white/40 text-[11px] font-bold uppercase tracking-[0.3em] leading-loose mb-12 max-w-md mx-auto italic">
+                <% if (error.status===404) { %>
+                    Halaman yang kamu cari nggak ada atau udah pindah ke dimensi lain.
+                    <% } else { %>
+                        Ada yang error nih, tim kita udah dapet notif dan lagi dikerjain.
+                        <% } %>
             </p>
-            
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="/" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                <a href="/"
+                    class="group relative flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs font-black uppercase tracking-[0.3em] italic overflow-hidden transition-all duration-500 hover:scale-[1.02] active:scale-95 shadow-xl shadow-purple-900/40">
+                    <div
+                        class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12">
+                    </div>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
-                    Back to Home
+                    <span>Home</span>
                 </a>
-                
-                <button onclick="history.back()" class="px-6 py-3 bg-primary-700 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center justify-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Go Back
+
+                <button onclick="history.back()"
+                    class="px-8 py-4 border border-white/10 text-white/40 text-xs font-black uppercase tracking-[0.3em] italic hover:bg-white/5 hover:text-white hover:border-white/20 transition-all duration-500">
+                    <span>Go Back</span>
                 </button>
             </div>
-            
-            <% if (error.status === 404) { %>
-                <div class="mt-8 p-4 bg-primary-700/30 rounded-lg">
-                    <h3 class="text-lg font-medium text-white mb-2">Try these instead:</h3>
-                    <ul class="text-left text-gray-300 space-y-2">
-                        <li class="flex items-center">
-                            <svg class="w-5 h-5 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                            <a href="/popular" class="hover:text-purple-400 transition-colors">Popular Manga</a>
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="w-5 h-5 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                            <a href="/latest" class="hover:text-purple-400 transition-colors">Latest Updates</a>
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="w-5 h-5 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                            <a href="/genre" class="hover:text-purple-400 transition-colors">Browse by Genre</a>
-                        </li>
-                    </ul>
+
+            <% if (error.status===404) { %>
+                <!-- Quick Links -->
+                <div class="bg-[#1a1625]/60 backdrop-blur-md border border-white/5 p-6">
+                    <h3 class="text-[10px] font-black text-purple-500 uppercase tracking-[0.4em] mb-5 italic">Quick
+                        Links</h3>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <a href="/popular"
+                            class="group flex items-center gap-2 px-4 py-2 bg-white/[0.02] border border-white/5 hover:border-purple-500/30 transition-all duration-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+                            <span
+                                class="text-[10px] font-black text-white/50 group-hover:text-white uppercase tracking-widest italic transition-colors">Popular</span>
+                        </a>
+                        <a href="/latest"
+                            class="group flex items-center gap-2 px-4 py-2 bg-white/[0.02] border border-white/5 hover:border-blue-500/30 transition-all duration-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                            <span
+                                class="text-[10px] font-black text-white/50 group-hover:text-white uppercase tracking-widest italic transition-colors">Latest</span>
+                        </a>
+                        <a href="/genre"
+                            class="group flex items-center gap-2 px-4 py-2 bg-white/[0.02] border border-white/5 hover:border-green-500/30 transition-all duration-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            <span
+                                class="text-[10px] font-black text-white/50 group-hover:text-white uppercase tracking-widest italic transition-colors">Genres</span>
+                        </a>
+                    </div>
                 </div>
-            <% } %>
+                <% } %>
         </div>
     </div>
 </div>
 
 <style>
-    @keyframes float {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-        100% { transform: translateY(0px); }
+    @keyframes drift {
+
+        0%,
+        100% {
+            transform: translate(50%, -50%) scale(1);
+        }
+
+        50% {
+            transform: translate(45%, -45%) scale(1.1);
+        }
     }
-    
-    svg {
-        animation: float 3s ease-in-out infinite;
+
+    @keyframes swell {
+
+        0%,
+        100% {
+            transform: translate(-50%, 50%) scale(1);
+            opacity: 0.4;
+        }
+
+        50% {
+            transform: translate(-45%, 45%) scale(1.15);
+            opacity: 0.6;
+        }
     }
-</style> 
+
+    .animate-drift {
+        animation: drift 20s ease-in-out infinite;
+    }
+
+    .animate-swell {
+        animation: swell 25s ease-in-out infinite;
+    }
+
+    .stroke-text {
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+        color: transparent;
+    }
+</style>

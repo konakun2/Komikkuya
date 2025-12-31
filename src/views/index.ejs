@@ -1,49 +1,58 @@
-<!-- Notification Popup Modal -->
+<!-- Cinematic Notification Popup -->
 <div id="notificationPopup"
-    class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    class="fixed inset-0 bg-black/90 backdrop-blur-2xl z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-500">
     <div
-        class="bg-gradient-to-br from-primary-800 to-primary-900 rounded-2xl p-8 max-w-md mx-4 shadow-2xl border border-purple-500/20 animate-in fade-in scale-95">
-        <div class="flex justify-between items-start mb-6">
-            <div class="flex items-center gap-3">
-                <svg class="w-8 h-8 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
-                </svg>
-                <h2 class="text-2xl font-bold text-white">Stay Updated!</h2>
+        class="relative bg-[#1a1625]/80 border border-white/10 p-10 max-w-lg mx-4 shadow-[0_0_50px_rgba(147,51,234,0.1)] overflow-hidden animate-in fade-in zoom-in-95 duration-500">
+
+        <!-- Ambient Background Glow -->
+        <div class="absolute -top-24 -right-24 w-48 h-48 bg-purple-600/20 blur-[80px] rounded-full"></div>
+        <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-pink-600/10 blur-[80px] rounded-full"></div>
+
+        <div class="relative z-10">
+            <div class="flex justify-between items-start mb-8">
+                <div>
+                    <h2 class="text-xs font-black text-purple-500 uppercase tracking-[0.4em] mb-2 italic">Notifications
+                    </h2>
+                    <h1
+                        class="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tighter leading-none">
+                        Stay<br><span class="stroke-text">Updated</span>
+                    </h1>
+                </div>
+                <button onclick="closeNotificationPopup()"
+                    class="group p-2 -mr-2 text-white/20 hover:text-white transition-all duration-300">
+                    <svg class="w-8 h-8 transform group-hover:rotate-90 transition-transform duration-500" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
-            <button onclick="closeNotificationPopup()" class="text-gray-400 hover:text-white transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
 
-        <p class="text-gray-300 mb-6 leading-relaxed">
-            Ada notif setiap kali ada update komik baru, aktifkan notifikasi WhatsApp untuk tidak ketinggalan update
-            komik.
-        </p>
+            <p
+                class="text-white/40 text-[13px] font-bold uppercase tracking-widest leading-loose mb-10 text-justify italic">
+                Dapetin update instan tiap ada rilisan baru. Gabung komunitas premium WhatsApp kita biar gak ketinggalan
+                satu chapter-pun.
+            </p>
 
-        <div class="space-y-3">
-            <a href="https://whatsapp.com/channel/0029Vb7586h2UPBFAPxb5S1P"
-                class="flex items-center justify-center gap-3 w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path
-                        d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
-                </svg>
-                Join Channel WA
-            </a>
-            <a href="https://wa.me/628979759401?text=aktifkan%20notifikasi%20komik%20update"
-                class="flex items-center justify-center gap-3 w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path
-                        d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
-                </svg>
-                Nyalain Notif
-            </a>
-            <button onclick="closeNotificationPopup()"
-                class="w-full px-6 py-3 bg-primary-700/50 hover:bg-primary-700 text-gray-300 hover:text-white font-semibold rounded-xl transition-all duration-300 border border-purple-500/30">
-                Gk Dulu
-            </button>
+            <div class="grid grid-cols-1 gap-4">
+                <a href="https://whatsapp.com/channel/0029Vb7586h2UPBFAPxb5S1P"
+                    class="group relative flex items-center justify-center gap-4 px-8 py-5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs font-black uppercase tracking-[0.3em] italic overflow-hidden transition-all duration-500 hover:scale-[1.02] active:scale-95 shadow-xl shadow-purple-900/40">
+                    <div
+                        class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12">
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-whatsapp" viewBox="0 0 16 16">
+                        <path
+                            d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+                    </svg>
+                    <span>Follow Channel</span>
+                </a>
+
+                <button onclick="closeNotificationPopup()"
+                    class="px-8 py-5 border border-white/5 text-white/20 text-xs font-black uppercase tracking-[0.3em] italic hover:bg-white/5 hover:text-white transition-all duration-500">
+                    Maybe Later
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -237,20 +246,19 @@
                                 <% }); %>
                         </div>
 
-                        <!-- Sleek Arrow Navigation (Hidden on Tablet/Mobile to prevent clashing) -->
-                        <div class="absolute bottom-16 left-12 md:left-24 z-30 hidden lg:flex items-center gap-6">
+                        <!-- Sleek Arrow Navigation (Repositioned to avoid button clash) -->
+                        <div class="absolute bottom-6 left-6 z-30 flex items-center gap-4">
                             <button id="heroPrev"
-                                class="p-4 border border-white/10 bg-black/40 text-white hover:bg-white hover:text-black transition-all duration-400 rounded-sm backdrop-blur-md group/arrow">
-                                <svg class="w-6 h-6 transform group-hover/arrow:-translate-x-1 transition-transform"
+                                class="p-3 md:p-4 border border-white/10 bg-black/60 text-white hover:bg-white hover:text-black transition-all duration-400 rounded-sm backdrop-blur-md group/arrow">
+                                <svg class="w-5 h-5 md:w-6 md:h-6 transform group-hover/arrow:-translate-x-1 transition-transform"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M15 19l-7-7 7-7" />
                                 </svg>
                             </button>
-                            <div class="h-10 w-[1px] bg-white/10"></div>
                             <button id="heroNext"
-                                class="p-4 border border-white/10 bg-black/40 text-white hover:bg-white hover:text-black transition-all duration-400 rounded-sm backdrop-blur-md group/arrow">
-                                <svg class="w-6 h-6 transform group-hover/arrow:translate-x-1 transition-transform"
+                                class="p-3 md:p-4 border border-white/10 bg-black/60 text-white hover:bg-white hover:text-black transition-all duration-400 rounded-sm backdrop-blur-md group/arrow">
+                                <svg class="w-5 h-5 md:w-6 md:h-6 transform group-hover/arrow:translate-x-1 transition-transform"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 5l7 7-7 7" />
@@ -264,35 +272,57 @@
         <div class="max-w-[1800px] mx-auto px-6 md:px-12 pb-32">
             <div class="space-y-12">
                 <!-- Alert Banners -->
-                <div class="space-y-2">
+                <div class="space-y-4">
                     <!-- Server Info Alert -->
                     <div id="serverAlert"
-                        class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-4 flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="flex-shrink-0">
-                                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor"
+                        class="relative group bg-[#1a1625]/60 backdrop-blur-md border-l-4 border-l-purple-600 border border-white/5 p-5 flex items-center justify-between overflow-hidden transition-all duration-500 hover:bg-[#1a1625]/80">
+
+                        <!-- Subtle Glow -->
+                        <div
+                            class="absolute -right-20 -top-20 w-40 h-40 bg-purple-600/10 blur-[60px] rounded-full group-hover:bg-purple-600/20 transition-all duration-700">
+                        </div>
+
+                        <div class="flex items-center gap-5 relative z-10">
+                            <div
+                                class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-purple-600/10 border border-purple-500/20 rounded-sm">
+                                <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-white text-sm font-medium">
-                                    <span class="text-blue-400">💡 Tips:</span> Gunakan fitur <span
-                                        class="text-purple-400 font-bold">Search</span> untuk mencari manga dari semua
-                                    server!
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span
+                                        class="text-[10px] font-black text-purple-500 uppercase tracking-[0.3em] italic">Pro
+                                        Tip</span>
+                                    <h4 class="text-xs font-black text-white uppercase tracking-wider italic">Universal
+                                        Search Enabled</h4>
+                                </div>
+                                <p
+                                    class="text-white/40 text-[11px] font-bold uppercase tracking-widest leading-relaxed italic">
+                                    Gunakan fitur <span class="text-white">Search</span> untuk akses manga dari semua
+                                    server sekaligus!
                                 </p>
-                                <p class="text-gray-400 text-xs mt-1">
-                                    Kami memiliki 3 server: <span class="text-purple-300">Indonesia</span> (ID) • <span
-                                        class="text-blue-300">Asia</span> (ID/EN) • <span
-                                        class="text-green-300">International</span>
-                                    (EN)
-                                </p>
+                                <div class="flex items-center gap-3 mt-3">
+                                    <span
+                                        class="flex items-center gap-1.5 px-2 py-0.5 bg-white/5 border border-white/5 text-[9px] font-black text-white/50 uppercase italic group-hover:border-purple-500/30 transition-colors">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> ID
+                                    </span>
+                                    <span
+                                        class="flex items-center gap-1.5 px-2 py-0.5 bg-white/5 border border-white/5 text-[9px] font-black text-white/50 uppercase italic group-hover:border-blue-500/30 transition-colors">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> ASIA
+                                    </span>
+                                    <span
+                                        class="flex items-center gap-1.5 px-2 py-0.5 bg-white/5 border border-white/5 text-[9px] font-black text-white/50 uppercase italic group-hover:border-green-500/30 transition-colors">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> EN
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <button onclick="document.getElementById('serverAlert').remove()"
-                            class="flex-shrink-0 ml-4 p-1 text-gray-400 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="flex-shrink-0 ml-4 p-2 text-white/10 hover:text-white transition-all duration-300 transform hover:rotate-90">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M6 18L18 6M6 6l12 12" />
                             </svg>
@@ -301,44 +331,67 @@
 
                     <!-- Project Promotion Banner -->
                     <div id="promoBanner"
-                        class="bg-gradient-to-r from-purple-900/50 to-blue-900/50 border border-purple-500/20 rounded-xl p-4 relative">
-                        <button onclick="document.getElementById('promoBanner').remove()"
-                            class="absolute top-2 right-2 text-gray-400 hover:text-white transition-colors p-1">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                        <div class="flex flex-col sm:flex-row sm:items-center gap-3 pr-8">
-                            <div class="flex items-center gap-2 flex-shrink-0">
-                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
-                                <span class="text-white text-sm font-medium">Cek project lainnya:</span>
+                        class="relative group bg-gradient-to-r from-[#1a1625]/80 to-primary-950/80 backdrop-blur-xl border border-white/5 p-6 overflow-hidden">
+
+                        <!-- Animated Border Bottom -->
+                        <div
+                            class="absolute bottom-0 left-0 h-[2px] w-full bg-gradient-to-r from-transparent via-purple-600 to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-1000">
+                        </div>
+
+                        <div
+                            class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10 pr-10">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-blue-600/10 border border-blue-500/20 rounded-sm">
+                                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h5
+                                        class="text-[10px] font-black text-blue-500 uppercase tracking-[0.4em] mb-1 italic">
+                                        Network Projects</h5>
+                                    <h4 class="text-sm font-black text-white uppercase tracking-tighter italic">Explore
+                                        More Experiences</h4>
+                                </div>
                             </div>
-                            <div class="flex flex-wrap gap-2">
+
+                            <div class="flex flex-wrap gap-3">
                                 <a href="https://donghua.komikkuya.my.id/" target="_blank" rel="noopener"
-                                    class="flex items-center gap-2 px-3 py-1.5 bg-red-600/20 hover:bg-red-600/40 border border-red-500/30 rounded-lg text-red-300 hover:text-white transition-all text-xs">
-                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    class="group/btn flex items-center gap-3 px-5 py-2.5 bg-white/[0.03] border border-white/5 hover:border-red-500/40 transition-all duration-500">
+                                    <svg class="w-4 h-4 text-red-500 transition-transform group-hover/btn:scale-125 duration-300"
+                                        fill="currentColor" viewBox="0 0 24 24">
                                         <path
                                             d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z" />
                                     </svg>
-                                    Donghua Streaming
+                                    <span
+                                        class="text-[10px] font-black text-white/60 group-hover/btn:text-white uppercase tracking-widest italic transition-colors">Donghua</span>
                                 </a>
                                 <a href="https://steam.kotaklegend.my.id/" target="_blank" rel="noopener"
-                                    class="flex items-center gap-2 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/30 rounded-lg text-blue-300 hover:text-white transition-all text-xs">
+                                    class="group/btn flex items-center gap-3 px-5 py-2.5 bg-white/[0.03] border border-white/5 hover:border-blue-500/40 transition-all duration-500">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="w-4 h-4" viewBox="0 0 16 16">
+                                        class="w-4 h-4 text-blue-500 transition-transform group-hover/btn:scale-125 duration-300"
+                                        viewBox="0 0 16 16">
                                         <path
                                             d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006 4.304 1.769A2.2 2.2 0 0 1 5.62 8.88l1.96-2.844-.001-.04a3.046 3.046 0 0 1 3.042-3.043 3.046 3.046 0 0 1 3.042 3.043 3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11 2.22 2.22 0 0 1-1.312-1.568L.33 10.333Z" />
                                         <path
                                             d="M4.868 12.683a1.715 1.715 0 0 0 1.318-3.165 1.7 1.7 0 0 0-1.263-.02l1.023.424a1.261 1.261 0 1 1-.97 2.33l-.99-.41a1.7 1.7 0 0 0 .882.84Zm3.726-6.687a2.03 2.03 0 0 0 2.027 2.029 2.03 2.03 0 0 0 2.027-2.029 2.03 2.03 0 0 0-2.027-2.027 2.03 2.03 0 0 0-2.027 2.027m2.03-1.527a1.524 1.524 0 1 1-.002 3.048 1.524 1.524 0 0 1 .002-3.048" />
                                     </svg>
-                                    Steam Game Inject
+                                    <span
+                                        class="text-[10px] font-black text-white/60 group-hover/btn:text-white uppercase tracking-widest italic transition-colors">Steam
+                                        Inject</span>
                                 </a>
                             </div>
+
+                            <button onclick="document.getElementById('promoBanner').remove()"
+                                class="absolute top-4 right-4 text-white/10 hover:text-white transition-all duration-300 p-1">
+                                <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -688,37 +741,81 @@
                             </div>
                         </section>
 
-                        <!-- Latest Releases (Coming Soon Style Sidebar) -->
-                        <section class="bg-white/5 border border-white/5 p-8 rounded-sm">
-                            <h3 class="text-2xl font-black text-white uppercase tracking-tighter italic mb-8">Updates
-                            </h3>
-                            <div class="space-y-6">
-                                <% latestManga.slice(0, 6).forEach(manga=> { %>
-                                    <a href="/manga/<%= manga.url.split('/manga/')[1]?.replace('/', '') || '' %>"
-                                        class="group/update block border-b border-white/5 pb-4 last:border-0 hover:bg-white/[0.02] -mx-2 px-2 transition-colors">
-                                        <div class="flex items-start gap-4">
-                                            <span
-                                                class="bg-green-500 text-black text-[8px] font-black px-1.5 py-0.5 rounded-sm uppercase mt-1">NEW</span>
-                                            <div class="flex-1 min-w-0">
-                                                <h4
-                                                    class="font-black text-white uppercase text-xs tracking-tighter line-clamp-1 group-hover/update:text-purple-400 transition-colors">
-                                                    <%= manga.title %>
-                                                </h4>
-                                                <p
-                                                    class="text-[10px] font-bold text-gray-500 mt-1 uppercase tracking-wider line-clamp-1">
-                                                    <%= manga.chapters && manga.chapters.length> 0 ?
-                                                        manga.chapters[0].title
-                                                        :
-                                                        (manga.latestChapter?.title || 'Chapter 00') %>
-                                                </p>
+                        <!-- Latest Releases (Multi-Source with Cover Images) -->
+                        <section class="bg-white/5 border border-white/5 p-6 md:p-8 rounded-sm">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-tighter italic">
+                                    Updates</h3>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                    <span
+                                        class="text-[9px] font-bold text-white/40 uppercase tracking-widest">Live</span>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <% latestManga.slice(0, 8).forEach(manga=> { %>
+                                    <a href="<%= manga.url.startsWith('/') ? manga.url : '/manga/' + (manga.url.split('/manga/')[1]?.replace('/', '') || '') %>"
+                                        class="group/update flex items-center gap-3 p-3 -mx-3 hover:bg-white/[0.03] rounded-sm transition-all border-b border-white/5 last:border-0">
+
+                                        <!-- Cover Image -->
+                                        <div
+                                            class="relative w-12 h-16 flex-shrink-0 overflow-hidden rounded-sm bg-white/5">
+                                            <img src="<%= manga.imageUrl %>" alt="<%= manga.title %>"
+                                                class="w-full h-full object-cover transition-transform duration-500 group-hover/update:scale-110"
+                                                onerror="this.src='/assets/fallback.png'">
+                                            <!-- Source Badge -->
+                                            <div class="absolute bottom-0 left-0 right-0">
+                                                <% if (manga.source==='international' ) { %>
+                                                    <span
+                                                        class="block w-full text-center bg-blue-600 text-white text-[7px] font-black uppercase tracking-wider py-0.5">EN</span>
+                                                    <% } else { %>
+                                                        <span
+                                                            class="block w-full text-center bg-red-600 text-white text-[7px] font-black uppercase tracking-wider py-0.5">ID</span>
+                                                        <% } %>
                                             </div>
                                         </div>
+
+                                        <!-- Content -->
+                                        <div class="flex-1 min-w-0">
+                                            <h4
+                                                class="font-black text-white text-xs uppercase tracking-tight line-clamp-1 group-hover/update:text-purple-400 transition-colors">
+                                                <%= manga.title %>
+                                            </h4>
+                                            <p
+                                                class="text-[10px] font-bold text-purple-400/80 mt-1 uppercase tracking-wider line-clamp-1">
+                                                <%= manga.latestChapter?.title || 'Chapter Update' %>
+                                            </p>
+                                            <div class="flex items-center gap-2 mt-1.5">
+                                                <span
+                                                    class="text-[9px] font-bold text-white/30 uppercase tracking-wider">
+                                                    <%= manga.timeAgo || 'Baru' %>
+                                                </span>
+                                                <% if (manga.type) { %>
+                                                    <span class="w-1 h-1 rounded-full bg-white/20"></span>
+                                                    <span class="text-[9px] font-bold text-white/20 uppercase">
+                                                        <%= manga.type %>
+                                                    </span>
+                                                    <% } %>
+                                            </div>
+                                        </div>
+
+                                        <!-- Arrow Icon -->
+                                        <svg class="w-4 h-4 text-white/20 group-hover/update:text-purple-400 group-hover/update:translate-x-1 transition-all flex-shrink-0"
+                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 5l7 7-7 7" />
+                                        </svg>
                                     </a>
                                     <% }); %>
                             </div>
                             <a href="/latest"
-                                class="block w-full text-center mt-8 text-[10px] font-black uppercase tracking-widest text-purple-500 hover:text-purple-400">View
-                                All Updates</a>
+                                class="flex items-center justify-center gap-2 w-full mt-6 py-3 text-[10px] font-black uppercase tracking-widest text-purple-500 hover:text-white hover:bg-purple-600/20 border border-purple-500/20 rounded-sm transition-all">
+                                <span>View All Updates</span>
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
                         </section>
 
                         <!-- Cinematic Genre Explorer -->
@@ -801,18 +898,24 @@
     function showNotificationPopup() {
         const popup = document.getElementById('notificationPopup');
         popup.classList.remove('hidden');
+        // Trigger reflow for transition
+        void popup.offsetWidth;
+        popup.classList.remove('opacity-0');
     }
 
     function closeNotificationPopup() {
         const popup = document.getElementById('notificationPopup');
-        popup.classList.add('hidden');
+        popup.classList.add('opacity-0');
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 500); // Wait for transition duration
         localStorage.setItem('notificationPopupClosed', new Date().getTime());
     }
 
     document.addEventListener('DOMContentLoaded', function () {
         const lastClosed = localStorage.getItem('notificationPopupClosed');
         const now = new Date().getTime();
-        const oneMinute = 1 * 60 * 1000;
+        const oneMinute = 1 * 1 * 1000;
 
         if (!lastClosed || (now - parseInt(lastClosed)) > oneMinute) {
             setTimeout(() => {

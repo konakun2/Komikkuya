@@ -1,4 +1,5 @@
 const { fetchJsonWithFallback } = require('../utils/apiFetch');
+const fetch = require('node-fetch');
 
 // Server-side memory cache
 let serverCache = {
@@ -30,11 +31,17 @@ class HomeController {
             console.log('🔄 Fetching fresh homepage data from API...');
 
             // Fetch all data in parallel for better performance
-            const [recommendationsData, genresData, hotData, latestData, popularDailyData, popularWeeklyData, popularAllData] = await Promise.all([
+            const [recommendationsData, genresData, hotData, latestMangaData, latestManhwaData, latestManhuaData, internationalLatestData, popularDailyData, popularWeeklyData, popularAllData] = await Promise.all([
                 fetchJsonWithFallback('/api/custom'),
                 fetchJsonWithFallback('/api/genres'),
                 fetchJsonWithFallback('/api/hot?page=1'),
                 fetchJsonWithFallback('/api/last-update?category=manga&page=1'),
+                fetchJsonWithFallback('/api/last-update?category=manhwa&page=1'),
+                fetchJsonWithFallback('/api/last-update?category=manhua&page=1'),
+                // Fetch international last-update
+                fetch('https://internationalbackup.komikkuya.my.id/api/international/last-update?page=1')
+                    .then(res => res.json())
+                    .catch(() => ({ success: false, data: { results: [] } })),
                 fetchJsonWithFallback('/api/popular?category=manga&page=1&sorttime=daily'),
                 fetchJsonWithFallback('/api/popular?category=manga&page=1&sorttime=weekly'),
                 fetchJsonWithFallback('/api/popular?category=manga&page=1&sorttime=all')
@@ -68,15 +75,81 @@ class HomeController {
                 })
                 : [];
 
-            // Process latest manga (for Serial Baru)
-            const latestManga = latestData.success && latestData.data?.mangaList
-                ? latestData.data.mangaList.slice(0, 10).map(item => {
+            // Helper function to process Komiku latest data
+            const processKomikuLatest = (data, category) => {
+                if (!data.success || !data.data?.mangaList) return [];
+                return data.data.mangaList.slice(0, 6).map(item => {
                     if (item.url && item.url.includes('https://komiku.idhttps://komiku.id')) {
                         item.url = item.url.replace('https://komiku.idhttps://komiku.id', 'https://komiku.id');
                     }
-                    return item;
+                    // Parse timeAgo to approximate timestamp for sorting
+                    let timestamp = Date.now();
+                    const timeAgo = item.stats?.timeAgo || '';
+                    if (timeAgo.includes('jam')) {
+                        const hours = parseInt(timeAgo) || 1;
+                        timestamp = Date.now() - (hours * 60 * 60 * 1000);
+                    } else if (timeAgo.includes('hari')) {
+                        const days = parseInt(timeAgo) || 1;
+                        timestamp = Date.now() - (days * 24 * 60 * 60 * 1000);
+                    } else if (timeAgo.includes('menit')) {
+                        const minutes = parseInt(timeAgo) || 1;
+                        timestamp = Date.now() - (minutes * 60 * 1000);
+                    }
+                    return {
+                        ...item,
+                        type: item.type || category,
+                        source: 'komiku',
+                        sortTimestamp: timestamp,
+                        timeAgo: timeAgo || 'Baru'
+                    };
+                });
+            };
+
+            // Process latest from all categories
+            const komikuLatest = [
+                ...processKomikuLatest(latestMangaData, 'Manga'),
+                ...processKomikuLatest(latestManhwaData, 'Manhwa'),
+                ...processKomikuLatest(latestManhuaData, 'Manhua')
+            ];
+
+            // Process international latest updates
+            const internationalLatest = internationalLatestData.success && internationalLatestData.data?.results
+                ? internationalLatestData.data.results.slice(0, 10).map(item => {
+                    const updatedAt = item.latestChapter?.updatedAt ? new Date(item.latestChapter.updatedAt).getTime() : Date.now();
+                    // Calculate timeAgo
+                    const diffMs = Date.now() - updatedAt;
+                    const diffMins = Math.floor(diffMs / 60000);
+                    const diffHours = Math.floor(diffMs / 3600000);
+                    const diffDays = Math.floor(diffMs / 86400000);
+                    let timeAgo = 'Baru';
+                    if (diffDays > 0) {
+                        timeAgo = `${diffDays} hari`;
+                    } else if (diffHours > 0) {
+                        timeAgo = `${diffHours} jam`;
+                    } else if (diffMins > 0) {
+                        timeAgo = `${diffMins} menit`;
+                    }
+                    return {
+                        title: item.title,
+                        url: `/manga/series/${item.seriesId}`,
+                        imageUrl: item.cover,
+                        type: 'International',
+                        genre: 'English',
+                        latestChapter: {
+                            title: item.latestChapter?.chapterNumber || 'Chapter',
+                            url: `/chapter/chapters/${item.latestChapter?.chapterId || ''}`
+                        },
+                        source: 'international',
+                        sortTimestamp: updatedAt,
+                        timeAgo: timeAgo
+                    };
                 })
                 : [];
+
+            // Merge and sort by timestamp (newest first)
+            const latestManga = [...komikuLatest, ...internationalLatest]
+                .sort((a, b) => b.sortTimestamp - a.sortTimestamp)
+                .slice(0, 12);
 
             // Process popular manga by sorttime
             const processPopular = (data) => {

@@ -1,179 +1,228 @@
-<div class="min-h-screen bg-primary-900 selection:bg-purple-600 selection:text-white">
-    <!-- Smart Cinematic Reader Header -->
-    <header id="readerHeader"
-        class="fixed top-0 left-0 right-0 z-[100] bg-primary-950/40 backdrop-blur-2xl border-b border-white/5 transition-all duration-700 ease-in-out py-4">
-        <div class="max-w-[1800px] mx-auto px-6 flex items-center justify-between">
-            <div class="flex items-center gap-6">
-                <a href="<%= navigation.mangaDetailUrl || 'javascript:history.back()' %>"
-                    class="p-3 bg-white/5 hover:bg-white/10 rounded-sm border border-white/5 transition-all group/back">
-                    <svg class="w-5 h-5 text-white/40 group-hover/back:text-white transform group-hover/back:-translate-x-1 transition-all"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </a>
-                <div class="max-w-md">
-                    <h1 class="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1 italic truncate">
-                        <%= chapter.mangaTitle %>
-                    </h1>
-                    <p class="text-sm font-black text-white uppercase italic tracking-tighter truncate">
-                        <%= chapter.title %>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Header Controls -->
-            <div class="flex items-center gap-4">
-                <div class="hidden md:flex items-center bg-white/5 border border-white/5 p-1 rounded-sm">
-                    <% if (navigation.prev && navigation.prev.url) { %>
-                        <a href="<%= navigation.prev.url %>"
-                            class="p-2 text-white/40 hover:text-white hover:bg-white/5 transition-all"
-                            title="Previous Chapter">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </a>
-                        <% } %>
-                            <span
-                                class="px-4 text-[10px] font-black text-white/60 uppercase tracking-widest italic border-x border-white/10">
-                                Ch. <%= navigation.currentChapter %>
-                            </span>
-                            <% if (navigation.next && navigation.next.url) { %>
-                                <a href="<%= navigation.next.url %>"
-                                    class="p-2 text-white/40 hover:text-white hover:bg-white/5 transition-all"
-                                    title="Next Chapter">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                            d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </a>
-                                <% } %>
-                </div>
-
-                <button id="toggleUI"
-                    class="p-3 bg-purple-600/20 text-purple-400 border border-purple-500/20 rounded-sm hover:bg-purple-600 hover:text-white transition-all">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Sleek Gradient Progress Bar (Top) -->
-    <div id="readingProgress" class="fixed top-0 left-0 right-0 h-1 z-[110] bg-white/5">
-        <div id="progressBar"
-            class="h-full bg-gradient-to-r from-purple-600 via-pink-500 to-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.5)] transition-all duration-300"
-            style="width: 0%"></div>
+<div class="relative min-h-screen bg-primary-950 overflow-hidden selection:bg-purple-600 selection:text-white">
+    <!-- Background Ambient Glows -->
+    <div
+        class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[800px] h-[800px] bg-purple-600/10 blur-[120px] rounded-full pointer-events-none animate-drift">
+    </div>
+    <div
+        class="absolute bottom-1/4 left-0 -translate-x-1/2 w-[600px] h-[600px] bg-purple-900/10 blur-[100px] rounded-full pointer-events-none animate-swell">
     </div>
 
-    <!-- Main Reader Content -->
-    <main class="relative z-10 pt-24 pb-32">
-        <div class="max-w-4xl mx-auto space-y-0" id="mangaPages">
-            <% chapter.images.forEach((image, index)=> { %>
-                <div class="relative group" id="page-<%= index + 1 %>">
-                    <!-- High-Impact Image Container -->
-                    <div class="relative overflow-hidden bg-primary-950 min-h-[400px] flex items-center justify-center">
-                        <img data-original-src="<%= image.url %>" data-index="<%= index %>"
-                            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-                            alt="Manga Page <%= index + 1 %>"
-                            class="w-full h-auto opacity-0 transition-opacity duration-1000 page-img relative z-10"
-                            loading="lazy">
-
-                        <!-- Cinematic Page Loader -->
-                        <div class="page-loader absolute inset-0 flex items-center justify-center z-0">
-                            <div class="relative w-16 h-16">
-                                <div class="absolute inset-0 border-4 border-purple-600/20 rounded-full"></div>
-                                <div
-                                    class="absolute inset-0 border-4 border-purple-600 rounded-full border-t-transparent animate-spin">
-                                </div>
-                                <div class="absolute inset-4 bg-purple-600/20 rounded-full animate-pulse"></div>
-                            </div>
-                        </div>
-
-                        <!-- Page Number Badge -->
-                        <div
-                            class="absolute bottom-6 right-6 bg-black/60 backdrop-blur-md text-white/40 text-[10px] font-black px-3 py-1.5 rounded-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                            PAGE <%= index + 1 %>
-                        </div>
+    <div class="relative z-10">
+        <!-- Smart Cinematic Reader Header -->
+        <header id="readerHeader"
+            class="fixed top-0 left-0 right-0 z-[100] bg-primary-950/40 backdrop-blur-2xl border-b border-white/5 transition-all duration-700 ease-in-out py-4">
+            <div class="max-w-[1800px] mx-auto px-6 flex items-center justify-between">
+                <div class="flex items-center gap-6">
+                    <a href="<%= navigation.mangaDetailUrl || 'javascript:history.back()' %>"
+                        class="p-3 bg-white/5 hover:bg-white/10 rounded-sm border border-white/5 transition-all group/back">
+                        <svg class="w-5 h-5 text-white/40 group-hover/back:text-white transform group-hover/back:-translate-x-1 transition-all"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </a>
+                    <div class="max-w-md">
+                        <h1 class="text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-1 italic truncate">
+                            <%= chapter.mangaTitle %>
+                        </h1>
+                        <p class="text-sm font-black text-white uppercase italic tracking-tighter truncate">
+                            <%= chapter.title %>
+                        </p>
                     </div>
                 </div>
-                <% }); %>
-        </div>
 
-        <!-- End of Chapter Navigation -->
-        <div class="max-w-4xl mx-auto mt-20 px-6">
-            <div
-                class="bg-primary-800/20 backdrop-blur-3xl border border-white/5 p-12 text-center rounded-sm space-y-8">
-                <div class="space-y-2">
-                    <span class="text-purple-500 font-black text-xs uppercase tracking-[0.4em] italic">You reached the
-                        end</span>
-                    <h3 class="text-3xl font-black text-white uppercase italic tracking-tighter">Selesai Membaca
-                        <span class="block text-white/40 text-sm mt-2">
-                            <%= chapter.title %>
-                        </span>
-                    </h3>
-                </div>
-
-                <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-                    <% if (navigation.next && navigation.next.url) { %>
-                        <a href="<%= navigation.next.url %>"
-                            class="w-full md:w-auto px-12 py-5 bg-white text-black font-black uppercase text-sm tracking-widest hover:bg-purple-600 hover:text-white transition-all duration-500 rounded-sm italic shadow-2xl flex items-center justify-center gap-3">
-                            Next Chapter
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M13 7l5 5-5 5M18 12H6" />
-                            </svg>
-                        </a>
-                        <% } %>
-                            <a href="<%= navigation.mangaDetailUrl || 'javascript:history.back()' %>"
-                                class="w-full md:w-auto px-12 py-5 bg-white/5 border border-white/10 text-white font-black uppercase text-sm tracking-widest hover:bg-white/10 transition-all rounded-sm italic">
-                                Back to Info
+                <!-- Header Controls -->
+                <div class="flex items-center gap-4">
+                    <div class="hidden md:flex items-center bg-white/5 border border-white/5 p-1 rounded-sm">
+                        <% if (navigation.prev && navigation.prev.url) { %>
+                            <a href="<%= navigation.prev.url %>"
+                                class="p-2 text-white/40 hover:text-white hover:bg-white/5 transition-all"
+                                title="Previous Chapter">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M15 19l-7-7 7-7" />
+                                </svg>
                             </a>
+                            <% } %>
+                                <span
+                                    class="px-4 text-[10px] font-black text-white/60 uppercase tracking-widest italic border-x border-white/10">
+                                    Ch. <%= navigation.currentChapter %>
+                                </span>
+                                <% if (navigation.next && navigation.next.url) { %>
+                                    <a href="<%= navigation.next.url %>"
+                                        class="p-2 text-white/40 hover:text-white hover:bg-white/5 transition-all"
+                                        title="Next Chapter">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                                d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </a>
+                                    <% } %>
+                    </div>
+
+                    <button id="toggleUI"
+                        class="p-3 bg-purple-600/20 text-purple-400 border border-purple-500/20 rounded-sm hover:bg-purple-600 hover:text-white transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                    </button>
                 </div>
             </div>
+        </header>
+
+        <!-- Sleek Gradient Progress Bar (Top) -->
+        <div id="readingProgress" class="fixed top-0 left-0 right-0 h-1 z-[110] bg-white/5">
+            <div id="progressBar"
+                class="h-full bg-gradient-to-r from-purple-600 via-pink-500 to-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.5)] transition-all duration-300"
+                style="width: 0%"></div>
         </div>
-    </main>
 
-    <!-- Floating Action Menu (Reader Controls) -->
-    <div id="readerControls"
-        class="fixed right-6 bottom-10 z-[100] flex flex-col gap-4 transform transition-all duration-500">
-        <div class="bg-primary-950/80 backdrop-blur-3xl border border-white/10 p-2 rounded-sm space-y-2 shadow-2xl">
-            <!-- Auto Scroll Control -->
-            <button id="autoScrollToggle"
-                class="w-12 h-12 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all rounded-sm group relative"
-                title="Auto Scroll">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-                <span
-                    class="absolute right-full mr-4 px-3 py-1.5 bg-black text-[10px] font-black uppercase tracking-widest text-white rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Auto
-                    Scroll</span>
-            </button>
+        <!-- Main Reader Content -->
+        <main class="relative z-10 pt-24 pb-32">
+            <div class="max-w-4xl mx-auto space-y-0" id="mangaPages">
+                <% chapter.images.forEach((image, index)=> { %>
+                    <div class="relative group" id="page-<%= index + 1 %>">
+                        <!-- High-Impact Image Container -->
+                        <div
+                            class="relative overflow-hidden bg-primary-950 min-h-[400px] flex items-center justify-center">
+                            <img data-original-src="<%= image.url %>" data-index="<%= index %>" data-no-fallback="true"
+                                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                                alt="Manga Page <%= index + 1 %>"
+                                class="w-full h-auto opacity-0 transition-opacity duration-1000 page-img relative z-10"
+                                loading="lazy">
 
-            <!-- Go to Top -->
-            <button id="scrollToTop"
-                class="w-12 h-12 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all rounded-sm group relative"
-                title="Scroll to Top">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 11l7-7 7 7M12 4v16" />
-                </svg>
-                <span
-                    class="absolute right-full mr-4 px-3 py-1.5 bg-black text-[10px] font-black uppercase tracking-widest text-white rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Top</span>
-            </button>
+                            <!-- Cinematic Page Loader -->
+                            <div class="page-loader absolute inset-0 flex items-center justify-center z-0">
+                                <div class="relative w-16 h-16">
+                                    <div class="absolute inset-0 border-4 border-purple-600/20 rounded-full"></div>
+                                    <div
+                                        class="absolute inset-0 border-4 border-purple-600 rounded-full border-t-transparent animate-spin">
+                                    </div>
+                                    <div class="absolute inset-4 bg-purple-600/20 rounded-full animate-pulse"></div>
+                                </div>
+                            </div>
+
+                            <!-- Page Number Badge -->
+                            <div
+                                class="absolute bottom-6 right-6 bg-black/60 backdrop-blur-md text-white/40 text-[10px] font-black px-3 py-1.5 rounded-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                                PAGE <%= index + 1 %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+            </div>
+
+            <!-- End of Chapter Navigation -->
+            <div class="max-w-4xl mx-auto mt-20 px-6">
+                <div
+                    class="bg-primary-800/20 backdrop-blur-3xl border border-white/5 p-12 text-center rounded-sm space-y-8">
+                    <div class="space-y-2">
+                        <span class="text-purple-500 font-black text-xs uppercase tracking-[0.4em] italic">You reached
+                            the
+                            end</span>
+                        <h3 class="text-3xl font-black text-white uppercase italic tracking-tighter">Selesai Membaca
+                            <span class="block text-white/40 text-sm mt-2">
+                                <%= chapter.title %>
+                            </span>
+                        </h3>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                        <% if (navigation.next && navigation.next.url) { %>
+                            <a href="<%= navigation.next.url %>"
+                                class="w-full md:w-auto px-12 py-5 bg-white text-black font-black uppercase text-sm tracking-widest hover:bg-purple-600 hover:text-white transition-all duration-500 rounded-sm italic shadow-2xl flex items-center justify-center gap-3">
+                                Next Chapter
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M13 7l5 5-5 5M18 12H6" />
+                                </svg>
+                            </a>
+                            <% } %>
+                                <a href="<%= navigation.mangaDetailUrl || 'javascript:history.back()' %>"
+                                    class="w-full md:w-auto px-12 py-5 bg-white/5 border border-white/10 text-white font-black uppercase text-sm tracking-widest hover:bg-white/10 transition-all rounded-sm italic">
+                                    Back to Info
+                                </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Floating Action Menu (Reader Controls) -->
+        <div id="readerControls"
+            class="fixed right-6 bottom-10 z-[100] flex flex-col gap-4 transform transition-all duration-500">
+            <div class="bg-primary-950/80 backdrop-blur-3xl border border-white/10 p-2 rounded-sm space-y-2 shadow-2xl">
+                <!-- Auto Scroll Control -->
+                <button id="autoScrollToggle"
+                    class="w-12 h-12 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all rounded-sm group relative"
+                    title="Auto Scroll">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                    <span
+                        class="absolute right-full mr-4 px-3 py-1.5 bg-black text-[10px] font-black uppercase tracking-widest text-white rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Auto
+                        Scroll</span>
+                </button>
+
+                <!-- Go to Top -->
+                <button id="scrollToTop"
+                    class="w-12 h-12 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-all rounded-sm group relative"
+                    title="Scroll to Top">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M5 11l7-7 7 7M12 4v16" />
+                    </svg>
+                    <span
+                        class="absolute right-full mr-4 px-3 py-1.5 bg-black text-[10px] font-black uppercase tracking-widest text-white rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Top</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
 <style>
+    @keyframes drift {
+
+        0%,
+        100% {
+            transform: translate(50%, -50%) scale(1);
+        }
+
+        50% {
+            transform: translate(45%, -45%) scale(1.1);
+        }
+    }
+
+    @keyframes swell {
+
+        0%,
+        100% {
+            transform: translate(-50%, 0) scale(1);
+            opacity: 0.4;
+        }
+
+        50% {
+            transform: translate(-45%, 5%) scale(1.15);
+            opacity: 0.6;
+        }
+    }
+
+    .animate-drift {
+        animation: drift 20s ease-in-out infinite;
+    }
+
+    .animate-swell {
+        animation: swell 25s ease-in-out infinite;
+    }
+
     .page-img {
         image-rendering: -webkit-optimize-contrast;
         filter: contrast(1.05) brightness(1.02);
     }
+
 
     .header-hidden {
         transform: translateY(-100%);
@@ -227,8 +276,10 @@
         ];
 
         function getShardedProxy(url, index, attempt = 0) {
-            // Use index to shard domains (distribute across different proxy mirrors)
-            const proxyIdx = (index + attempt) % (proxies.length - 1);
+            // If attempt is 3 (after 3 proxies), return original url
+            if (attempt >= 3) return url;
+            // Use index to shard domains across first 3 proxies
+            const proxyIdx = (index + attempt) % 3;
             return proxies[proxyIdx](url);
         }
 
@@ -236,7 +287,13 @@
             const originalUrl = img.dataset.originalSrc;
             const index = parseInt(img.dataset.index);
 
-            if (attempt >= proxies.length) return;
+            if (attempt >= proxies.length) {
+                console.error(`[Reader] 🚨 Image ${index} failed all mirrors.`);
+                // If everything failed, we could show a final fallback here, or just leave it broken
+                // Let's set it to original one last time without a watchdog
+                img.src = originalUrl;
+                return;
+            }
 
             const targetUrl = getShardedProxy(originalUrl, index, attempt);
 

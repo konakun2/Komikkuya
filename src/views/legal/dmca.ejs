@@ -1,55 +1,174 @@
-<div class="min-h-screen bg-gradient-to-b from-primary-900 to-primary-800">
-    <div class="container mx-auto px-4 py-12">
+<!-- Cinematic DMCA Page -->
+<div class="min-h-screen bg-primary-950 relative overflow-hidden">
+    <!-- Ambient Background Glows -->
+    <div
+        class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-purple-600/10 blur-[120px] rounded-full pointer-events-none animate-drift">
+    </div>
+    <div
+        class="absolute bottom-1/4 left-0 -translate-x-1/2 w-[500px] h-[500px] bg-pink-600/5 blur-[100px] rounded-full pointer-events-none animate-swell">
+    </div>
+
+    <style>
+        @keyframes drift {
+
+            0%,
+            100% {
+                transform: translate(50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(45%, -45%) scale(1.1);
+            }
+        }
+
+        @keyframes swell {
+
+            0%,
+            100% {
+                transform: translate(-50%, 0) scale(1);
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: translate(-45%, 5%) scale(1.15);
+                opacity: 0.6;
+            }
+        }
+
+        .animate-drift {
+            animation: drift 20s ease-in-out infinite;
+        }
+
+        .animate-swell {
+            animation: swell 25s ease-in-out infinite;
+        }
+
+        .stroke-text {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.15);
+            color: transparent;
+        }
+    </style>
+
+    <div class="container mx-auto px-6 md:px-12 py-16 relative z-10">
         <div class="max-w-4xl mx-auto">
-            <div class="bg-primary-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-purple-500/20">
-                <h1 class="text-3xl font-bold text-white mb-6">DMCA Policy</h1>
-                
-                <div class="prose prose-invert max-w-none">
-                    <p class="text-gray-300 mb-6">
-                        Komikkuya respects the intellectual property rights of others and expects its users to do the same. In accordance with the Digital Millennium Copyright Act of 1998 ("DMCA"), we will respond expeditiously to claims of copyright infringement that are reported to our designated copyright agent.
+
+            <!-- Mega Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-[10px] font-black text-purple-500 uppercase tracking-[0.5em] mb-3 italic">Kebijakan</h2>
+                <h1 class="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter leading-none">
+                    <span class="stroke-text">Takedown</span> DMCA
+                </h1>
+            </div>
+
+            <!-- Content -->
+            <div class="space-y-8">
+                <section class="bg-[#1a1625]/60 backdrop-blur-md border border-white/5 p-8">
+                    <p class="text-white/40 text-[11px] font-bold uppercase tracking-widest leading-loose italic">
+                        Komikkuya menghormati hak kekayaan intelektual pihak lain. Kami akan merespons dengan cepat
+                        setiap klaim pelanggaran hak cipta yang dilaporkan sesuai dengan prosedur Digital Millennium
+                        Copyright Act (DMCA).
                     </p>
-                    
-                    <h2 class="text-xl font-semibold text-white mt-8 mb-4">1. Notification of Infringement</h2>
-                    <p class="text-gray-300 mb-6">
-                        If you believe that your work has been copied in a way that constitutes copyright infringement, please provide our copyright agent with the following information:
-                    </p>
-                    <ul class="list-disc pl-6 text-gray-300 mb-6">
-                        <li>A physical or electronic signature of the copyright owner or authorized agent</li>
-                        <li>Identification of the copyrighted work claimed to have been infringed</li>
-                        <li>Identification of the material that is claimed to be infringing</li>
-                        <li>Your contact information (name, address, telephone number, email)</li>
-                        <li>A statement that you have a good faith belief that use of the material is not authorized</li>
-                        <li>A statement that the information is accurate and, under penalty of perjury, you are authorized to act on behalf of the copyright owner</li>
-                    </ul>
-                    
-                    <h2 class="text-xl font-semibold text-white mt-8 mb-4">2. Counter-Notification</h2>
-                    <p class="text-gray-300 mb-6">
-                        If you believe your content was removed by mistake, you may file a counter-notification containing:
-                    </p>
-                    <ul class="list-disc pl-6 text-gray-300 mb-6">
-                        <li>Your physical or electronic signature</li>
-                        <li>Identification of the removed material and its location</li>
-                        <li>A statement under penalty of perjury that you have a good faith belief the material was removed by mistake</li>
-                        <li>Your consent to local federal court jurisdiction</li>
-                    </ul>
-                    
-                    <h2 class="text-xl font-semibold text-white mt-8 mb-4">3. Repeat Infringers</h2>
-                    <p class="text-gray-300 mb-6">
-                        We maintain a policy to terminate access to our website for users who repeatedly infringe copyrights. In appropriate circumstances, we will terminate the accounts of repeat infringers.
-                    </p>
-                    
-                    <h2 class="text-xl font-semibold text-white mt-8 mb-4">4. Contact Information</h2>
-                    <p class="text-gray-300 mb-6">
-                        Please send all DMCA notices to our designated copyright agent at <a href="/contact" class="text-purple-400 hover:text-purple-300">our contact page</a>. We will respond to all legitimate notices within 48 hours.
-                    </p>
-                    
-                    <div class="mt-12 pt-6 border-t border-purple-500/20">
-                        <p class="text-gray-400 text-sm">
-                            Last updated: <%= new Date().toLocaleDateString() %>
-                        </p>
+                </section>
+
+                <section class="bg-yellow-500/5 border-l-4 border-l-yellow-500 border border-white/5 p-6">
+                    <div class="flex items-start gap-4">
+                        <svg class="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <div>
+                            <h4 class="text-[10px] font-black text-yellow-500 uppercase tracking-[0.3em] mb-2 italic">
+                                Disclaimer Penting</h4>
+                            <p
+                                class="text-white/30 text-[10px] font-bold uppercase tracking-widest leading-loose italic">
+                                Komikkuya tidak menyimpan file komik apapun di server kami. Semua konten berasal dari
+                                sumber pihak ketiga yang tersedia secara publik di internet. Kami hanya menyediakan
+                                tautan ke konten tersebut.
+                            </p>
+                        </div>
                     </div>
+                </section>
+
+                <section class="bg-[#1a1625]/60 backdrop-blur-md border border-white/5 p-8">
+                    <h3 class="text-xs font-black text-white uppercase tracking-wider italic mb-4">1. Cara Melaporkan
+                        Konten</h3>
+                    <p class="text-white/40 text-[11px] font-bold uppercase tracking-widest leading-loose italic mb-4">
+                        Kalau kamu adalah pemilik hak cipta dan menemukan konten yang melanggar hak kamu, silakan kirim
+                        laporan dengan informasi berikut:
+                    </p>
+                    <ul class="space-y-2">
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 flex-shrink-0"></span>
+                            <span class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">Tanda
+                                tangan fisik atau elektronik dari pemilik hak cipta</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 flex-shrink-0"></span>
+                            <span
+                                class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">Identifikasi
+                                karya yang diklaim dilanggar hak ciptanya</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 flex-shrink-0"></span>
+                            <span class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">URL atau
+                                lokasi konten yang bermasalah</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 flex-shrink-0"></span>
+                            <span class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">Informasi
+                                kontak kamu (nama, alamat, telepon, email)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 flex-shrink-0"></span>
+                            <span
+                                class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">Pernyataan
+                                bahwa kamu adalah pemilik sah atau perwakilan resmi</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="bg-[#1a1625]/60 backdrop-blur-md border border-white/5 p-8">
+                    <h3 class="text-xs font-black text-white uppercase tracking-wider italic mb-4">2. Proses Takedown
+                    </h3>
+                    <p class="text-white/40 text-[11px] font-bold uppercase tracking-widest leading-loose italic mb-4">
+                        Setelah menerima laporan yang valid, kami akan:
+                    </p>
+                    <ul class="space-y-2">
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 flex-shrink-0"></span>
+                            <span class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">Menghapus
+                                atau menonaktifkan akses ke konten dalam 24-48 jam</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 flex-shrink-0"></span>
+                            <span class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">Mengirim
+                                konfirmasi via email setelah takedown selesai</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 flex-shrink-0"></span>
+                            <span class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">Mencatat
+                                laporan untuk referensi di masa depan</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="bg-[#1a1625]/60 backdrop-blur-md border border-white/5 p-8">
+                    <h3 class="text-xs font-black text-white uppercase tracking-wider italic mb-4">3. Hubungi Kami</h3>
+                    <p class="text-white/40 text-[11px] font-bold uppercase tracking-widest leading-loose italic">
+                        Kirim semua laporan DMCA melalui <a href="/contact"
+                            class="text-purple-400 hover:text-purple-300">halaman kontak</a> kami. Kami akan merespons
+                        semua laporan yang sah dalam waktu 48 jam kerja.
+                    </p>
+                </section>
+
+                <!-- Footer -->
+                <div class="text-center pt-8 border-t border-white/5">
+                    <p class="text-white/20 text-[9px] font-black uppercase tracking-[0.3em] italic">
+                        Terakhir diperbarui: <%= new Date().toLocaleDateString('id-ID') %>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>

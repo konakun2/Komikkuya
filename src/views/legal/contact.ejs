@@ -1,210 +1,276 @@
-<div class="min-h-screen bg-gradient-to-b from-primary-900 to-primary-800">
-    <div class="container mx-auto px-4 py-12">
-        <div class="max-w-4xl mx-auto">
-            <div class="bg-primary-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-purple-500/20">
-                <h1 class="text-3xl font-bold text-white mb-6">Contact Us</h1>
+<!-- Cinematic Contact Page -->
+<div class="min-h-screen bg-primary-950 relative overflow-hidden">
+    <!-- Ambient Background Glows -->
+    <div
+        class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-purple-600/10 blur-[120px] rounded-full pointer-events-none animate-drift">
+    </div>
+    <div
+        class="absolute bottom-1/4 left-0 -translate-x-1/2 w-[500px] h-[500px] bg-pink-600/5 blur-[100px] rounded-full pointer-events-none animate-swell">
+    </div>
 
-                <div class="prose prose-invert max-w-none">
-                    <!-- VPN/Proxy Warning -->
-                    <% if (isVPN) { %>
-                        <div class="bg-red-600/20 border border-red-500/30 rounded-xl p-4 mb-6 flex items-center gap-3">
-                            <svg class="w-6 h-6 text-red-400 flex-shrink-0" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <div>
-                                <p class="text-red-300 text-sm font-medium">🛡️ VPN/Proxy Detected</p>
-                                <p class="text-red-200/70 text-xs">Please disable your VPN or Proxy to send a message.
-                                </p>
-                            </div>
+    <style>
+        @keyframes drift {
+
+            0%,
+            100% {
+                transform: translate(50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(45%, -45%) scale(1.1);
+            }
+        }
+
+        @keyframes swell {
+
+            0%,
+            100% {
+                transform: translate(-50%, 0) scale(1);
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: translate(-45%, 5%) scale(1.15);
+                opacity: 0.6;
+            }
+        }
+
+        .animate-drift {
+            animation: drift 20s ease-in-out infinite;
+        }
+
+        .animate-swell {
+            animation: swell 25s ease-in-out infinite;
+        }
+
+        .stroke-text {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.15);
+            color: transparent;
+        }
+    </style>
+
+    <div class="container mx-auto px-6 md:px-12 py-16 relative z-10">
+        <div class="max-w-2xl mx-auto">
+
+            <!-- Mega Header -->
+            <div class="text-center mb-12">
+                <h2 class="text-[10px] font-black text-purple-500 uppercase tracking-[0.5em] mb-3 italic">Get in Touch
+                </h2>
+                <h1 class="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter leading-none">
+                    <span class="stroke-text">Contact</span> Us
+                </h1>
+            </div>
+
+            <!-- Alerts -->
+            <div class="space-y-4 mb-8">
+                <% if (isVPN) { %>
+                    <div
+                        class="bg-red-500/10 border-l-4 border-l-red-500 border border-white/5 p-5 flex items-start gap-4">
+                        <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <div>
+                            <h4 class="text-[10px] font-black text-red-500 uppercase tracking-[0.3em] mb-1 italic">
+                                VPN/Proxy Detected</h4>
+                            <p class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">Please
+                                disable your VPN or Proxy to send a message.</p>
                         </div>
-                        <% } %>
+                    </div>
+                    <% } %>
 
-                            <!-- Rate Limit Warning -->
-                            <% if (isRateLimited) { %>
-                                <div
-                                    class="bg-yellow-600/20 border border-yellow-500/30 rounded-xl p-4 mb-6 flex items-center gap-3">
-                                    <svg class="w-6 h-6 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                    </svg>
-                                    <div>
-                                        <p class="text-yellow-300 text-sm font-medium">Rate Limit Active</p>
-                                        <p class="text-yellow-200/70 text-xs">You can send another message in <%=
-                                                remainingMinutes %> minutes.</p>
-                                    </div>
+                        <% if (isRateLimited) { %>
+                            <div
+                                class="bg-yellow-500/10 border-l-4 border-l-yellow-500 border border-white/5 p-5 flex items-start gap-4">
+                                <svg class="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <div>
+                                    <h4
+                                        class="text-[10px] font-black text-yellow-500 uppercase tracking-[0.3em] mb-1 italic">
+                                        Rate Limit Active</h4>
+                                    <p class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">You
+                                        can send another message in <%= remainingMinutes %> minutes.</p>
                                 </div>
-                                <% } %>
+                            </div>
+                            <% } %>
 
-                                    <!-- Success Message -->
-                                    <% if (success) { %>
-                                        <div
-                                            class="bg-green-600/20 border border-green-500/30 rounded-xl p-4 mb-6 flex items-center gap-3">
-                                            <svg class="w-6 h-6 text-green-400 flex-shrink-0" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                            <p class="text-green-300 text-sm">Your message has been sent successfully!
-                                                We'll get
-                                                back to you soon.</p>
+                                <% if (success) { %>
+                                    <div
+                                        class="bg-green-500/10 border-l-4 border-l-green-500 border border-white/5 p-5 flex items-start gap-4">
+                                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        <div>
+                                            <h4
+                                                class="text-[10px] font-black text-green-500 uppercase tracking-[0.3em] mb-1 italic">
+                                                Message Sent</h4>
+                                            <p
+                                                class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">
+                                                Your message has been sent successfully! We'll get back to you soon.</p>
                                         </div>
-                                        <% } %>
+                                    </div>
+                                    <% } %>
 
-                                            <!-- Error Message -->
-                                            <% if (error) { %>
-                                                <div
-                                                    class="bg-red-600/20 border border-red-500/30 rounded-xl p-4 mb-6 flex items-center gap-3">
-                                                    <svg class="w-6 h-6 text-red-400 flex-shrink-0" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-                                                    <p class="text-red-300 text-sm">
+                                        <% if (error) { %>
+                                            <div
+                                                class="bg-red-500/10 border-l-4 border-l-red-500 border border-white/5 p-5 flex items-start gap-4">
+                                                <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                <div>
+                                                    <h4
+                                                        class="text-[10px] font-black text-red-500 uppercase tracking-[0.3em] mb-1 italic">
+                                                        Error</h4>
+                                                    <p
+                                                        class="text-white/30 text-[10px] font-bold uppercase tracking-widest italic">
                                                         <%= error %>
                                                     </p>
                                                 </div>
-                                                <% } %>
+                                            </div>
+                                            <% } %>
+            </div>
 
-                                                    <p class="text-gray-300 mb-6">
-                                                        Have questions or concerns? We'd love to hear from you. Please
-                                                        fill out
-                                                        the form below and we'll
-                                                        get back to you as soon as possible.
-                                                    </p>
+            <!-- Contact Form -->
+            <div class="bg-[#1a1625]/60 backdrop-blur-md border border-white/5 p-8">
+                <p class="text-white/40 text-[11px] font-bold uppercase tracking-widest leading-loose italic mb-6">
+                    Have questions or concerns? Fill out the form below and we'll get back to you as soon as possible.
+                </p>
 
-                                                    <!-- Rate Limit Info -->
-                                                    <div
-                                                        class="bg-blue-600/10 border border-blue-500/20 rounded-xl p-4 mb-6">
-                                                        <div class="flex items-center gap-2 text-blue-300 text-sm">
-                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                                viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2"
-                                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                            </svg>
-                                                            <span>⏱️ 1 message per hour.</span>
-                                                        </div>
-                                                    </div>
+                <!-- Rate Limit Info -->
+                <div class="flex items-center gap-3 mb-8 px-4 py-3 bg-white/[0.02] border border-white/5">
+                    <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="text-[9px] font-black text-white/30 uppercase tracking-widest italic">1 message per
+                        hour</span>
+                </div>
 
-                                                    <form action="/contact" method="POST" class="space-y-6"
-                                                        id="contactForm">
-                                                        <div>
-                                                            <label for="name"
-                                                                class="block text-sm font-medium text-gray-300 mb-2">Name</label>
-                                                            <input type="text" id="name" name="name" required
-                                                                <%=(isRateLimited || isVPN) ? 'disabled' : '' %>
-                                                            class="w-full bg-primary-900/50 border border-purple-500/30
-                                                            rounded-xl px-4 py-3 text-white placeholder-gray-400
-                                                            focus:outline-none focus:border-purple-500/50 focus:ring-1
-                                                            focus:ring-purple-500/50 transition-all disabled:opacity-50
-                                                            disabled:cursor-not-allowed">
-                                                        </div>
+                <form action="/contact" method="POST" enctype="multipart/form-data" class="space-y-6" id="contactForm">
+                    <div>
+                        <label for="name"
+                            class="block text-[10px] font-black text-white/50 uppercase tracking-[0.3em] mb-3 italic">Name</label>
+                        <input type="text" id="name" name="name" required <%=(isRateLimited || isVPN) ? 'disabled' : ''
+                            %>
+                        class="w-full bg-white/[0.02] border border-white/10 px-5 py-4 text-white text-xs font-bold
+                        placeholder-white/20 focus:outline-none focus:border-purple-500/50 transition-all
+                        disabled:opacity-30 disabled:cursor-not-allowed">
+                    </div>
 
-                                                        <div>
-                                                            <label for="email"
-                                                                class="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                                                            <input type="email" id="email" name="email" required
-                                                                <%=(isRateLimited || isVPN) ? 'disabled' : '' %>
-                                                            class="w-full bg-primary-900/50 border border-purple-500/30
-                                                            rounded-xl px-4 py-3 text-white placeholder-gray-400
-                                                            focus:outline-none focus:border-purple-500/50 focus:ring-1
-                                                            focus:ring-purple-500/50 transition-all disabled:opacity-50
-                                                            disabled:cursor-not-allowed">
-                                                        </div>
+                    <div>
+                        <label for="email"
+                            class="block text-[10px] font-black text-white/50 uppercase tracking-[0.3em] mb-3 italic">Email</label>
+                        <input type="email" id="email" name="email" required <%=(isRateLimited || isVPN) ? 'disabled'
+                            : '' %>
+                        class="w-full bg-white/[0.02] border border-white/10 px-5 py-4 text-white text-xs font-bold
+                        placeholder-white/20 focus:outline-none focus:border-purple-500/50 transition-all
+                        disabled:opacity-30 disabled:cursor-not-allowed">
+                    </div>
 
-                                                        <div>
-                                                            <label for="subject"
-                                                                class="block text-sm font-medium text-gray-300 mb-2">Subject</label>
-                                                            <select id="subject" name="subject" required
-                                                                <%=(isRateLimited || isVPN) ? 'disabled' : '' %>
-                                                                class="w-full bg-primary-900/50 border
-                                                                border-purple-500/30
-                                                                rounded-xl px-4 py-3 text-white placeholder-gray-400
-                                                                focus:outline-none focus:border-purple-500/50
-                                                                focus:ring-1
-                                                                focus:ring-purple-500/50 transition-all
-                                                                disabled:opacity-50
-                                                                disabled:cursor-not-allowed">
-                                                                <option value="">Select a subject</option>
-                                                                <option value="general">General Inquiry</option>
-                                                                <option value="support">Technical Support</option>
-                                                                <option value="feedback">Feedback</option>
-                                                                <option value="dmca">DMCA Notice</option>
-                                                                <option value="other">Other</option>
-                                                            </select>
-                                                        </div>
+                    <div>
+                        <label for="subject"
+                            class="block text-[10px] font-black text-white/50 uppercase tracking-[0.3em] mb-3 italic">Subject</label>
+                        <select id="subject" name="subject" required <%=(isRateLimited || isVPN) ? 'disabled' : '' %>
+                            class="w-full bg-[#0d0a12] border border-white/10 px-5 py-4 text-white text-xs font-bold
+                            focus:outline-none focus:border-purple-500/50 transition-all disabled:opacity-30
+                            disabled:cursor-not-allowed" style="color-scheme: dark;">
+                            <option value="" class="bg-[#0d0a12] text-white">Select a subject</option>
+                            <option value="general" class="bg-[#0d0a12] text-white">General Inquiry</option>
+                            <option value="support" class="bg-[#0d0a12] text-white">Technical Support</option>
+                            <option value="feedback" class="bg-[#0d0a12] text-white">Feedback</option>
+                            <option value="dmca" class="bg-[#0d0a12] text-white">DMCA Notice</option>
+                            <option value="other" class="bg-[#0d0a12] text-white">Other</option>
+                        </select>
+                    </div>
 
-                                                        <div>
-                                                            <label for="message"
-                                                                class="block text-sm font-medium text-gray-300 mb-2">Message</label>
-                                                            <textarea id="message" name="message" rows="6" required
-                                                                <%=(isRateLimited || isVPN) ? 'disabled' : '' %>
-                                class="w-full bg-primary-900/50 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"></textarea>
-                                                        </div>
+                    <div>
+                        <label for="message"
+                            class="block text-[10px] font-black text-white/50 uppercase tracking-[0.3em] mb-3 italic">Message</label>
+                        <textarea id="message" name="message" rows="6" required <%=(isRateLimited || isVPN) ? 'disabled'
+                            : '' %>
+                            class="w-full bg-white/[0.02] border border-white/10 px-5 py-4 text-white text-xs font-bold placeholder-white/20 focus:outline-none focus:border-purple-500/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed resize-none"></textarea>
+                    </div>
 
-                                                        <div class="flex justify-end">
-                                                            <button type="submit" id="submitBtn" <%=(isRateLimited ||
-                                                                isVPN) ? 'disabled' : '' %>
-                                                                class="px-6 py-3 bg-purple-600 hover:bg-purple-700
-                                                                text-white
-                                                                rounded-xl transition-all duration-300 transform
-                                                                hover:scale-105
-                                                                flex items-center gap-2 disabled:opacity-50
-                                                                disabled:cursor-not-allowed disabled:hover:scale-100">
-                                                                <span>
-                                                                    <%= isVPN ? 'VPN Blocked' : (isRateLimited
-                                                                        ? 'Rate Limited' : 'Send Message' ) %>
-                                                                </span>
-                                                                <svg id="loadingSpinner"
-                                                                    class="w-5 h-5 animate-spin hidden" fill="none"
-                                                                    viewBox="0 0 24 24">
-                                                                    <circle class="opacity-25" cx="12" cy="12" r="10"
-                                                                        stroke="currentColor" stroke-width="4"></circle>
-                                                                    <path class="opacity-75" fill="currentColor"
-                                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                                                    </path>
-                                                                </svg>
-                                                            </button>
-                                                        </div>
-                                                    </form>
+                    <!-- Image Upload Field -->
+                    <div>
+                        <label for="image"
+                            class="block text-[10px] font-black text-white/50 uppercase tracking-[0.3em] mb-3 italic">Screenshot
+                            / Image (Optional)</label>
+                        <div class="relative">
+                            <input type="file" id="image" name="image" accept="image/*" <%=(isRateLimited || isVPN)
+                                ? 'disabled' : '' %>
+                            class="w-full bg-white/[0.02] border border-white/10 px-5 py-4 text-white text-xs font-bold
+                            file:mr-4 file:py-2 file:px-4 file:border-0 file:text-xs file:font-bold file:uppercase
+                            file:tracking-widest
+                            file:bg-purple-600/20 file:text-purple-400 file:cursor-pointer
+                            hover:file:bg-purple-600/40 transition-all disabled:opacity-30 disabled:cursor-not-allowed">
+                            <p class="text-white/20 text-[9px] font-bold uppercase tracking-widest mt-2 italic">Max 8MB
+                                • PNG, JPG, GIF, WEBP</p>
+                        </div>
+                    </div>
 
-                                                    <script>
-                                                        document.getElementById('contactForm').addEventListener('submit', function (e) {
-                                                            const submitBtn = document.getElementById('submitBtn');
-                                                            if (submitBtn.disabled) {
-                                                                e.preventDefault();
-                                                                return;
-                                                            }
-                                                            submitBtn.disabled = true;
-                                                            submitBtn.querySelector('span').textContent = 'Sending...';
-                                                            document.getElementById('loadingSpinner').classList.remove('hidden');
-                                                        });
-                                                    </script>
+                    <div class="flex justify-end">
+                        <button type="submit" id="submitBtn" <%=(isRateLimited || isVPN) ? 'disabled' : '' %>
+                            class="group relative flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r
+                            from-purple-600 to-pink-600 text-white text-xs font-black uppercase tracking-[0.3em] italic
+                            overflow-hidden transition-all duration-500 hover:scale-[1.02] active:scale-95 shadow-xl
+                            shadow-purple-900/40 disabled:opacity-30 disabled:cursor-not-allowed
+                            disabled:hover:scale-100">
+                            <div
+                                class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12">
+                            </div>
+                            <span>
+                                <%= isVPN ? 'VPN Blocked' : (isRateLimited ? 'Rate Limited' : 'Send Message' ) %>
+                            </span>
+                            <svg id="loadingSpinner" class="w-4 h-4 animate-spin hidden" fill="none"
+                                viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
 
-                                                    <div class="mt-12 pt-6 border-t border-purple-500/20">
-                                                        <h2 class="text-xl font-semibold text-white mt-8 mb-4">Other
-                                                            Ways to
-                                                            Reach Us</h2>
-                                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                            <div class="bg-primary-900/50 rounded-xl p-6">
-                                                                <h3 class="text-lg font-medium text-white mb-2">Email
-                                                                </h3>
-                                                                <p class="text-gray-300">amwp@afifmedya.my.id</p>
-                                                            </div>
-                                                            <div class="bg-primary-900/50 rounded-xl p-6">
-                                                                <h3 class="text-lg font-medium text-white mb-2">Response
-                                                                    Time
-                                                                </h3>
-                                                                <p class="text-gray-300">We typically respond within
-                                                                    24-48 hours
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                <script>
+                    document.getElementById('contactForm').addEventListener('submit', function (e) {
+                        const submitBtn = document.getElementById('submitBtn');
+                        if (submitBtn.disabled) {
+                            e.preventDefault();
+                            return;
+                        }
+                        submitBtn.disabled = true;
+                        submitBtn.querySelector('span').textContent = 'Sending...';
+                        document.getElementById('loadingSpinner').classList.remove('hidden');
+                    });
+                </script>
+            </div>
+
+            <!-- Other Contact Methods -->
+            <div class="mt-8 bg-[#1a1625]/60 backdrop-blur-md border border-white/5 p-8">
+                <h3 class="text-[10px] font-black text-purple-500 uppercase tracking-[0.4em] mb-6 italic">Other Ways to
+                    Reach Us</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white/[0.02] border border-white/5 p-5">
+                        <h4 class="text-[9px] font-black text-white/30 uppercase tracking-widest italic mb-2">Email</h4>
+                        <p class="text-xs font-black text-white italic">amwp@afifmedya.my.id</p>
+                    </div>
+                    <div class="bg-white/[0.02] border border-white/5 p-5">
+                        <h4 class="text-[9px] font-black text-white/30 uppercase tracking-widest italic mb-2">Response
+                            Time</h4>
+                        <p class="text-xs font-black text-white italic">24-48 Hours</p>
+                    </div>
                 </div>
             </div>
         </div>

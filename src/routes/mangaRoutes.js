@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const mangaController = require('../controllers/mangaController');
 
-router.get('/:slug', mangaController.detail);
+// International series by ID (must be before /:slug to avoid conflict)
+router.get('/series/:seriesId', mangaController.internationalDetail);
 router.get('/image/:imageId', mangaController.proxyImage);
- 
-module.exports = router; 
+router.get('/:slug', mangaController.detail);
+
+module.exports = router;

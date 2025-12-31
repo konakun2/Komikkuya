@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const API_PRIMARY = 'https://international.komikkuya.my.id';
 const API_SECONDARY = 'https://internationalbackup.komikkuya.my.id';
 const API_FALLBACK = 'https://komiku-api-self.vercel.app';
+const API_NETLIFY = 'https://komikkuyaapi.netlify.app';
 const TIMEOUT_MS = 10000; // 10 seconds timeout
 
 /**
@@ -17,18 +18,21 @@ async function fetchWithFallback(path, options = {}) {
     const primaryController = new AbortController();
     const secondaryController = new AbortController();
     const fallbackController = new AbortController();
+    const netlifyController = new AbortController();
 
     // Global timeout to abort EVERYTHING if it takes too long
     const timeoutId = setTimeout(() => {
         primaryController.abort();
         secondaryController.abort();
         fallbackController.abort();
+        netlifyController.abort();
     }, TIMEOUT_MS);
 
     const racers = [
         { name: 'Primary', url: API_PRIMARY, controller: primaryController },
         { name: 'Secondary', url: API_SECONDARY, controller: secondaryController },
-        { name: 'Fallback', url: API_FALLBACK, controller: fallbackController }
+        { name: 'Vercel', url: API_FALLBACK, controller: fallbackController },
+        { name: 'Netlify', url: API_NETLIFY, controller: netlifyController }
     ];
 
     const makeRequest = async (racer) => {
@@ -59,7 +63,7 @@ async function fetchWithFallback(path, options = {}) {
             return response;
         } catch (error) {
             if (error.name !== 'AbortError') {
-                console.log(`[API] ❌ ${racer.name} lost or failed: ${error.message}`);
+                console.log(`[API] ${racer.name} lost or failed: ${error.message}`);
             }
             throw error;
         }
@@ -75,7 +79,7 @@ async function fetchWithFallback(path, options = {}) {
 
         // If all failed
         if (error.name === 'AggregateError') {
-            console.error(`[API] 🚨 All API sources failed for ${path}`);
+            console.error(`[API] All API sources failed for ${path}`);
             throw new Error(`All API sources failed for path: ${path}. Errors: ${error.errors.map(e => e.message).join(', ')}`);
         }
 
@@ -114,6 +118,7 @@ module.exports = {
     API_PRIMARY,
     API_SECONDARY,
     API_FALLBACK,
+    API_NETLIFY,
     fetchWithFallback,
     fetchFromFallback,
     fetchJsonWithFallback

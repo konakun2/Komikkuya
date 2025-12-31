@@ -223,6 +223,103 @@ const mangaController = {
                 error: error.message
             });
         }
+    },
+
+    // International manga detail by series ID (weebcentral)
+    internationalDetail: async (req, res) => {
+        try {
+            const { seriesId } = req.params;
+
+            if (!seriesId) {
+                return res.status(400).render('error', {
+                    title: 'Error - Komikkuya',
+                    error: 'Series ID is required'
+                });
+            }
+
+            // Construct weebcentral URL from seriesId
+            const intlUrl = `https://weebcentral.com/series/${seriesId}`;
+            const intlDetailResponse = await fetch(`https://internationalbackup.komikkuya.my.id/api/international/detail?url=${encodeURIComponent(intlUrl)}`);
+            const intlData = await intlDetailResponse.json();
+
+            if (!intlData.success || !intlData.data || !intlData.data.title) {
+                return res.status(404).render('error', {
+                    title: 'Error - Komikkuya',
+                    error: 'Manga not found'
+                });
+            }
+
+            // Normalize International API response
+            const data = {
+                title: intlData.data.title.replace(/(.+)\1/, '$1'), // Fix duplicate title bug
+                alternativeTitle: null,
+                description: intlData.data.description,
+                coverImage: intlData.data.cover,
+                type: intlData.data.type || 'Manga',
+                status: intlData.data.status,
+                author: intlData.data.authors?.join(', ') || 'Unknown',
+                genres: intlData.data.tags || [],
+                chapters: (intlData.data.chapters || []).map(ch => ({
+                    title: ch.title,
+                    url: ch.url,
+                    date: ch.date ? new Date(ch.date).toLocaleDateString('id-ID') : '',
+                    readers: 0,
+                    chapterId: ch.id
+                })),
+                source: 'international',
+                seriesId: intlData.data.seriesId || seriesId,
+                originalUrl: intlData.data.url
+            };
+
+            // Truncate description for meta
+            const truncatedDesc = data.description ?
+                data.description.substring(0, 155).replace(/\s+/g, ' ').trim() + '...' :
+                `Baca ${data.title} online gratis di Komikkuya`;
+
+            // Create slug from title for URL
+            const slug = `series/${seriesId}`;
+
+            // Create JSON-LD for manga
+            const jsonLd = {
+                "@context": "https://schema.org",
+                "@type": "ComicSeries",
+                "name": data.title,
+                "description": data.description || `Baca ${data.title} online gratis`,
+                "author": {
+                    "@type": "Person",
+                    "name": data.author || "Unknown"
+                },
+                "genre": data.genres || [],
+                "inLanguage": "en",
+                "image": data.coverImage,
+                "url": `https://komikkuya.my.id/manga/${slug}`
+            };
+
+            return res.render('manga/detail', {
+                title: `${data.title} - Baca Komik Gratis | Komikkuya`,
+                metaDescription: truncatedDesc,
+                metaKeywords: `${data.title}, ${(data.genres || []).join(', ')}, baca ${data.title}, manga ${data.title}, komik ${data.title}, ${data.title} bahasa indonesia, komikkuya ${data.title}`,
+                ogImage: data.coverImage,
+                ogType: 'book',
+                canonicalUrl: `https://komikkuya.my.id/manga/${slug}`,
+                currentPath: `/manga/${slug}`,
+                jsonLd: jsonLd,
+                breadcrumbs: [
+                    { name: 'Home', url: 'https://komikkuya.my.id/' },
+                    { name: 'Manga', url: 'https://komikkuya.my.id/popular' },
+                    { name: data.title, url: `https://komikkuya.my.id/manga/${slug}` }
+                ],
+                manga: data,
+                slug: slug,
+                sourceType: 'international'
+            });
+        } catch (error) {
+            console.error('Error fetching international manga details:', error);
+            res.status(500).render('error', {
+                title: 'Error - Komikkuya',
+                error: 'Failed to load manga details'
+            });
+        }
     }
 };
 

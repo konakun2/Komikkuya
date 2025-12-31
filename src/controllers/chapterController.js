@@ -51,15 +51,21 @@ const chapterController = {
                         title: intlData.data.chapterNumber,
                         mangaTitle: intlData.data.mangaTitle,
                         releaseDate: intlData.data.date,
-                        images: (intlData.data.images || []).map((img, index) => ({
-                            url: typeof img === 'string' ? img : img.url,
+                        images: (intlData.data.images || []).filter(img => img).map((img, index) => ({
+                            url: typeof img === 'string' ? img : (img.url || ''),
                             alt: typeof img === 'string' ? `Page ${index + 1}` : (img.alt || `Page ${index + 1}`),
-                            width: typeof img === 'object' ? img.width : 'auto',
-                            height: typeof img === 'object' ? img.height : 'auto'
+                            width: typeof img === 'object' ? (img.width || 'auto') : 'auto',
+                            height: typeof img === 'object' ? (img.height || 'auto') : 'auto'
                         })),
                         navigation: {
-                            prev: null, // International API doesn't provide navigation
-                            next: null,
+                            prev: intlData.data.prevChapter ? {
+                                url: intlData.data.prevChapter.url,
+                                title: 'Previous Chapter'
+                            } : null,
+                            next: intlData.data.nextChapter ? {
+                                url: intlData.data.nextChapter.url,
+                                title: 'Next Chapter'
+                            } : null,
                             chapterList: intlData.data.mangaUrl
                         },
                         source: 'international',
@@ -73,10 +79,10 @@ const chapterController = {
 
                 if (asiaData.success && asiaData.data) {
                     sourceType = 'asia';
-                    // Normalize Asia API response
+                    // Normalize Asia API response - prevChapter/nextChapter are now objects with url property
                     data = {
                         title: asiaData.data.title,
-                        mangaTitle: asiaData.data.title.replace(/Chapter.*$/i, '').trim(),
+                        mangaTitle: asiaData.data.contentTitle || asiaData.data.title.replace(/Chapter.*$/i, '').trim(),
                         releaseDate: asiaData.data.createdAt,
                         images: (asiaData.data.images || []).map((url, index) => ({
                             url: url,
@@ -86,12 +92,12 @@ const chapterController = {
                         })),
                         navigation: {
                             prev: asiaData.data.prevChapter ? {
-                                url: asiaData.data.prevChapter,
-                                title: 'Previous Chapter'
+                                url: asiaData.data.prevChapter.url || asiaData.data.prevChapter,
+                                title: asiaData.data.prevChapter.title || 'Previous Chapter'
                             } : null,
                             next: asiaData.data.nextChapter ? {
-                                url: asiaData.data.nextChapter,
-                                title: 'Next Chapter'
+                                url: asiaData.data.nextChapter.url || asiaData.data.nextChapter,
+                                title: asiaData.data.nextChapter.title || 'Next Chapter'
                             } : null,
                             chapterList: asiaData.data.comicUrl
                         },
@@ -114,8 +120,12 @@ const chapterController = {
                 });
             }
 
-            // Extract chapter numbers from URLs for navigation
-            const currentChapterNumber = cleanUrl.match(/chapter-?(\d+)/i)?.[1] || '';
+            // Extract chapter numbers from URLs or title for navigation
+            let currentChapterNumber = cleanUrl.match(/chapter-?(\d+)/i)?.[1] || '';
+            // Fallback: extract from title for international source (e.g., "Chapter 223")
+            if (!currentChapterNumber && data.title) {
+                currentChapterNumber = data.title.match(/chapter\s*(\d+(?:\.\d+)?)/i)?.[1] || '';
+            }
             const prevChapterNumber = data.navigation?.prev?.url?.match(/chapter-?(\d+)/i)?.[1] || '';
             const nextChapterNumber = data.navigation?.next?.url?.match(/chapter-?(\d+)/i)?.[1] || '';
 
@@ -130,9 +140,16 @@ const chapterController = {
                             const slug = chapterListUrl.pathname.split('/comic/')[1]?.replace('/', '') || '';
                             mangaDetailUrl = `/manga/${slug}`;
                         } else if (chapterListUrl.hostname.includes('weebcentral')) {
-                            const pathParts = chapterListUrl.pathname.split('/');
-                            const slug = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2] || '';
-                            mangaDetailUrl = `/manga/${slug}`;
+                            // weebcentral URL format: /series/SERIES_ID/Manga-Title
+                            const pathParts = chapterListUrl.pathname.split('/').filter(p => p);
+                            // pathParts = ['series', 'SERIES_ID', 'Manga-Title']
+                            if (pathParts.length >= 2 && pathParts[0] === 'series') {
+                                const seriesId = pathParts[1]; // e.g., '01J76XYCRVY3QGYAMRR3STW941'
+                                mangaDetailUrl = `/manga/series/${seriesId}`;
+                            } else {
+                                const slug = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2] || '';
+                                mangaDetailUrl = `/manga/${slug}`;
+                            }
                         } else {
                             mangaDetailUrl = chapterListUrl.pathname;
                         }

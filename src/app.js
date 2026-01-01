@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
 const fs = require('fs');
+const cookieParser = require('cookie-parser');
 const app = express();
 
 // Debug configuration
@@ -101,8 +102,13 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
+// Auth middleware - inject user into all views
+const { authMiddleware } = require('./middleware/authMiddleware');
+app.use(authMiddleware);
 
 // Routes
 const homeRoutes = require('./routes/homeRoutes');
@@ -123,8 +129,10 @@ const nhentaiReadDetailRoutes = require('./routes/nhentaiReadDetailRoutes');
 const nhentaiSearchRoutes = require('./routes/nhentaiSearchRoutes');
 const favoriteRoutes = require('./routes/favoriteRoutes');
 const seoRoutes = require('./routes/seoRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 app.use('/', homeRoutes);
+app.use('/auth', authRoutes);
 app.use('/manga', mangaRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/nhentai/search', nhentaiSearchRoutes);
@@ -151,6 +159,14 @@ app.use('/', legalRoutes);
 app.use('/history', historyRoutes);
 app.use('/favorites', favoriteRoutes);
 app.use('/', seoRoutes);
+
+// Public user profile route
+app.get('/user/:userId', (req, res) => {
+    res.render('user/profile', {
+        title: 'User Profile - Komikkuya',
+        userId: req.params.userId
+    });
+});
 
 // Error handling
 app.use((err, req, res, next) => {

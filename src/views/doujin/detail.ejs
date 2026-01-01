@@ -265,6 +265,7 @@
             const favoriteBtn = document.getElementById('favoriteButton');
             const favoriteIcon = document.getElementById('favoriteIcon');
             const favoriteText = document.getElementById('favoriteText');
+            const isLoggedIn = <%= typeof user !== 'undefined' && user ? 'true' : 'false' %>;
 
             const doujinData = {
                 id: '<%= doujin.id || doujin.slug %>',
@@ -275,9 +276,8 @@
                 source: '<%= doujin.source || "Server" %>'
             };
 
-            function updateFavoriteUI() {
-                const favorites = JSON.parse(localStorage.getItem('komikkuya_favorites') || '[]');
-                const isFavorited = favorites.some(item => item.id === doujinData.id);
+            function updateFavoriteUI(isFavorited) {
+                if (!favoriteBtn) return;
 
                 if (isFavorited) {
                     favoriteIcon.setAttribute('fill', 'currentColor');
@@ -292,10 +292,35 @@
                 }
             }
 
+            async function checkFavoriteStatus() {
+                const favorites = JSON.parse(localStorage.getItem('komikkuya_favorites') || '[]');
+                let isFavorited = favorites.some(item => item.id === doujinData.id);
+
+                // If logged in, prioritize cloud check
+                if (isLoggedIn) {
+                    try {
+                        const response = await fetch(`/auth/favorites/check/${encodeURIComponent(doujinData.id)}`);
+                        const data = await response.json();
+                        console.log('[Favorite Check]', doujinData.id, data);
+
+                        if (data.success) {
+                            // Handle various response formats: data.favorited, data.data.favorited, data.data.isFavorite
+                            isFavorited = data.favorited ?? data.data?.favorited ?? data.data?.isFavorite ?? false;
+                        }
+                    } catch (e) {
+                        console.error('Failed to check cloud favorite:', e);
+                    }
+                }
+
+                updateFavoriteUI(isFavorited);
+                return isFavorited;
+            }
+
             if (favoriteBtn) {
-                favoriteBtn.addEventListener('click', function () {
+                favoriteBtn.addEventListener('click', async function () {
                     let favorites = JSON.parse(localStorage.getItem('komikkuya_favorites') || '[]');
                     const index = favorites.findIndex(item => item.id === doujinData.id);
+                    const wasAdded = index === -1;
 
                     if (index > -1) {
                         favorites.splice(index, 1);
@@ -304,9 +329,28 @@
                     }
 
                     localStorage.setItem('komikkuya_favorites', JSON.stringify(favorites));
-                    updateFavoriteUI();
+                    updateFavoriteUI(wasAdded);
+
+                    if (isLoggedIn) {
+                        try {
+                            if (wasAdded) {
+                                await fetch('/auth/favorites', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(doujinData)
+                                });
+                            } else {
+                                await fetch(`/auth/favorites/${doujinData.id}`, {
+                                    method: 'DELETE'
+                                });
+                            }
+                        } catch (e) {
+                            console.error('Failed to sync favorite:', e);
+                        }
+                    }
                 });
-                updateFavoriteUI();
+
+                checkFavoriteStatus();
             }
 
             const searchInput = document.getElementById('chapterSearch');

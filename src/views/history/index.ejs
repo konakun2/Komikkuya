@@ -116,7 +116,7 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', async () => {
     const historyContainer = document.getElementById('history-container');
     const deleteModal = document.getElementById('deleteModal');
     const clearAllModal = document.getElementById('clearAllModal');
@@ -127,6 +127,8 @@
     const clearAllBtn = document.getElementById('clearAllHistory');
 
     let currentDeleteIndex = -1;
+    let currentDeleteTitle = '';
+    const isLoggedIn = <%= typeof user !== 'undefined' && user ? 'true' : 'false' %>;
 
     const wsrvUrl = (url) => {
       if (!url) return '/images/fallback.png';
@@ -136,11 +138,59 @@
       return url;
     };
 
-    function loadHistory() {
+    // Load history from localStorage
+    function loadLocalHistory() {
       try {
         const history = JSON.parse(localStorage.getItem('readingHistory') || '[]');
         return history.sort((a, b) => b.time - a.time);
       } catch (e) { return []; }
+    }
+
+    // Load history from database
+    async function loadCloudHistory() {
+      try {
+        const response = await fetch('/auth/reading-history');
+        const data = await response.json();
+        if (data.success && data.data) {
+          return data.data.sort((a, b) => b.time - a.time);
+        }
+        return [];
+      } catch (e) {
+        console.error('Failed to load cloud history:', e);
+        return [];
+      }
+    }
+
+    // Sync localStorage to cloud (on login)
+    async function syncLocalToCloud() {
+      if (!isLoggedIn) return;
+
+      const localHistory = loadLocalHistory();
+      if (localHistory.length === 0) return;
+
+      console.log('[History] Syncing localStorage to cloud...');
+      for (const item of localHistory) {
+        try {
+          await fetch('/auth/reading-history', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(item)
+          });
+        } catch (e) {
+          console.error('Failed to sync item:', e);
+        }
+      }
+      console.log('[History] Cloud sync complete!');
+    }
+
+    // Main load function
+    async function loadHistory() {
+      if (isLoggedIn) {
+        // Sync localStorage to cloud first
+        await syncLocalToCloud();
+        return await loadCloudHistory();
+      }
+      return loadLocalHistory();
     }
 
     function formatDate(timestamp) {
@@ -166,8 +216,8 @@
       modal.querySelector('.relative').classList.remove('scale-100');
     }
 
-    function updateDisplay() {
-      const history = loadHistory();
+    async function updateDisplay() {
+      const history = await loadHistory();
 
       if (history.length === 0) {
         historyContainer.innerHTML = `
@@ -198,34 +248,29 @@
           : '<span class="bg-purple-600/90 text-white text-[8px] font-black px-1.5 py-0.5 rounded-px uppercase tracking-tighter">Manga</span>';
 
         return `
-            <div class="group relative flex flex-col gap-4 animate-fade-in" style="animation-delay: ${index * 40}ms">
-                <div class="relative aspect-[2/3] overflow-hidden rounded-sm border border-white/5 shadow-2xl transition-all duration-700 group-hover:scale-102 group-hover:border-purple-500/50 bg-primary-800">
-                    <img src="${wsrvUrl(item.image)}" alt="${item.title}" 
-                        class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
-                        onerror="this.src='/images/fallback.png'">
-                    
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-700"></div>
-                    
-                    <!-- Meta Badges -->
-                    <div class="absolute top-3 left-3 flex flex-col gap-1.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
-                        ${typeBadge}
-                        <span class="bg-black/80 backdrop-blur-md text-white/60 text-[8px] font-black px-1.5 py-0.5 rounded-px uppercase tracking-tighter border border-white/5">
-                            ${formatDate(item.time)}
-                        </span>
+            <div class="group relative flex flex-col gap-4 animate-fade-in" style="animation-delay: ${index * 50}ms">
+                <a href="${item.url}" class="block">
+                    <div class="relative aspect-[2/3] overflow-hidden rounded-sm border border-white/5 shadow-2xl transition-all duration-700 group-hover:scale-102 group-hover:border-purple-500/50 bg-primary-800">
+                        <img src="${item.image}" alt="${item.title}"
+                            class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
+                            loading="lazy" 
+                            onerror="if(this.src === '${item.image}'){this.src='https://wsrv.nl/?url=' + encodeURIComponent('${item.image}') + '&n=-1';}else if(this.src.includes('wsrv.nl')){this.src='/images/fallback.png';}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-700"></div>
+                        <div class="absolute top-3 left-3 flex flex-col gap-1.5">
+                            ${typeBadge}
+                        </div>
+                        <button class="delete-item absolute top-3 right-3 w-8 h-8 bg-black/70 hover:bg-red-600 border border-white/10 hover:border-red-500 rounded-sm flex items-center justify-center opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 z-20"
+                            data-index="${index}" data-title="${item.title}">
+                            <svg class="w-4 h-4 text-white/60 hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent">
+                            <span class="text-[9px] font-black text-purple-400 uppercase tracking-widest">${formatDate(item.time)}</span>
+                        </div>
                     </div>
-
-                    <!-- Delete Button -->
-                    <button class="delete-item absolute top-3 right-3 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 p-2 bg-red-600/90 hover:bg-red-700 text-white rounded-sm drop-shadow-xl" 
-                        data-index="${index}">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-
-                    <a href="${item.url}" class="absolute inset-0 z-10"></a>
-                </div>
-
-                <div class="space-y-1.5">
+                </a>
+                <div class="space-y-2">
                     <div class="flex items-center gap-2">
                         <span class="text-purple-500 text-[9px] font-black uppercase tracking-widest leading-none">Last Read</span>
                         <div class="h-[1px] flex-grow bg-white/5"></div>
@@ -234,7 +279,7 @@
                         ${item.title}
                     </h3>
                     <p class="text-white/30 text-[10px] font-bold truncate tracking-widest uppercase">
-                       ${item.chapterTitle}
+                       ${item.chapterTitle || item.chapter_title || ''}
                     </p>
                 </div>
             </div>
@@ -244,33 +289,63 @@
       document.querySelectorAll('.delete-item').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
-          currentDeleteIndex = btn.dataset.index;
+          e.preventDefault();
+          currentDeleteIndex = parseInt(btn.dataset.index);
+          currentDeleteTitle = btn.dataset.title;
           showModal(deleteModal);
         });
       });
     }
 
-    confirmDelete.addEventListener('click', () => {
+    confirmDelete.addEventListener('click', async () => {
       if (currentDeleteIndex !== -1) {
-        const history = loadHistory();
-        history.splice(currentDeleteIndex, 1);
-        localStorage.setItem('readingHistory', JSON.stringify(history));
-        updateDisplay();
+        // Delete from localStorage
+        const localHistory = loadLocalHistory();
+        localHistory.splice(currentDeleteIndex, 1);
+        localStorage.setItem('readingHistory', JSON.stringify(localHistory));
+
+        // Delete from cloud if logged in
+        if (isLoggedIn && currentDeleteTitle) {
+          try {
+            await fetch('/auth/reading-history', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ title: currentDeleteTitle })
+            });
+          } catch (e) {
+            console.error('Failed to delete from cloud:', e);
+          }
+        }
+
+        await updateDisplay();
         hideModal(deleteModal);
       }
     });
 
     clearAllBtn.addEventListener('click', () => showModal(clearAllModal));
-    confirmClearAll.addEventListener('click', () => {
+    confirmClearAll.addEventListener('click', async () => {
+      // Clear localStorage
       localStorage.setItem('readingHistory', '[]');
-      updateDisplay();
+
+      // Clear cloud if logged in
+      if (isLoggedIn) {
+        try {
+          await fetch('/auth/reading-history/all', {
+            method: 'DELETE'
+          });
+        } catch (e) {
+          console.error('Failed to clear cloud history:', e);
+        }
+      }
+
+      await updateDisplay();
       hideModal(clearAllModal);
     });
 
     cancelDelete.addEventListener('click', () => hideModal(deleteModal));
     cancelClearAll.addEventListener('click', () => hideModal(clearAllModal));
 
-    updateDisplay();
+    await updateDisplay();
   });
 </script>
 

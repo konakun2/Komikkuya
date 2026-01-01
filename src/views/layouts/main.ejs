@@ -233,8 +233,72 @@
                     <a href="/favorites" class="nav-link">Favorites</a>
                 </nav>
 
-                <!-- Search & Mobile Menu -->
-                <div class="flex items-center space-x-6">
+                <!-- Search, Profile & Mobile Menu -->
+                <div class="flex items-center space-x-4">
+                    <!-- Profile Dropdown -->
+                    <div class="relative" id="profile-dropdown-container">
+                        <button id="profile-button"
+                            class="flex items-center justify-center w-9 h-9 rounded-full bg-white/5 border border-white/10 hover:border-purple-500/50 transition-all overflow-hidden">
+                            <% if (typeof user !=='undefined' && user) { %>
+                                <% if (user.profile_picture_url) { %>
+                                    <img src="<%= user.profile_picture_url %>" alt="Profile"
+                                        class="w-full h-full object-cover">
+                                    <% } else { %>
+                                        <span class="text-xs font-black text-white/60 uppercase">
+                                            <%= user.username.charAt(0) %>
+                                        </span>
+                                        <% } %>
+                                            <% } else { %>
+                                                <svg class="w-4 h-4 text-white/40" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                </svg>
+                                                <% } %>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div id="profile-dropdown"
+                            class="hidden absolute right-0 top-full mt-2 w-48 bg-primary-900/95 backdrop-blur-xl border border-white/10 rounded-sm shadow-2xl overflow-hidden z-50">
+                            <% if (typeof user !=='undefined' && user) { %>
+                                <div class="px-4 py-3 border-b border-white/10">
+                                    <p class="text-xs font-black text-white uppercase truncate">
+                                        <%= user.username %>
+                                    </p>
+                                    <p class="text-[10px] text-white/40 truncate">
+                                        <%= user.email %>
+                                    </p>
+                                </div>
+                                <a href="/auth/dashboard"
+                                    class="block px-4 py-3 text-[10px] font-black text-white/60 hover:text-white hover:bg-white/5 uppercase tracking-widest transition-all">
+                                    Dashboard
+                                </a>
+                                <a href="/history"
+                                    class="block px-4 py-3 text-[10px] font-black text-white/60 hover:text-white hover:bg-white/5 uppercase tracking-widest transition-all">
+                                    History
+                                </a>
+                                <a href="/favorites"
+                                    class="block px-4 py-3 text-[10px] font-black text-white/60 hover:text-white hover:bg-white/5 uppercase tracking-widest transition-all">
+                                    Favorites
+                                </a>
+                                <a href="/auth/logout"
+                                    class="block px-4 py-3 text-[10px] font-black text-red-400 hover:text-red-300 hover:bg-red-500/10 uppercase tracking-widest transition-all border-t border-white/10">
+                                    Logout
+                                </a>
+                                <% } else { %>
+                                    <a href="/auth/login"
+                                        class="block px-4 py-3 text-[10px] font-black text-white/60 hover:text-white hover:bg-white/5 uppercase tracking-widest transition-all">
+                                        Login
+                                    </a>
+                                    <a href="/auth/register"
+                                        class="block px-4 py-3 text-[10px] font-black text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 uppercase tracking-widest transition-all">
+                                        Daftar
+                                    </a>
+                                    <% } %>
+                        </div>
+                    </div>
+
                     <button id="search-button" class="text-white/40 hover:text-white transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
@@ -352,7 +416,7 @@
                 <div class="md:col-span-4">
                     <p class="text-white/20 text-[9px] font-bold uppercase tracking-widest leading-loose text-justify">
                         Komikkuya menyediakan konten manga, manhwa, dan manhua berkualitas tinggi tanpa gangguan
-                        iklan yang mengganggu. 
+                        iklan yang mengganggu.
                     </p>
                 </div>
             </div>
@@ -937,6 +1001,27 @@
                     };
                 }
             });
+        });
+    </script>
+    <!-- Profile Dropdown Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const profileButton = document.getElementById('profile-button');
+            const profileDropdown = document.getElementById('profile-dropdown');
+
+            if (profileButton && profileDropdown) {
+                profileButton.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function (e) {
+                    if (!profileDropdown.contains(e.target) && !profileButton.contains(e.target)) {
+                        profileDropdown.classList.add('hidden');
+                    }
+                });
+            }
         });
     </script>
 </body>

@@ -371,8 +371,9 @@
         });
 
         // --- Standardized History Saving ---
-        const saveToHistory = () => {
-            const history = JSON.parse(localStorage.getItem('readingHistory') || '[]');
+        const isLoggedIn = <%= typeof user !== 'undefined' && user ? 'true' : 'false' %>;
+
+        const saveToHistory = async () => {
             const historyItem = {
                 title: '<%= chapter.mangaTitle %>',
                 chapterTitle: '<%= chapter.title %>',
@@ -382,8 +383,27 @@
                 time: new Date().getTime()
             };
 
-            const updatedHistory = [historyItem, ...history.filter(h => h.title !== historyItem.title)].slice(0, 50);
-            localStorage.setItem('readingHistory', JSON.stringify(updatedHistory));
+            // Always save to localStorage first
+            try {
+                const history = JSON.parse(localStorage.getItem('readingHistory') || '[]');
+                const updatedHistory = [historyItem, ...history.filter(h => h.title !== historyItem.title)].slice(0, 50);
+                localStorage.setItem('readingHistory', JSON.stringify(updatedHistory));
+            } catch (e) {
+                console.error('Failed to save to localStorage:', e);
+            }
+
+            // If logged in, also save to database
+            if (isLoggedIn) {
+                try {
+                    await fetch('/auth/reading-history', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(historyItem)
+                    });
+                } catch (e) {
+                    console.error('Failed to save to database:', e);
+                }
+            }
         };
 
         // Save immediately on load

@@ -61,7 +61,7 @@
                             <div class="flex flex-wrap gap-4 pt-6">
                                 <% if (manga.chapters && manga.chapters.length> 0) {
                                     const lastChapter = manga.chapters[0]; // Usually first in array is latest
-                                    const firstChapter = manga.chapters[manga.chapters.length - 1]; // Start from beginning
+                                    const firstChapter = manga.chapters[manga.chapters.length - 1];
 
                                     let firstChapterPath = '';
                                     try {
@@ -330,6 +330,7 @@
             const favoriteBtn = document.getElementById('favoriteButton');
             const favoriteIcon = document.getElementById('favoriteIcon');
             const favoriteText = document.getElementById('favoriteText');
+            const isLoggedIn = <%= typeof user !== 'undefined' && user ? 'true' : 'false' %>;
 
             const mangaData = {
                 id: '<%= manga.id || manga.mangaId || slug %>',
@@ -340,10 +341,8 @@
                 source: '<%= manga.source || "Server" %>'
             };
 
-            function updateFavoriteUI() {
+            function updateFavoriteUI(isFavorited) {
                 if (!favoriteBtn) return;
-                const favorites = JSON.parse(localStorage.getItem('komikkuya_favorites') || '[]');
-                const isFavorited = favorites.some(item => item.id === mangaData.id);
 
                 if (isFavorited) {
                     favoriteIcon.setAttribute('fill', 'currentColor');
@@ -358,21 +357,68 @@
                 }
             }
 
+            async function checkFavoriteStatus() {
+                // Check localStorage first
+                const favorites = JSON.parse(localStorage.getItem('komikkuya_favorites') || '[]');
+                let isFavorited = favorites.some(item => item.id === mangaData.id);
+
+                // If logged in, prioritize cloud check
+                if (isLoggedIn) {
+                    try {
+                        const response = await fetch(`/auth/favorites/check/${encodeURIComponent(mangaData.id)}`);
+                        const data = await response.json();
+                        console.log('[Favorite Check]', mangaData.id, data);
+
+                        if (data.success) {
+                            // Handle various response formats: data.favorited, data.data.favorited, data.data.isFavorite
+                            isFavorited = data.favorited ?? data.data?.favorited ?? data.data?.isFavorite ?? false;
+                        }
+                    } catch (e) {
+                        console.error('Failed to check cloud favorite:', e);
+                    }
+                }
+
+                updateFavoriteUI(isFavorited);
+                return isFavorited;
+            }
+
             if (favoriteBtn) {
-                favoriteBtn.addEventListener('click', function () {
+                favoriteBtn.addEventListener('click', async function () {
                     let favorites = JSON.parse(localStorage.getItem('komikkuya_favorites') || '[]');
                     const index = favorites.findIndex(item => item.id === mangaData.id);
+                    const wasAdded = index === -1;
 
                     if (index > -1) {
+                        // Remove from localStorage
                         favorites.splice(index, 1);
                     } else {
+                        // Add to localStorage
                         favorites.push(mangaData);
                     }
-
                     localStorage.setItem('komikkuya_favorites', JSON.stringify(favorites));
-                    updateFavoriteUI();
+                    updateFavoriteUI(wasAdded);
+
+                    // Sync with cloud if logged in
+                    if (isLoggedIn) {
+                        try {
+                            if (wasAdded) {
+                                await fetch('/auth/favorites', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(mangaData)
+                                });
+                            } else {
+                                await fetch(`/auth/favorites/${mangaData.id}`, {
+                                    method: 'DELETE'
+                                });
+                            }
+                        } catch (e) {
+                            console.error('Failed to sync favorite:', e);
+                        }
+                    }
                 });
-                updateFavoriteUI();
+
+                checkFavoriteStatus();
             }
 
             // --- TURBO LOAD SYSTEM FOR COVER & BANNER ---

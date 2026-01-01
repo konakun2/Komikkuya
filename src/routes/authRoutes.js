@@ -27,6 +27,10 @@ router.post('/login', authController.login);
 router.post('/register', authController.register);
 router.get('/logout', authController.logout);
 
+// Discord Auth routes
+router.get('/discord', authController.discordRedirect);
+router.get('/discord/callback', authController.discordCallback);
+
 // Protected routes
 router.get('/dashboard', requireAuth, authController.dashboard);
 router.post('/profile', requireAuth, authController.updateProfile);

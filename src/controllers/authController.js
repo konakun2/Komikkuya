@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const FormData = require('form-data');
 
 const AUTH_API_BASE = 'https://komikkuya-backend.vercel.app';
+const HCAPTCHA_SECRET = process.env.HCAPTCHA_SECRET || 'ES_ed8da6c97c95492a8bf0205c1f3e155a'; // Should be in .env
 
 // Helper for hCaptcha verification
 const verifyCaptcha = async (token) => {
@@ -141,6 +142,54 @@ const authController = {
         } catch (error) {
             console.error('Register error:', error);
             res.redirect('/auth/register?error=' + encodeURIComponent('Terjadi kesalahan server'));
+        }
+    },
+
+    // Discord Auth Redirect
+    discordRedirect: (req, res) => {
+        const clientId = process.env.DISCORD_CLIENT_ID || '1169116893661143040'; // Example or user provided
+        const redirectUri = encodeURIComponent(`${req.protocol}://${req.get('host')}/auth/discord/callback`);
+        const scope = encodeURIComponent('identify email');
+        const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
+
+        res.redirect(discordAuthUrl);
+    },
+
+    // Discord Auth Callback
+    discordCallback: async (req, res) => {
+        try {
+            const { code } = req.query;
+
+            if (!code) {
+                return res.redirect('/auth/login?error=' + encodeURIComponent('Discord code not found'));
+            }
+
+            const response = await fetch(`${AUTH_API_BASE}/auth/discord`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code, redirect_uri: `${req.protocol}://${req.get('host')}/auth/discord/callback` })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                return res.redirect('/auth/login?error=' + encodeURIComponent(data.message || 'Discord login failed'));
+            }
+
+            // Set JWT token in cookie
+            res.cookie('komikkuya_token', data.data.token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+                sameSite: 'lax'
+            });
+
+            res.redirect('/auth/dashboard');
+        } catch (error) {
+            console.error('Discord callback error:', error);
+            res.redirect('/auth/login?error=' + encodeURIComponent('Terjadi kesalahan saat login Discord'));
         }
     },
 

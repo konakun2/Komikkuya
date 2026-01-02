@@ -39,8 +39,11 @@ const authMiddleware = async (req, res, next) => {
                 data.data.user.profile_picture_url = `${data.data.user.profile_picture}`;
             }
             res.locals.user = data.data.user;
+            // Store Discord data if linked
+            res.locals.discord = data.data.discord || null;
         } else {
             res.locals.user = null;
+            res.locals.discord = null;
         }
 
         next();

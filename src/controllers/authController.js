@@ -1,8 +1,8 @@
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 
-const AUTH_API_BASE = 'https://komikkuya-backend.vercel.app';
-const HCAPTCHA_SECRET = process.env.HCAPTCHA_SECRET || 'ES_ed8da6c97c95492a8bf0205c1f3e155a'; // Should be in .env
+const AUTH_API_BASE = 'https://auth.komikkuya.my.id';
+const HCAPTCHA_SECRET = process.env.HCAPTCHA_SECRET; // Must be in .env
 
 // Helper for hCaptcha verification
 const verifyCaptcha = async (token) => {
@@ -147,12 +147,45 @@ const authController = {
 
     // Discord Auth Redirect
     discordRedirect: (req, res) => {
-        const clientId = process.env.DISCORD_CLIENT_ID || '1169116893661143040'; // Example or user provided
-        const redirectUri = encodeURIComponent(`${req.protocol}://${req.get('host')}/auth/discord/callback`);
-        const scope = encodeURIComponent('identify email');
-        const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
+        // Backend handles Discord OAuth redirect
+        res.redirect(`${AUTH_API_BASE}/auth/discord`);
+    },
 
-        res.redirect(discordAuthUrl);
+    // Discord Link (for logged in users to connect Discord)
+    discordLink: (req, res) => {
+        const token = req.cookies.komikkuya_token;
+        if (!token) {
+            return res.redirect('/auth/login?error=' + encodeURIComponent('Kamu harus login terlebih dahulu'));
+        }
+        // Redirect to backend with token as query param
+        res.redirect(`${AUTH_API_BASE}/auth/discord/link?token=${encodeURIComponent(token)}`);
+    },
+
+    // Auth Callback - receives token from backend and sets cookie
+    authCallback: (req, res) => {
+        const { token, error } = req.query;
+
+        if (error) {
+            // Handle specific Discord auth errors
+            if (error === 'discord_auth_failed' || error.includes('not registered')) {
+                return res.redirect('/auth/register?error=' + encodeURIComponent('Akun Discord belum terdaftar. Silahkan daftar terlebih dahulu atau hubungkan Discord ke akun yang sudah ada.'));
+            }
+            return res.redirect('/auth/login?error=' + encodeURIComponent(error));
+        }
+
+        if (!token) {
+            return res.redirect('/auth/login?error=' + encodeURIComponent('Token tidak ditemukan'));
+        }
+
+        // Set JWT token in cookie
+        res.cookie('komikkuya_token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            sameSite: 'lax'
+        });
+
+        res.redirect('/auth/dashboard');
     },
 
     // Discord Auth Callback

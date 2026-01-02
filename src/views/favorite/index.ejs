@@ -84,7 +84,7 @@
         const grid = document.getElementById('favoritesGrid');
         const emptyState = document.getElementById('emptyState');
         const countDisplay = document.getElementById('favoritesCount');
-        const isLoggedIn = <%= typeof user !== 'undefined' && user ? 'true' : 'false' %>;
+        const isLoggedIn = <%= locals.user ? 'true' : 'false' %>;
 
         const wsrvUrl = (url) => {
             if (!url) return '/images/fallback.png';

@@ -30,6 +30,10 @@ router.get('/logout', authController.logout);
 // Discord Auth routes
 router.get('/discord', authController.discordRedirect);
 router.get('/discord/callback', authController.discordCallback);
+router.get('/discord/link', requireAuth, authController.discordLink);
+
+// OAuth Callback - receives token from backend
+router.get('/callback', authController.authCallback);
 
 // Protected routes
 router.get('/dashboard', requireAuth, authController.dashboard);

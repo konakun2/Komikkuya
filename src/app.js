@@ -160,6 +160,14 @@ app.use('/history', historyRoutes);
 app.use('/favorites', favoriteRoutes);
 app.use('/', seoRoutes);
 
+// Settings redirect (for Discord link callback from backend)
+app.get('/settings', (req, res) => {
+    const queryString = Object.keys(req.query).length > 0
+        ? '?' + new URLSearchParams(req.query).toString()
+        : '';
+    res.redirect('/auth/dashboard' + queryString);
+});
+
 // Public user profile route
 app.get('/user/:userId', (req, res) => {
     res.render('user/profile', {
